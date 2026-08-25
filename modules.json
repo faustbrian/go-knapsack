@@ -125,7 +125,7 @@
       "family_label": "Domain Utilities",
       "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
       "family_order": 8,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [
         "github.com/faustbrian/go-math",
@@ -318,7 +318,7 @@
       "family_label": "Domain Utilities",
       "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
       "family_order": 8,
-      "version": "v1.0.0",
+      "version": "1.0.0",
       "tag_prefix": "objective/gomoney/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-international",
