@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/constraint"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/constraint"
+	"github.com/faustbrian/go-knapsack/geometry"
 )
 
 type mutatingConstraint struct{}

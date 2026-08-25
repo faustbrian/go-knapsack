@@ -54,33 +54,33 @@ done < <(
 			] | unique) as $dependencies
 			| ($seen + $dependencies | unique) as $next
 			| if $next == $seen then $next else closure($next) end;
-		(.modules[] | select(.directory == "pkg/knapsack").owned_dependencies) as $owned
+		(.modules[] | select(.directory == ".").owned_dependencies) as $owned
 		| closure($owned) as $paths
 		| .modules[]
 		| select(.module_path as $path | $paths | index($path))
 		| .directory
 	' "${root}/modules.json"
 )
-add_file "pkg/knapsack/scripts/benchmark-input-digest.sh"
+add_file "scripts/benchmark-input-digest.sh"
 
 case "${profile}" in
 	native)
-		add_file "pkg/knapsack/solver/benchmark_test.go"
-		add_file "pkg/knapsack/scripts/benchmark-compare.sh"
-		add_file "pkg/knapsack/specification/benchmark-thresholds.tsv"
+		add_file "solver/benchmark_test.go"
+		add_file "scripts/benchmark-compare.sh"
+		add_file "specification/benchmark-thresholds.tsv"
 		;;
 	rss)
-		add_file "pkg/knapsack/solver/benchmark_test.go"
-		add_file "pkg/knapsack/scripts/benchmark-rss.sh"
-		add_file "pkg/knapsack/specification/benchmark-rss-thresholds.tsv"
+		add_file "solver/benchmark_test.go"
+		add_file "scripts/benchmark-rss.sh"
+		add_file "specification/benchmark-rss-thresholds.tsv"
 		;;
 	boxpacker)
-		add_file "pkg/knapsack/boxpacker_integration_test.go"
-		add_file "pkg/knapsack/boxpacker_runtime_test.go"
-		add_file "pkg/knapsack/integration/boxpacker/compare.php"
-		add_file "pkg/knapsack/integration/boxpacker/composer.json"
-		add_file "pkg/knapsack/integration/boxpacker/composer.lock"
-		add_file "pkg/knapsack/scripts/benchmark-boxpacker.sh"
+		add_file "boxpacker_integration_test.go"
+		add_file "boxpacker_runtime_test.go"
+		add_file "integration/boxpacker/compare.php"
+		add_file "integration/boxpacker/composer.json"
+		add_file "integration/boxpacker/composer.lock"
+		add_file "scripts/benchmark-boxpacker.sh"
 		find "${module}/integration/references" -type f \
 			\( -name '*.go' -o -name 'go.mod' -o -name 'go.sum' \) \
 			-print >>"${paths}"
@@ -93,11 +93,11 @@ esac
 
 while IFS= read -r file; do
 	relative="${file#"${root}/"}"
-	if [[ "${relative}" == "pkg/knapsack/integration/references/go.sum" ]]; then
+	if [[ "${relative}" == "integration/references/go.sum" ]]; then
 		# The parent module archive contains this benchmark evidence. Hashing its
 		# own zip checksum would therefore create an unsatisfiable digest cycle.
 		digest="$(
-			sed '\|^github.com/faustbrian/golib/pkg/knapsack v[^ ]* h1:|d' \
+			sed '\|^github.com/faustbrian/go-knapsack v[^ ]* h1:|d' \
 				"${file}" |
 				shasum -a 256 |
 				awk '{print $1}'

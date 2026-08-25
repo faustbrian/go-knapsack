@@ -4,12 +4,15 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-08-25
+
 ### Documentation
 
 - Link the package README to the repository-wide Golib documentation portal.
 
 ### Changed
 
+- Publish the module from its standalone `github.com/faustbrian/go-knapsack` identity while preserving its documented API and behavior.
 - Refresh local `v0.0.0` checksums and aggregate evidence after the Math and
   Measurement release archives changed; runtime behavior and public APIs are
   unchanged.
@@ -155,3 +158,6 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   center-of-gravity bounds through an aliased immutable view.
 - Replaced nil-context panics in solver and objective entry points with the
   stable `knapsack.ErrInvalidOptions` category.
+
+[Unreleased]: https://github.com/faustbrian/go-knapsack/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/faustbrian/go-knapsack/releases/tag/v1.0.0

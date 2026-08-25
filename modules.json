@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-knapsack",
+  "go_version": "1.26.6",
+  "modules": [
+    {
+      "directory": ".",
+      "module_path": "github.com/faustbrian/go-knapsack",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": ".",
+          "directory": ".",
+          "name": "knapsack",
+          "import_path": "github.com/faustbrian/go-knapsack",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "constraint",
+          "name": "constraint",
+          "import_path": "github.com/faustbrian/go-knapsack/constraint",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "encoding",
+          "name": "encoding",
+          "import_path": "github.com/faustbrian/go-knapsack/encoding",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "geometry",
+          "name": "geometry",
+          "import_path": "github.com/faustbrian/go-knapsack/geometry",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "knapsacktest",
+          "name": "knapsacktest",
+          "import_path": "github.com/faustbrian/go-knapsack/knapsacktest",
+          "kind": "test support",
+          "production": false,
+          "executable": true,
+          "coverage_required": false,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "objective",
+          "name": "objective",
+          "import_path": "github.com/faustbrian/go-knapsack/objective",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "solver",
+          "name": "solver",
+          "import_path": "github.com/faustbrian/go-knapsack/solver",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "verify",
+          "name": "verify",
+          "import_path": "github.com/faustbrian/go-knapsack/verify",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        },
+        {
+          "module_directory": ".",
+          "directory": "visualize",
+          "name": "visualize",
+          "import_path": "github.com/faustbrian/go-knapsack/visualize",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`knapsack` is an exact-unit, deterministic library for offline orthogonal packing of rectangular items into rectangular containers. The sometimes-used term “4D bin packing” means three geometric dimensions plus scalar weight capacity; weight is not a fourth geometric axis. This differs from classical knapsack selection, which maximizes value while intentionally omitting items.",
+      "lifecycle": "stable",
+      "kind": "public library",
+      "releasable": true,
+      "family": "domain-utilities",
+      "family_label": "Domain Utilities",
+      "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
+      "family_order": 8,
+      "version": "v1.0.0",
+      "tag_prefix": "v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-math",
+        "github.com/faustbrian/go-measurement"
+      ],
+      "reverse_owned_dependencies": [
+        "github.com/faustbrian/go-knapsack/integration/references",
+        "github.com/faustbrian/go-knapsack/objective/gomoney"
+      ],
+      "external_runtime_dependencies": [],
+      "required_services": [],
+      "build_tags": [],
+      "test_tags": [],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        ".ai/GOAL.md",
+        ".ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": ".ai/GOAL.md",
+          "requirements_sha256": "ef9e365102cd242f347a251982e921be65765c4689ec98e3a16861ab27e6f3a9",
+          "implementation_evidence": [
+            "CHANGELOG.md",
+            "README.md",
+            "docs/api.md",
+            "docs/architecture.md",
+            "docs/security.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": ".ai/GOAL_HARDEN.md",
+          "requirements_sha256": "642da585d121bd346b9ed76c67e23015de76cffa97eea09514dec1908d39e873",
+          "implementation_evidence": [
+            "CHANGELOG.md",
+            "README.md",
+            "docs/api.md",
+            "docs/architecture.md",
+            "docs/security.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "integration/references",
+      "module_path": "github.com/faustbrian/go-knapsack/integration/references",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "integration/references",
+          "directory": "cmd/knapsack-compare",
+          "name": "main",
+          "import_path": "github.com/faustbrian/go-knapsack/integration/references/cmd/knapsack-compare",
+          "kind": "harness",
+          "production": false,
+          "executable": true,
+          "coverage_required": false,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "See the module README and goal files.",
+      "lifecycle": "internal",
+      "kind": "interoperability harness",
+      "releasable": false,
+      "version": "unreleased",
+      "tag_prefix": "integration/references/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-knapsack",
+        "github.com/faustbrian/go-math",
+        "github.com/faustbrian/go-measurement"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [
+        "github.com/gedex/bp3d",
+        "github.com/jcoruiz/gopackx"
+      ],
+      "required_services": [],
+      "build_tags": [],
+      "test_tags": [],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "goal_evidence": [],
+      "gates": {
+        "api_compatibility": false,
+        "benchmarks": false,
+        "conformance": false,
+        "coverage": false,
+        "documentation": true,
+        "fuzz": false,
+        "lint": true,
+        "mutation": false,
+        "race": false,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "objective/gomoney",
+      "module_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "objective/gomoney",
+          "directory": ".",
+          "name": "gomoney",
+          "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`gomoney` is an optional adapter that lets the Knapsack solvers minimize exact container costs. It depends on the owned Money module so the Knapsack core can remain independent of monetary policy.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "domain-utilities",
+      "family_label": "Domain Utilities",
+      "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
+      "family_order": 8,
+      "version": "v1.0.0",
+      "tag_prefix": "objective/gomoney/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-international",
+        "github.com/faustbrian/go-knapsack",
+        "github.com/faustbrian/go-math",
+        "github.com/faustbrian/go-measurement",
+        "github.com/faustbrian/go-money"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [],
+      "required_services": [],
+      "build_tags": [],
+      "test_tags": [],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [
+        "objective/gomoney/.ai/GOAL.md",
+        "objective/gomoney/.ai/GOAL_HARDEN.md"
+      ],
+      "goal_status": "implementation-evidence-inventoried",
+      "goal_evidence": [
+        {
+          "file": "objective/gomoney/.ai/GOAL.md",
+          "requirements_sha256": "b6546bfe34afe254068c79e2ef55a1b3dae416e7918d86072d3acd7b90f0d1c9",
+          "implementation_evidence": [
+            "objective/gomoney/CHANGELOG.md",
+            "objective/gomoney/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        },
+        {
+          "file": "objective/gomoney/.ai/GOAL_HARDEN.md",
+          "requirements_sha256": "83771d1e88b49866a7ab0a6fc8efaab284eb5d0efdcaf709078d42ef01262ebe",
+          "implementation_evidence": [
+            "objective/gomoney/CHANGELOG.md",
+            "objective/gomoney/README.md"
+          ],
+          "verification_gates": [
+            "format-check",
+            "tidy-check",
+            "safety",
+            "vet",
+            "test",
+            "race",
+            "coverage",
+            "lint",
+            "staticcheck",
+            "vulnerability",
+            "secrets",
+            "licenses",
+            "sbom",
+            "fuzz",
+            "mutation",
+            "nilaway",
+            "docs",
+            "api",
+            "conformance",
+            "interoperability",
+            "benchmark"
+          ],
+          "implementation_status": "implemented-requires-fresh-verification"
+        }
+      ],
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    }
+  ]
+}

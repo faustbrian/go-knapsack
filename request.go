@@ -7,8 +7,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/measurement"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-measurement"
 )
 
 // Resolution defines exact positive length and mass lattice steps. Every input

@@ -17,20 +17,20 @@ threshold_sha256	6c55cc0ebf4a2bc170c9099f26203d6d1dd43b5a8886fd51a3536e3db04b258
 raw_format	go_test_benchmark
 go_test_output
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack	0.196s
+ok  	github.com/faustbrian/go-knapsack	0.196s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/constraint	0.185s
+ok  	github.com/faustbrian/go-knapsack/constraint	0.185s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/encoding	0.193s
+ok  	github.com/faustbrian/go-knapsack/encoding	0.193s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/geometry	0.201s
+ok  	github.com/faustbrian/go-knapsack/geometry	0.201s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/knapsacktest	0.189s
+ok  	github.com/faustbrian/go-knapsack/knapsacktest	0.189s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/objective	0.198s
+ok  	github.com/faustbrian/go-knapsack/objective	0.198s
 goos: darwin
 goarch: arm64
-pkg: github.com/faustbrian/golib/pkg/knapsack/solver
+pkg: github.com/faustbrian/go-knapsack/solver
 cpu: Apple M4 Max
 BenchmarkHeuristicOrdinaryOrder-16              	     174	   6103267 ns/op	         1.000 boxes/op	      1330 candidates/op	       100.0 util_pct	 5962726 B/op	   64180 allocs/op
 BenchmarkHeuristicOrdinaryOrder-16              	     181	   6099166 ns/op	         1.000 boxes/op	      1330 candidates/op	       100.0 util_pct	 5964845 B/op	   64180 allocs/op
@@ -143,8 +143,8 @@ BenchmarkCancellationLatency-16                 	57598963	        21.05 ns/op	  
 BenchmarkCancellationLatency-16                 	55981678	        21.38 ns/op	       0 B/op	       0 allocs/op
 BenchmarkCancellationLatency-16                 	57251454	        21.63 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/solver	142.066s
+ok  	github.com/faustbrian/go-knapsack/solver	142.066s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/verify	0.219s
+ok  	github.com/faustbrian/go-knapsack/verify	0.219s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/visualize	0.188s
+ok  	github.com/faustbrian/go-knapsack/visualize	0.188s

@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/geometry"
 )
 
 func TestOrientationsEnumerateAndDeduplicate(t *testing.T) {

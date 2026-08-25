@@ -20,7 +20,7 @@ import (
 	"strings"
 	"testing"
 
-	packingjson "github.com/faustbrian/golib/pkg/knapsack/encoding"
+	packingjson "github.com/faustbrian/go-knapsack/encoding"
 )
 
 type evidenceManifest struct {
@@ -123,8 +123,8 @@ func TestEvidenceSourceNormalizationExcludesOnlyParentZipChecksum(t *testing.T) 
 	t.Parallel()
 
 	input := []byte(
-		"github.com/faustbrian/golib/pkg/knapsack v0.1.0 h1:zip\n" +
-			"github.com/faustbrian/golib/pkg/knapsack v0.1.0/go.mod h1:mod\n" +
+		"github.com/faustbrian/go-knapsack v0.1.0 h1:zip\n" +
+			"github.com/faustbrian/go-knapsack v0.1.0/go.mod h1:mod\n" +
 			"example.com/external v1.0.0 h1:external\n",
 	)
 	got := normalizeEvidenceSource("integration/references/go.sum", input)
@@ -582,8 +582,8 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		Date:          benchmarkEvidenceDate,
 		Commands:      []string{"make check", "make release-check"},
 		Dependencies: map[string]string{
-			"github.com/faustbrian/golib/pkg/math":        "v1.0.0",
-			"github.com/faustbrian/golib/pkg/measurement": "v1.0.0",
+			"github.com/faustbrian/go-math":        "v1.0.0",
+			"github.com/faustbrian/go-measurement": "v1.0.0",
 		},
 		Fixtures: fixtures,
 	}
@@ -651,7 +651,7 @@ func normalizeEvidenceSource(path string, data []byte) []byte {
 	if path != "integration/references/go.sum" && path != "objective/gomoney/go.sum" {
 		return data
 	}
-	const parentModule = "github.com/faustbrian/golib/pkg/knapsack"
+	const parentModule = "github.com/faustbrian/go-knapsack"
 	normalized := make([]byte, 0, len(data))
 	for _, line := range bytes.SplitAfter(data, []byte("\n")) {
 		fields := bytes.Fields(line)
@@ -681,7 +681,7 @@ func publicAPI(t *testing.T) []apiSymbol {
 	}
 	var symbols []apiSymbol
 	for path, files := range packages {
-		packageName := "github.com/faustbrian/golib/pkg/knapsack"
+		packageName := "github.com/faustbrian/go-knapsack"
 		if path != "." {
 			packageName += "/" + path
 		}

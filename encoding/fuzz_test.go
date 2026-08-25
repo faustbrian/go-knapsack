@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	packingjson "github.com/faustbrian/golib/pkg/knapsack/encoding"
+	"github.com/faustbrian/go-knapsack"
+	packingjson "github.com/faustbrian/go-knapsack/encoding"
 )
 
 func FuzzPlanDecode(f *testing.F) {

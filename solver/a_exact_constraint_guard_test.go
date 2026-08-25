@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/constraint"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/constraint"
 )
 
 // Keep the constraint guard ahead of exhaustive oracle cases so fail-fast

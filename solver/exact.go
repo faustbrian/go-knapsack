@@ -8,11 +8,11 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/constraint"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/knapsack/objective"
-	"github.com/faustbrian/golib/pkg/knapsack/verify"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/constraint"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/objective"
+	"github.com/faustbrian/go-knapsack/verify"
 )
 
 // Exact exhaustively enumerates compact orthogonal placements for bounded

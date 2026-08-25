@@ -10,10 +10,10 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/international/currency"
-	"github.com/faustbrian/golib/pkg/knapsack/objective/gomoney"
-	"github.com/faustbrian/golib/pkg/knapsack/solver"
-	"github.com/faustbrian/golib/pkg/money"
+	"github.com/faustbrian/go-international/currency"
+	"github.com/faustbrian/go-knapsack/objective/gomoney"
+	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-money"
 )
 
 func TestTotalsAndOrderingMatchDirectExactMoneyArithmetic(t *testing.T) {

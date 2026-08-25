@@ -1,0 +1,266 @@
+{
+  "schema_version": 3,
+  "reason": "Exact mutation checkpoints retained across history rewrites only when the approved old and replacement package input fingerprints, tool version, and report digest match.",
+  "verifier_migration_review": {
+    "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+    "reason": "Each listed checkpoint was executed with the complete current Gremlins semantic patch set introduced by ac300cf3; the four omitted checkpoints require fresh campaigns.",
+    "reviewed_at": "2026-08-20"
+  },
+  "verifier_migrations": [
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "beca7a5bd02de52f3e27a097ae25d0a114aa836f3edcf7ff05988295fe0f22ea",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": ".",
+      "report_sha256": "ca4ee8b64c9a78ca1e0bc89b7849765e62916af347892f4bcf6d94f87c6bf742"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "133f8c8dc5c0e5871895d460cab33ed50097ca159a23cdcc2c89816fd5ddc32a",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "constraint",
+      "report_sha256": "623c63fdb7416a583e20d4d6b1a4ed37710230155df13901524b63bb2d50a38c"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "60865eea14944ea5a0ab9ad59a62ba3d77cb6d382a019f777b642563dcad2585",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "encoding",
+      "report_sha256": "b7381fd5aa6b0e5c6f4745e13fd511d4df8f5405680eab20c4bb47e7440bd852"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "3890df4fccfd58da645bf737a0f969c068df2271f5f2555e4d34a3f56daa65b5",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "geometry",
+      "report_sha256": "4ff27f2c6a15ba6827e0673e544fb67a6cc07721e44f5d65edc87e29b862970b"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "2c6943d3f659eedaa7751bf323798db496d975b13a39f3063ef3ee3fb6d77181",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "objective",
+      "report_sha256": "b586390e30e41f0a1c8ea5170ca9025618890e770fb797f5c4ec6ede5e53bfb4"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "0033b927a15c0a788b353e77e82ccde90aea3f59c5aca43cd9501759602aaa95",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "solver",
+      "report_sha256": "20b0ceda96e99d7a6bafa24f16c9dd9b1657d99bd2c5b251029ed039271beb53"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "d4da25f6aaed25c6128b9816fe836a7e38faba64ebf7faae2a02e989ff8d955e",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "verify",
+      "report_sha256": "5624164b16672edb2d493b719bef7eaccbd766d53eb12bb880197edb3d47e36f"
+    },
+    {
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "db675c3609f594d3c04f358d8531bcbad76e0728d20adaae5238d9ac2715599a",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "visualize",
+      "report_sha256": "970bc6d95c946d25e48c27c717b1b6ad8efe413580c377d12e39e08d265f6ae9"
+    },
+    {
+      "execution_revision": "c09c5268b1facb88317f933913b2e7cf4377948b",
+      "gate_input_digest": "3ebf2f97726ab43c40f4621dfdc47f7ac88095c0fb46cae0cec30149d924ed49",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "gremlins_version": "v0.6.0",
+      "module": "objective/gomoney",
+      "package": ".",
+      "report_sha256": "52254bd62f07edbd9028f6d9e271be74c91d6f733a6d9afa6dce5398452b1ebb"
+    }
+  ],
+  "entries": [
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "015fc2ed999c9a2e9f55442773767af0ed14ca20280849679efb0c7b85c49c55",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": ".",
+      "report_sha256": "dbdc899291eb71c9abd309867822080455e2707dd239af346df4a78ab55e2af9"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "c72ea981004c155a8dccdaf29033ec7b3d67760fe43ce34904136d794865def4",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "constraint",
+      "report_sha256": "765634201fde704c44d48d73c369ffa87085f0496e7f6ca0b5870bccabf08249"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "c5e7e459413b881af2b20bb8b8978ee063088e3744710995fa15e6c91d5c7c50",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "encoding",
+      "report_sha256": "7f227d955650f55e894d398266b6642d6d400c2908a57ce7248f09a4a8ce1dba"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "5a0fab819ed90fbd4c971a1e5d3d5100e23b9942d0a03abd469e819008032bbc",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "geometry",
+      "report_sha256": "feb27df21f8ce7ff1d7c351aaab96d86eb13138a8221cf3f75be37d2bc74d542"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "3969ab4f767983fd8e2a6a7e779ef4890361b307dc9b9b2f7178731c980aa9c5",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "objective",
+      "report_sha256": "bda41745e45d1731396e7f6f747e7d237d4fe909e7505b9365fdd723d7b827d6"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "7cabb8e32f0a968dde0c4594ca94f7605bced266d42c0dbbd205ae7f4a3b2846",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "solver",
+      "report_sha256": "072d16a5088baca9c64d3f3728eb7fa97cb60b94237876a68bb7ee855f8d3dcd"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "8ca8565bc1772285d4f684a4086720ad3f4a0bf6dc5383224047783c4577ccf1",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "verify",
+      "report_sha256": "092f9ac38b7b137e40930fdb22a852308ad99f76adb28698f491a69e83f79644"
+    },
+    {
+      "execution_revision": "03d8f7af641bbd13edeb9999b949eb8fd44794d5",
+      "gate_input_digest": "aa9cd4f4f074ba348042f9529625d9faaa8fc858fca238f56b513334da5d7815",
+      "gremlins_version": "v0.6.0",
+      "module": ".",
+      "package": "visualize",
+      "report_sha256": "bede1ea219e8314f4c918b745ee4ed21eaf428fb75a827c00c1fd4af27e85edb"
+    },
+    {
+      "execution_revision": "8cb85e2f184a5fd013396bdb6521ecead1a61cc4",
+      "gate_input_digest": "7b9ded01d18a71df3a5f7f03f9e6c2e02b3c8fd58adf4973d79c7b8aa06452d7",
+      "gremlins_version": "v0.6.0",
+      "module": "objective/gomoney",
+      "package": ".",
+      "report_sha256": "4a4a96082a1d3a50e0db9152fb1d98f605e63647ff9c2f4eb6eb7914420ad574"
+    },
+    {
+      "execution_revision": "c09c5268b1facb88317f933913b2e7cf4377948b",
+      "gate_input_digest": "8f7298b90f84ad98c2c6eb801edfc4065f15788ef1680895cc1cdf278375d729",
+      "gremlins_version": "v0.6.0",
+      "migration_reason": "owned-module-version-locator-canonicalization",
+      "module": "objective/gomoney",
+      "package": ".",
+      "replacement_gate_input_digest": "3ebf2f97726ab43c40f4621dfdc47f7ac88095c0fb46cae0cec30149d924ed49",
+      "report_sha256": "52254bd62f07edbd9028f6d9e271be74c91d6f733a6d9afa6dce5398452b1ebb"
+    },
+    {
+      "module": ".",
+      "package": ".",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "beca7a5bd02de52f3e27a097ae25d0a114aa836f3edcf7ff05988295fe0f22ea",
+      "replacement_gate_input_digest": "00b229e337baace6f3092dbc0dfecb38fdfc686d6df39ad84aea2a07a0b7fc39",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "ca4ee8b64c9a78ca1e0bc89b7849765e62916af347892f4bcf6d94f87c6bf742"
+    },
+    {
+      "module": ".",
+      "package": "constraint",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "133f8c8dc5c0e5871895d460cab33ed50097ca159a23cdcc2c89816fd5ddc32a",
+      "replacement_gate_input_digest": "55da36ca7b1d744fee45379e8ad219b6100aa987e3e514916a428b9d1cccac31",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "623c63fdb7416a583e20d4d6b1a4ed37710230155df13901524b63bb2d50a38c"
+    },
+    {
+      "module": ".",
+      "package": "encoding",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "60865eea14944ea5a0ab9ad59a62ba3d77cb6d382a019f777b642563dcad2585",
+      "replacement_gate_input_digest": "9972243e743e375ee481057a3200f884fbc216089bf8ed5eac88b057eaa4158b",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "b7381fd5aa6b0e5c6f4745e13fd511d4df8f5405680eab20c4bb47e7440bd852"
+    },
+    {
+      "module": ".",
+      "package": "geometry",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "3890df4fccfd58da645bf737a0f969c068df2271f5f2555e4d34a3f56daa65b5",
+      "replacement_gate_input_digest": "51fc731da4742471c8ee4640dfd1800f7016f2103fb9e5f328d444ae8222336d",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "4ff27f2c6a15ba6827e0673e544fb67a6cc07721e44f5d65edc87e29b862970b"
+    },
+    {
+      "module": ".",
+      "package": "objective",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "2c6943d3f659eedaa7751bf323798db496d975b13a39f3063ef3ee3fb6d77181",
+      "replacement_gate_input_digest": "aa6d528a36fe8a7985a351f4fca8432a1e03e4eb27de76f0a2cdba3998c0a804",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "b586390e30e41f0a1c8ea5170ca9025618890e770fb797f5c4ec6ede5e53bfb4"
+    },
+    {
+      "module": ".",
+      "package": "solver",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "0033b927a15c0a788b353e77e82ccde90aea3f59c5aca43cd9501759602aaa95",
+      "replacement_gate_input_digest": "3b8a2576bad158f4077eb47a153321ad296c2fa5c648f338b340e599df1abbae",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "20b0ceda96e99d7a6bafa24f16c9dd9b1657d99bd2c5b251029ed039271beb53"
+    },
+    {
+      "module": ".",
+      "package": "verify",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "d4da25f6aaed25c6128b9816fe836a7e38faba64ebf7faae2a02e989ff8d955e",
+      "replacement_gate_input_digest": "bcb3344d639dbb51bed9310f74cc42c7d3f0bd5dea008fdf1576aa322e543654",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "5624164b16672edb2d493b719bef7eaccbd766d53eb12bb880197edb3d47e36f"
+    },
+    {
+      "module": ".",
+      "package": "visualize",
+      "execution_revision": "1447b35b7f5baa011f43003c03072a8ffd03495f",
+      "gate_input_digest": "db675c3609f594d3c04f358d8531bcbad76e0728d20adaae5238d9ac2715599a",
+      "replacement_gate_input_digest": "6911395063b35a6bef0a892a795e7345a1b3056130c19d12d60888bf2087ab5f",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "970bc6d95c946d25e48c27c717b1b6ad8efe413580c377d12e39e08d265f6ae9"
+    },
+    {
+      "module": "objective/gomoney",
+      "package": ".",
+      "execution_revision": "c09c5268b1facb88317f933913b2e7cf4377948b",
+      "gate_input_digest": "3ebf2f97726ab43c40f4621dfdc47f7ac88095c0fb46cae0cec30149d924ed49",
+      "replacement_gate_input_digest": "e1944ecdec5e1e2a12b3e630a822726c1e9a43d9091df1e76d33a27a10242a8a",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+      "report_sha256": "52254bd62f07edbd9028f6d9e271be74c91d6f733a6d9afa6dce5398452b1ebb"
+    }
+  ]
+}

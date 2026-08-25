@@ -4,8 +4,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/measurement"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-measurement"
 )
 
 // Stock explicitly distinguishes finite stock from unlimited availability.

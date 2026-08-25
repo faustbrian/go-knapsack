@@ -18,14 +18,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/international/currency"
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/knapsack/objective/gomoney"
-	"github.com/faustbrian/golib/pkg/knapsack/solver"
-	"github.com/faustbrian/golib/pkg/math/decimal"
-	"github.com/faustbrian/golib/pkg/measurement"
-	"github.com/faustbrian/golib/pkg/money"
+	"github.com/faustbrian/go-international/currency"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/objective/gomoney"
+	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-math/decimal"
+	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-money"
 )
 
 const deterministicRankingHelper = "GOMONEY_DETERMINISTIC_RANKING_HELPER"
@@ -125,10 +125,10 @@ func TestProductionDependencyBoundaryExcludesAmbientPolicy(t *testing.T) {
 	allowed := map[string]bool{
 		"context": true, "errors": true, "fmt": true, "math/big": true,
 		"slices": true, "strings": true,
-		"github.com/faustbrian/golib/pkg/knapsack":     true,
-		"github.com/faustbrian/golib/pkg/math":         true,
-		"github.com/faustbrian/golib/pkg/math/decimal": true,
-		"github.com/faustbrian/golib/pkg/money":        true,
+		"github.com/faustbrian/go-knapsack":     true,
+		"github.com/faustbrian/go-math":         true,
+		"github.com/faustbrian/go-math/decimal": true,
+		"github.com/faustbrian/go-money":        true,
 	}
 	inspected := 0
 	for _, productionFile := range productionFiles {

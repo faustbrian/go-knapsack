@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-knapsack",
+  "packages": [
+    {
+      "module_directory": ".",
+      "directory": ".",
+      "name": "knapsack",
+      "import_path": "github.com/faustbrian/go-knapsack",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "constraint",
+      "name": "constraint",
+      "import_path": "github.com/faustbrian/go-knapsack/constraint",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "encoding",
+      "name": "encoding",
+      "import_path": "github.com/faustbrian/go-knapsack/encoding",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "geometry",
+      "name": "geometry",
+      "import_path": "github.com/faustbrian/go-knapsack/geometry",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "integration/references",
+      "directory": "cmd/knapsack-compare",
+      "name": "main",
+      "import_path": "github.com/faustbrian/go-knapsack/integration/references/cmd/knapsack-compare",
+      "kind": "harness",
+      "production": false,
+      "executable": true,
+      "coverage_required": false,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "knapsacktest",
+      "name": "knapsacktest",
+      "import_path": "github.com/faustbrian/go-knapsack/knapsacktest",
+      "kind": "test support",
+      "production": false,
+      "executable": true,
+      "coverage_required": false,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "objective",
+      "name": "objective",
+      "import_path": "github.com/faustbrian/go-knapsack/objective",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": "objective/gomoney",
+      "directory": ".",
+      "name": "gomoney",
+      "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "solver",
+      "name": "solver",
+      "import_path": "github.com/faustbrian/go-knapsack/solver",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "verify",
+      "name": "verify",
+      "import_path": "github.com/faustbrian/go-knapsack/verify",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    },
+    {
+      "module_directory": ".",
+      "directory": "visualize",
+      "name": "visualize",
+      "import_path": "github.com/faustbrian/go-knapsack/visualize",
+      "kind": "public",
+      "production": true,
+      "executable": true,
+      "coverage_required": true,
+      "build_required": true,
+      "build_tags": []
+    }
+  ]
+}

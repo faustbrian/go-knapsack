@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/knapsack/solver"
-	"github.com/faustbrian/golib/pkg/knapsack/verify"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-knapsack/verify"
 )
 
 func TestHeuristicIsInvariantToInputPermutation(t *testing.T) {

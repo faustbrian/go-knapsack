@@ -1,7 +1,14 @@
 # knapsack
 
-[![CI](https://github.com/faustbrian/golib/actions/workflows/knapsack-ci.yml/badge.svg)](https://github.com/faustbrian/golib/actions/workflows/knapsack-ci.yml)
-[![Release](https://github.com/faustbrian/golib/actions/workflows/knapsack-release.yml/badge.svg)](https://github.com/faustbrian/golib/actions/workflows/knapsack-release.yml)
+[![CI](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack)
+[![Release](https://img.shields.io/github/v/release/faustbrian/go-knapsack?sort=semver)](https://github.com/faustbrian/go-knapsack/releases)
+[![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 `knapsack` is an exact-unit, deterministic library for offline orthogonal
 packing of rectangular items into rectangular containers. The sometimes-used

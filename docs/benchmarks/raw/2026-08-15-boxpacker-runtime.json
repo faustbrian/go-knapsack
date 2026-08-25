@@ -36,7 +36,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 1,
       "wall_nanoseconds": 4018209,
@@ -46,7 +46,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 2,
       "wall_nanoseconds": 3671875,
@@ -76,7 +76,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 3,
       "wall_nanoseconds": 19625250,
@@ -86,7 +86,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 4,
       "wall_nanoseconds": 4937958,
@@ -116,7 +116,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 5,
       "wall_nanoseconds": 3974292,
@@ -126,7 +126,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 6,
       "wall_nanoseconds": 3742708,
@@ -156,7 +156,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 7,
       "wall_nanoseconds": 3996917,
@@ -166,7 +166,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 8,
       "wall_nanoseconds": 4141375,
@@ -196,7 +196,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 9,
       "wall_nanoseconds": 4075000,
@@ -206,7 +206,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "sample": 10,
       "wall_nanoseconds": 3787375,
@@ -239,7 +239,7 @@
       "packed_items": 2
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "runtime_version": "go1.26.6",
       "wall_p50_nanoseconds": 3996917,
       "wall_p95_nanoseconds": 19625250,
@@ -258,7 +258,7 @@
       "process_stopped": true
     },
     {
-      "implementation": "github.com/faustbrian/golib/pkg/knapsack",
+      "implementation": "github.com/faustbrian/go-knapsack",
       "deadline_nanoseconds": 50000000,
       "return_nanoseconds": 51453917,
       "process_stopped": true

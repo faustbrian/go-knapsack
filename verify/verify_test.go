@@ -7,13 +7,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	packingjson "github.com/faustbrian/golib/pkg/knapsack/encoding"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/knapsack/objective"
-	"github.com/faustbrian/golib/pkg/knapsack/verify"
-	"github.com/faustbrian/golib/pkg/math/decimal"
-	"github.com/faustbrian/golib/pkg/measurement"
+	"github.com/faustbrian/go-knapsack"
+	packingjson "github.com/faustbrian/go-knapsack/encoding"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/objective"
+	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-math/decimal"
+	"github.com/faustbrian/go-measurement"
 )
 
 type cancelAfterChecks struct{ remaining int }

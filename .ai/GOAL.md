@@ -15,7 +15,7 @@ rectangular physical items into one or more rectangular containers while
 respecting dimensions, orientation, weight, stock, stability, load-bearing, and
 application-defined constraints.
 
-The module path MUST be `github.com/faustbrian/golib/pkg/knapsack`. Public Go package
+The module path MUST be `github.com/faustbrian/go-knapsack`. Public Go package
 identifiers MUST use `knapsack` or focused non-stuttering subpackage names.
 Go 1.26 MUST be the minimum supported language and toolchain version at initial
 release, updated only through the repository-wide version policy.

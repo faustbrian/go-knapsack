@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/international/currency"
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/objective/gomoney"
-	"github.com/faustbrian/golib/pkg/money"
+	"github.com/faustbrian/go-international/currency"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/objective/gomoney"
+	"github.com/faustbrian/go-money"
 )
 
 func BenchmarkTotalSixtyFourContainers(b *testing.B) {

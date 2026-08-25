@@ -19,9 +19,9 @@ generate "$directory/first.json"
 generate "$directory/second.json"
 cmp "$directory/first.json.normalized" "$directory/second.json.normalized"
 
-grep -q 'github.com/faustbrian/golib/pkg/knapsack' "$directory/first.json.normalized"
-grep -q 'github.com/faustbrian/golib/pkg/math' "$directory/first.json.normalized"
-grep -q 'github.com/faustbrian/golib/pkg/measurement' "$directory/first.json.normalized"
+grep -q 'github.com/faustbrian/go-knapsack' "$directory/first.json.normalized"
+grep -q 'github.com/faustbrian/go-math' "$directory/first.json.normalized"
+grep -q 'github.com/faustbrian/go-measurement' "$directory/first.json.normalized"
 if grep -q '"timestamp"\|"serialNumber"' "$directory/first.json.normalized"; then
 	printf '%s\n' 'SBOM contains nondeterministic timestamp or serial number' >&2
 	exit 1

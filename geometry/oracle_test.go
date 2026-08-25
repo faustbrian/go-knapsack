@@ -3,7 +3,7 @@ package geometry_test
 import (
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/geometry"
 )
 
 type voxel struct{ x, y, z int64 }

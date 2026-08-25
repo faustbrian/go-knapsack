@@ -3,8 +3,8 @@ package knapsacktest_test
 import (
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/knapsacktest"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/knapsacktest"
 )
 
 func TestRequireCanonicalEqual(t *testing.T) {

@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/verify"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/verify"
 )
 
 var (

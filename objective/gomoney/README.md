@@ -115,8 +115,8 @@ environment, locale, registry, or exchange-rate access.
 
 ## Compatibility and migration
 
-The module is pre-v1 and independently released under tags prefixed with
-`pkg/knapsack/objective/gomoney/v`. Its public API is checked against
+The stable v1 module is independently released under tags prefixed with
+`objective/gomoney/v`. Its public API is checked against
 `api/baseline.txt`.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations

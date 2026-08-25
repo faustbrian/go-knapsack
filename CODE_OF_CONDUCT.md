@@ -1,7 +1,9 @@
-# Code of conduct
+# Code Of Conduct
 
-We pledge a harassment-free, welcoming project for everyone. Be respectful,
-assume good faith, focus criticism on technical work, and protect private
-information. Maintainers may edit or remove abusive contributions and may ban
-participants whose conduct threatens a safe, constructive community. Report
-conduct concerns privately to the repository owner.
+Participants must communicate professionally, assume good intent while
+evaluating technical claims from evidence, and avoid harassment, discrimination,
+personal attacks, threats, or disclosure of private information.
+
+Maintainers may edit, reject, or remove contributions and participation that
+violate these expectations. Report conduct concerns privately to the repository
+owner. Reports will be reviewed confidentially and addressed proportionally.

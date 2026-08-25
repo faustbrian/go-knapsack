@@ -1,18 +1,18 @@
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack	0.103s
+ok  	github.com/faustbrian/go-knapsack	0.103s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/constraint	0.063s
+ok  	github.com/faustbrian/go-knapsack/constraint	0.063s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/encoding	0.063s
+ok  	github.com/faustbrian/go-knapsack/encoding	0.063s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/geometry	0.059s
+ok  	github.com/faustbrian/go-knapsack/geometry	0.059s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/knapsacktest	0.056s
+ok  	github.com/faustbrian/go-knapsack/knapsacktest	0.056s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/objective	0.062s
+ok  	github.com/faustbrian/go-knapsack/objective	0.062s
 goos: darwin
 goarch: arm64
-pkg: github.com/faustbrian/golib/pkg/knapsack/solver
+pkg: github.com/faustbrian/go-knapsack/solver
 cpu: Apple M4 Max
 BenchmarkHeuristicOrdinaryOrder-16              	      36	   3227454 ns/op	         1.000 boxes/op	      1330 candidates/op	       100.0 util_pct	 6572556 B/op	   65706 allocs/op
 BenchmarkHeuristicOrdinaryOrder-16              	      39	   2996660 ns/op	         1.000 boxes/op	      1330 candidates/op	       100.0 util_pct	 6573228 B/op	   65692 allocs/op
@@ -125,8 +125,8 @@ BenchmarkCancellationLatency-16                 	 6812988	        17.71 ns/op	  
 BenchmarkCancellationLatency-16                 	 6699590	        17.73 ns/op	       0 B/op	       0 allocs/op
 BenchmarkCancellationLatency-16                 	 6777729	        17.75 ns/op	       0 B/op	       0 allocs/op
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/solver	13.668s
+ok  	github.com/faustbrian/go-knapsack/solver	13.668s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/verify	0.087s
+ok  	github.com/faustbrian/go-knapsack/verify	0.087s
 PASS
-ok  	github.com/faustbrian/golib/pkg/knapsack/visualize	0.059s
+ok  	github.com/faustbrian/go-knapsack/visualize	0.059s

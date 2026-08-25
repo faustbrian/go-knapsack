@@ -10,10 +10,10 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	gomath "github.com/faustbrian/golib/pkg/math"
-	"github.com/faustbrian/golib/pkg/math/decimal"
-	"github.com/faustbrian/golib/pkg/money"
+	"github.com/faustbrian/go-knapsack"
+	gomath "github.com/faustbrian/go-math"
+	"github.com/faustbrian/go-math/decimal"
+	"github.com/faustbrian/go-money"
 )
 
 var (

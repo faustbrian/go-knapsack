@@ -7,12 +7,12 @@ import (
 	"os/exec"
 	"testing"
 
-	"github.com/faustbrian/golib/pkg/knapsack"
-	"github.com/faustbrian/golib/pkg/knapsack/geometry"
-	"github.com/faustbrian/golib/pkg/knapsack/solver"
-	"github.com/faustbrian/golib/pkg/knapsack/verify"
-	"github.com/faustbrian/golib/pkg/math/decimal"
-	"github.com/faustbrian/golib/pkg/measurement"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-math/decimal"
+	"github.com/faustbrian/go-measurement"
 )
 
 type boxPackerOutput struct {
