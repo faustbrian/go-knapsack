@@ -31,7 +31,7 @@ tidy-check:
 test:
 	$(GO) test ./... -count=1
 	cd objective/gomoney && $(GO) test ./... -count=1
-	$(MAKE) reference-integration
+	$(MAKE) -f .golib/package.mk reference-integration
 
 reference-integration:
 	cd integration/references && $(GO) test ./... -count=1
@@ -59,7 +59,7 @@ mutation:
 benchmark: benchmark-rss-test
 	$(GO) test ./... -run '^$$' -bench Benchmark -benchmem \
 		-benchtime="$(BENCH_TIME)"
-	$(MAKE) benchmark-rss
+	$(MAKE) -f .golib/package.mk benchmark-rss
 
 benchmark-rss-test:
 	./scripts/test-benchmark-rss.sh
