@@ -6,6 +6,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Bind workflow, advisory-analysis, fuzz, and release evidence to the
+  standalone repository contract instead of former monorepo paths.
+- Run benchmark evidence and comparison adapters without a former monorepo
+  workspace or package-directory assumption.
+
 - Exclude intentional nested modules from root local-proxy archives so local,
   bootstrap, CI, and public module checksums describe the same source
   boundary.

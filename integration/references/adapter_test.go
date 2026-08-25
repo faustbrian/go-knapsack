@@ -5,7 +5,6 @@ import (
 	"errors"
 	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 	"testing"
 
@@ -43,10 +42,6 @@ type comparisonAdapterOutput struct {
 func TestGoComparisonAdapterCommonSubset(t *testing.T) {
 	t.Parallel()
 
-	workspace, err := filepath.Abs("../../../../go.work")
-	if err != nil {
-		t.Fatal(err)
-	}
 	goExecutable := os.Getenv("GOLIB_REAL_GO")
 	if goExecutable == "" {
 		goExecutable = "go"
@@ -57,7 +52,7 @@ func TestGoComparisonAdapterCommonSubset(t *testing.T) {
 			command.Env = append(command.Env, variable)
 		}
 	}
-	command.Env = append(command.Env, "GOWORK="+workspace)
+	command.Env = append(command.Env, "GOWORK=off")
 	encoded, err := command.Output()
 	if err != nil {
 		var exitError *exec.ExitError

@@ -103,7 +103,7 @@ lint:
 	cd integration/references && $(GOLANGCI_LINT) run --timeout=5m ./...
 
 workflow-lint:
-	$(ACTIONLINT) ../../.github/workflows/ci.yml
+	$(ACTIONLINT) .github/workflows/ci.yml
 
 staticcheck:
 	$(STATICCHECK) ./...

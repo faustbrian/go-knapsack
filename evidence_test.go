@@ -358,11 +358,11 @@ func validateFuzzExecution(t *testing.T, proof fuzzExecutionProof, knownTests ma
 			t.Fatalf("fuzz target %q has no execution budget", name)
 		}
 	}
-	workflow, err := os.ReadFile("../../.github/workflows/ci.yml")
+	workflow, err := os.ReadFile(".github/workflows/ci.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Contains(workflow, []byte("./scripts/run-modules.sh check")) {
+	if !bytes.Contains(workflow, []byte(".golib/scripts/run-modules.sh check")) {
 		t.Fatal("root workflow does not execute the module fuzz contract")
 	}
 }
@@ -377,7 +377,7 @@ func validateConcurrencyEvidence(t *testing.T, proof concurrencyProof) {
 	if !bytes.Contains(leakTest, []byte(wantRounds)) {
 		t.Fatalf("concurrency evidence does not match solver/leak_test.go: want %q", wantRounds)
 	}
-	makefile, err := os.ReadFile("Makefile")
+	makefile, err := os.ReadFile(".golib/package.mk")
 	if err != nil {
 		t.Fatal(err)
 	}

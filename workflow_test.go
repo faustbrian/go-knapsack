@@ -19,11 +19,11 @@ func TestWorkflowsPinExternalActionsByCommit(t *testing.T) {
 
 func TestNilAwayRunsAsAdvisoryModuleGate(t *testing.T) {
 	t.Parallel()
-	contract, err := os.ReadFile("../../scripts/check-module.sh")
+	contract, err := os.ReadFile(".golib/scripts/check-module.sh")
 	if err != nil {
 		t.Fatal(err)
 	}
-	gates, err := os.ReadFile("../../scripts/check-gates.txt")
+	gates, err := os.ReadFile(".golib/scripts/check-gates.txt")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -38,27 +38,26 @@ func TestNilAwayRunsAsAdvisoryModuleGate(t *testing.T) {
 			t.Fatalf("NilAway advisory gate omits %q", required)
 		}
 	}
-	workflow, err := os.ReadFile("../../.github/workflows/ci.yml")
+	workflow, err := os.ReadFile(".github/workflows/ci.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(workflow), "continue-on-error") ||
-		!strings.Contains(string(workflow), "./scripts/run-modules.sh check") {
+		!strings.Contains(string(workflow), ".golib/scripts/run-modules.sh check") {
 		t.Fatal("root workflow must use the explicit advisory module gate")
 	}
 }
 
-func TestReleaseEventRunsStrictRootContract(t *testing.T) {
+func TestReleaseDryRunRunsStrictRootContract(t *testing.T) {
 	t.Parallel()
-	workflow, err := os.ReadFile("../../.github/workflows/ci.yml")
+	workflow, err := os.ReadFile(".github/workflows/ci.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, required := range []string{
-		"release:",
-		"types: [published]",
-		"go run ./cmd/golib select --all --format matrix",
-		"./scripts/run-modules.sh check",
+		"workflow_dispatch:",
+		"release_dry_run:",
+		".golib/scripts/run-modules.sh release-dry-run",
 		"name: Required",
 	} {
 		if !strings.Contains(string(workflow), required) {
@@ -70,7 +69,7 @@ func TestReleaseEventRunsStrictRootContract(t *testing.T) {
 func pinnedWorkflowActions(t *testing.T) map[string]string {
 	t.Helper()
 	result := map[string]string{}
-	for _, path := range []string{"../../.github/workflows/ci.yml"} {
+	for _, path := range []string{".github/workflows/ci.yml"} {
 		file, err := os.Open(path)
 		if err != nil {
 			t.Fatal(err)

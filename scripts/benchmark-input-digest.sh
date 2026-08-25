@@ -8,7 +8,7 @@ fi
 
 profile="$1"
 root="$(git rev-parse --show-toplevel)"
-module="${root}/pkg/knapsack"
+module="${root}"
 paths="$(mktemp "${TMPDIR:-/tmp}/knapsack-benchmark-paths.XXXXXX")"
 manifest="$(mktemp "${TMPDIR:-/tmp}/knapsack-benchmark-inputs.XXXXXX")"
 trap 'rm -f "${paths}" "${manifest}"' EXIT HUP INT TERM

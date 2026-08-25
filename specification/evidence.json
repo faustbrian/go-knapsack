@@ -1,8 +1,8 @@
 {
   "schema_version": "v1",
   "generated": {
-    "package_commit": "f90fd82d29f276a19a514065b8503ea6536cc8d6",
-    "source_sha256": "71abc6fc838a93bbb8d21f3445a91349627016985c5ea811bc58c1bfb03da454",
+    "package_commit": "2e9b9c8a5a7fdffe3c082ed842435564f97d079b",
+    "source_sha256": "c749a6f49063e91cf997f8fe7e06d582896394c6abc7e4d5f750daf48c9c2324",
     "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
@@ -15,12 +15,12 @@
       "github.com/faustbrian/go-measurement": "v1.0.0"
     },
     "fixtures": {
-      "docs/benchmarks/raw/2026-08-12-boxpacker-runtime.json": "16bb7b9c770e7c2f8d7a0a9994eb9af29c86620d8d4f792c87b6dc768198ea37",
+      "docs/benchmarks/raw/2026-08-12-boxpacker-runtime.json": "7213ff10a2acd93cfe01f84a4ddc7614f4fa22f0b3fb2bb8039b0c0898dd82aa",
       "docs/benchmarks/raw/2026-08-12-darwin-arm64-rss.tsv": "fe6bed7f816ddfccb007246d5328d17ba4ec7c5bd49b0b3a45e57acd801f6108",
-      "docs/benchmarks/raw/2026-08-12-darwin-arm64.txt": "891273ffba42adbbe20c3c64885b2dee8153225c99f80e49fbe2845c4d827d65",
-      "docs/mutation/raw/adapter.json": "7a81464a367db04aebf01b23691e61d40f46694ea1a5eb0e8bb064ad148959b4",
-      "docs/mutation/raw/gomoney.json": "e4c972d7db9a5a53dfdddedcb81bdbc1e262abf02ebe79d434f64672784147c6",
-      "docs/mutation/raw/root.json": "83c654d9ed2bcb7d5fff9f6aff9aa40bf9a9def9df78a0304795db672a1f5f75",
+      "docs/benchmarks/raw/2026-08-12-darwin-arm64.txt": "c0c404d8eb99f2ddc4789edc3c48b14469760aa3da561c6a188a7f9490056153",
+      "docs/mutation/raw/adapter.json": "70d430a64c2d359696d3e22240bc7b29ac2dcaea3b46198209527ce96cc1ed6a",
+      "docs/mutation/raw/gomoney.json": "acf53dcf792c52afca0f8af30d63ee4570ebaf836d3d11e53020e7a228d59479",
+      "docs/mutation/raw/root.json": "cfcc406fe7fe6218e74cd8654a180b8f05c9230d3a0be7f04b6f79ac92defe27",
       "encoding/testdata/v1/plan.json": "b6a5dee66bd91999776b174877cafb19740b8e794e2644c711c25007634b39cf",
       "encoding/testdata/v1/request.json": "7d3cff1f7deb64e0a2a41fa4d3c7b6652f61a2380297ae31e7765def8f96a1b2",
       "integration/boxpacker/composer.lock": "9d88036ca16b6d770f7480ca725e06100305c5968686f6b6fef35e6e7283029b",
@@ -28,7 +28,7 @@
       "specification/benchmark-rss-thresholds.tsv": "2088df22bf41423f856a55d88d61f8a01bf82c5541b9de73f273e2e3756c291c",
       "specification/benchmark-thresholds.tsv": "6c55cc0ebf4a2bc170c9099f26203d6d1dd43b5a8886fd51a3536e3db04b2584",
       "specification/corpora.tsv": "7ef6a6833a78ccf19430940d8ee7e559928fda2863819b00aa13f28a409f6fa3",
-      "specification/dependency-licenses.tsv": "0c85edad2be8e0e402c513bf99fcbba9199efa491808c81ecfae5c7d89cc5c43",
+      "specification/dependency-licenses.tsv": "a3ea373c7f2e0aa744c42d5978be9a89fe5294b0f32e3517f013e85cd7a116b5",
       "specification/fuzz-budgets.tsv": "9778b8fbb060319f0efd5b4481f150a79715ded65e1126149611e826dbc13aa6",
       "specification/mutation-classifications.tsv": "4baf3f69ee8d059dbccbcb38c0e00209aa93a26edb520b659da755a079b36a63",
       "specification/references.tsv": "10a9183ffedd076781d1380c4e34f473573b3815318dc8dcf5cdf462859b6d42",
@@ -3640,7 +3640,7 @@
     "lint_command": "make repository-check",
     "actionlint_tool": "github.com/rhysd/actionlint v1.7.12",
     "dependency_test": "TestWorkflowsPinExternalActionsByCommit",
-    "publication_test": "TestReleaseEventRunsStrictRootContract",
+    "publication_test": "TestReleaseDryRunRunsStrictRootContract",
     "nilaway_job": "module contract",
     "nilaway_test": "TestNilAwayRunsAsAdvisoryModuleGate",
     "workflows": [
