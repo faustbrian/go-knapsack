@@ -6,6 +6,9 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Refresh the machine-readable evidence manifest after the standalone source
+  inventory changed.
+
 - Bind workflow, advisory-analysis, fuzz, and release evidence to the
   standalone repository contract instead of former monorepo paths.
 - Run benchmark evidence and comparison adapters without a former monorepo
