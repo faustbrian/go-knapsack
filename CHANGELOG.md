@@ -8,6 +8,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 - Replace archived monorepo links and completed execution artifacts with a
   standalone, human-oriented documentation structure.
+- Correct release and reproducibility guidance for the standalone repository.
 
 ## [1.0.0] - 2026-08-25
 

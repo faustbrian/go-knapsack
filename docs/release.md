@@ -4,7 +4,7 @@ The initial minimum language and toolchain is Go 1.26, controlled by the
 repository-wide version files. Public types, typed errors, canonical encoding,
 objective semantics, coordinates, and proof statuses are contracts.
 
-Every change must pass `make check`. A workspace release candidate must pass
+Every change must pass `make check`. A release candidate must pass
 `make release-check`, which adds complete mutation execution, benchmark
 budgets, deterministic CycloneDX SBOM generation, and reproducible source
 artifact verification. A public version tag must pass `make publish-check`,
@@ -24,25 +24,16 @@ Both workflows pin external actions to reviewed commit hashes. The ordinary
 gate runs actionlint and a source-level test rejects mutable action tags or
 undocumented revisions.
 
-Source archives pin the most recent commit that changed the module before
-archiving. This keeps their commit timestamp deterministic when unrelated
-monorepo siblings advance concurrently. The reproducibility gate also rejects
-unstaged or staged module changes before selecting that snapshot.
-
-The current source archive is reproducible but is intentionally workspace-only:
-`go.mod` resolves `math` and `measurement` through local `v0.0.0`
-replacements. Archive reproducibility therefore certifies the monorepo source,
-not an isolated consumer build. Publishing and pinning those sibling modules
-remains a prerequisite for a public version tag and is enforced separately.
+Source archives pin the repository commit being released. The reproducibility
+gate rejects staged or unstaged source changes before selecting that snapshot,
+and `make publish-check` rejects local replacements or placeholder dependency
+versions so the archive matches standalone consumer resolution.
 
 `make dependency-review` compares every compiled non-standard module with
 `specification/dependency-licenses.tsv`, pins each license hash and SPDX
-classification, and separately records whether the resolved version is ready
-for workspace or public use. It fails for missing or changed licenses and
-accepts explicitly recorded workspace-only replacements.
-`make dependency-publish-review` fails closed for those replacements. Both
-current sibling dependencies have pinned MIT license evidence and remain
-intentionally workspace-only.
+classification. It fails for missing or changed licenses.
+`make dependency-publish-review` additionally fails closed for local
+replacements or placeholder dependency versions.
 
 Performance or quality claims require raw evidence with the machine, Go
 version, execution revision, complete input fingerprint, seed, fixture hash,
