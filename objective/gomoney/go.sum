@@ -6,7 +6,7 @@ github.com/faustbrian/go-config v1.0.0 h1:7hN5bWt63nUd87Iu99gI/87aUOLjE437WGrhJB
 github.com/faustbrian/go-config v1.0.0/go.mod h1:pnqiOzoqa91gG8gWhQI7S1BXuE/E0DKRCOh19SQ3qYc=
 github.com/faustbrian/go-international v1.0.0 h1:PgpYIGuIGAvcspWgsulJ33C7B1UNB4p/eDq8jVZW2z4=
 github.com/faustbrian/go-international v1.0.0/go.mod h1:7joB3RlwoD7o19uKkQB+8o1Zd1CfSfpH1eOSNtbrcRc=
-github.com/faustbrian/go-knapsack v1.0.0 h1:jB8RY/XcpMgZCiZ3u4T3FW03wcR26hGd/jVQHdSq3p4=
+github.com/faustbrian/go-knapsack v1.0.0 h1:Bq8kOA4uhlyt0UCKNu4jPStsnNU8KVbNhefFObvkZnQ=
 github.com/faustbrian/go-knapsack v1.0.0/go.mod h1:v4XwVY8qH6nTKXmLS+dh55aqOphi6Da0d/IKVDWHCZ8=
 github.com/faustbrian/go-math v1.0.0 h1:cly3kmRoyR75wH3hr+4HLPP95EtPyg68A5vYqgdDZwU=
 github.com/faustbrian/go-math v1.0.0/go.mod h1:ng3bXTchmlJz/xcXY87ZHFDdd3WUrDhPUaFEytofbBg=
