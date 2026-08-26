@@ -100,7 +100,7 @@ remain detectable:
 valid configuration. Context cancellation from objective callbacks and Money
 arithmetic errors are returned unchanged.
 
-## Adoption, tradeoffs, and security
+## When to use this objective
 
 Use this adapter when container costs already exist as exact Money values and
 currency conversion is outside the packing decision. Validate raw repeated
@@ -155,7 +155,6 @@ exactly 100% statement coverage, API compatibility, documentation examples,
 benchmarks, and exactly 100% viable mutation kills. Use the repository's
 module runner so owned dependencies resolve through its isolated local proxy.
 
-## Ecosystem
+## Documentation
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose companion packages, supported stacks, recipes, and operations guidance.
+See the [root package documentation](../../README.md) for objective semantics, verification, and related packages.
