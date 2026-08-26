@@ -18,6 +18,10 @@
 
 - [Security](security.md)
 
+## Optional modules
+
+- [Exact-money objective](../objective/gomoney/docs/README.md)
+
 ## Reference and maintenance
 
 - [Benchmarks](benchmarks.md)
