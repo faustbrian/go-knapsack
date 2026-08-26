@@ -2,7 +2,7 @@ github.com/cockroachdb/apd/v3 v3.2.3 h1:4Zx+I3R35bFXMnltzmjP79i2cravE4jTRL6ps9Au
 github.com/cockroachdb/apd/v3 v3.2.3/go.mod h1:klXJcjp+FffLTHlhIG69tezTDvdP065naDsHzKhYSqc=
 github.com/faustbrian/go-math v1.0.0 h1:cly3kmRoyR75wH3hr+4HLPP95EtPyg68A5vYqgdDZwU=
 github.com/faustbrian/go-math v1.0.0/go.mod h1:ng3bXTchmlJz/xcXY87ZHFDdd3WUrDhPUaFEytofbBg=
-github.com/faustbrian/go-measurement v1.0.0 h1:8pEIELM/K3qxTtjJj6se9gFzMlsTsh0jP+zY9wW+t08=
+github.com/faustbrian/go-measurement v1.0.0 h1:lQBAFzzVj+1278YPkc9xRvj4zJoWS1woMgtowKVdBT8=
 github.com/faustbrian/go-measurement v1.0.0/go.mod h1:trCV06qM8PUE1nXZ/EoPEg7ECzJ2O3vSySYlJujgrLE=
 github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
 github.com/shopspring/decimal v1.4.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+DMd9qYNcwME=
