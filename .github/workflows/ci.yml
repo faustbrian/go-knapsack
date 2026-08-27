@@ -245,6 +245,44 @@ jobs:
       - run: ./.golib/scripts/with-disposable-go-cache.sh ./.golib/scripts/codeql-build.sh
       - uses: github/codeql-action/analyze@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4
 
+  refresh-boxpacker-evidence:
+    name: Refresh BoxPacker evidence
+    if: github.event_name == 'pull_request' && github.head_ref == 'bugfix/modernize-knapsack-adapter'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version-file: .go-version
+          cache: false
+      - name: Generate BoxPacker runtime evidence
+        env:
+          BOXPACKER_RUNTIME_RAW_OUTPUT: boxpacker-runtime.json
+          GONOSUMDB: github.com/faustbrian/go-*
+          GOPRIVATE: github.com/faustbrian/*
+        run: |
+          set -euo pipefail
+          export GOCACHE="${RUNNER_TEMP}/boxpacker-gocache"
+          export GOMODCACHE="${RUNNER_TEMP}/boxpacker-gomodcache"
+          export GOTMPDIR="${RUNNER_TEMP}/boxpacker-gotmp"
+          mkdir -p "${GOCACHE}" "${GOMODCACHE}" "${GOTMPDIR}"
+          cleanup() {
+            chmod -R u+w "${GOCACHE}" "${GOMODCACHE}" "${GOTMPDIR}" 2>/dev/null || true
+            find "${GOCACHE}" "${GOMODCACHE}" "${GOTMPDIR}" -depth -delete 2>/dev/null || true
+          }
+          trap cleanup EXIT HUP INT TERM
+          ./scripts/benchmark-boxpacker.sh
+      - name: Upload BoxPacker runtime evidence
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: refreshed-boxpacker-runtime
+          path: boxpacker-runtime.json
+          if-no-files-found: error
+          retention-days: 1
+
   required:
     name: Required
     if: always()

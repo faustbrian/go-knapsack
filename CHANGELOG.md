@@ -8,6 +8,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 - Keep the nested comparison adapter compatible with the strict Go 1.26
   modernization lint policy when reporting subprocess failures.
+- Reconcile root and nested-module checksums with the canonical `v1.0.0`
+  archives after the standalone repository reset.
 
 ### Documentation
 
