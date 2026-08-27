@@ -12,6 +12,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   archives after the standalone repository reset.
 - Resolve owned modules from their canonical releases in CI instead of the
   retired pre-release bootstrap proxy.
+- Revalidate native and RSS benchmark fingerprints after checksum-only input
+  changes and refresh the BoxPacker process comparison on Linux.
 
 ### Documentation
 

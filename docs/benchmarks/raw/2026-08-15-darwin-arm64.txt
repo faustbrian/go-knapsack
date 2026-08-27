@@ -1,5 +1,5 @@
 package_commit	f90fd82d29f276a19a514065b8503ea6536cc8d6
-input_sha256	37433dc6cd810ae3bd24d3be41c22b4ebe3c384c82e8d807f75e884d3c101cfe
+input_sha256	2e14b650a9c49100000db988298956a6ace73bebe6e20a9ee18ea7aeb1d3069c
 go_version	go1.26.6
 environment	darwin/arm64
 processor	Apple M4 Max
