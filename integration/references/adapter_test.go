@@ -55,8 +55,7 @@ func TestGoComparisonAdapterCommonSubset(t *testing.T) {
 	command.Env = append(command.Env, "GOWORK=off")
 	encoded, err := command.Output()
 	if err != nil {
-		var exitError *exec.ExitError
-		if errors.As(err, &exitError) {
+		if exitError, ok := errors.AsType[*exec.ExitError](err); ok {
 			t.Fatalf("%v: %s", err, exitError.Stderr)
 		}
 		t.Fatal(err)

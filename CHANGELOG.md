@@ -4,6 +4,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Fixed
+
+- Keep the nested comparison adapter compatible with the strict Go 1.26
+  modernization lint policy when reporting subprocess failures.
+
 ### Documentation
 
 - Replace archived monorepo links and completed execution artifacts with a
