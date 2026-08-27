@@ -10,6 +10,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   modernization lint policy when reporting subprocess failures.
 - Reconcile root and nested-module checksums with the canonical `v1.0.0`
   archives after the standalone repository reset.
+- Resolve owned modules from their canonical releases in CI instead of the
+  retired pre-release bootstrap proxy.
 
 ### Documentation
 
