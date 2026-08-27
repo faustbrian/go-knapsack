@@ -57,7 +57,8 @@ if [[ "${owned_count}" -gt 0 ]]; then
     modfile="${run_directory}/golib-mutation.mod"
     cp "${directory}/go.mod" "${modfile}"
     if [[ -f "${directory}/go.sum" ]]; then
-        cp "${directory}/go.sum" "${modfile%.mod}.sum"
+        awk '$1 !~ /^github\.com\/faustbrian\/go-/ { print }' \
+            "${directory}/go.sum" >"${modfile%.mod}.sum"
     fi
     while IFS=$'\t' read -r owned_path owned_directory; do
         [[ -n "${owned_path}" && -n "${owned_directory}" ]] || continue
