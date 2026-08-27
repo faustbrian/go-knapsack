@@ -46,7 +46,12 @@ func TestGoComparisonAdapterCommonSubset(t *testing.T) {
 	if goExecutable == "" {
 		goExecutable = "go"
 	}
-	command := exec.Command(goExecutable, "run", "./cmd/knapsack-compare")
+	arguments := []string{"run"}
+	if modfile := os.Getenv("GOLIB_ISOLATED_MODFILE"); modfile != "" {
+		arguments = append(arguments, "-modfile="+modfile, "-mod=readonly")
+	}
+	arguments = append(arguments, "./cmd/knapsack-compare")
+	command := exec.Command(goExecutable, arguments...)
 	for _, variable := range os.Environ() {
 		if !strings.HasPrefix(variable, "GOWORK=") {
 			command.Env = append(command.Env, variable)

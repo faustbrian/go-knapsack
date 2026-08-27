@@ -6,6 +6,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Fixed
 
+- Resolve current-source rehearsal archives through task-owned module files so
+  immutable public checksums remain valid during nested-module and CodeQL runs.
 - Keep the nested comparison adapter compatible with the strict Go 1.26
   modernization lint policy when reporting subprocess failures.
 - Reconcile root and nested-module checksums with the canonical `v1.0.0`
