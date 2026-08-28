@@ -18,6 +18,13 @@ upstream_proxy="${GOPROXY:-$(go env GOPROXY)}"
 export GOPROXY="file://${self_proxy},${upstream_proxy}"
 current_no_sum_db="$(go env GONOSUMDB)"
 export GONOSUMDB="github.com/faustbrian/go-*${current_no_sum_db:+,${current_no_sum_db}}"
+GOLIB_REAL_GO="$(command -v go)"
+export GOLIB_REAL_GO
+export GOLIB_ISOLATED_MODFILES_DIRECTORY="${task}/isolated-modfiles"
+mkdir -p "${GOLIB_ISOLATED_MODFILES_DIRECTORY}/bin"
+ln -s "${root}/.golib/scripts/internal/isolated-go.sh" \
+    "${GOLIB_ISOLATED_MODFILES_DIRECTORY}/bin/go"
+export PATH="${GOLIB_ISOLATED_MODFILES_DIRECTORY}/bin:${PATH}"
 
 while IFS= read -r module; do
     [[ -n "${module}" ]] || continue

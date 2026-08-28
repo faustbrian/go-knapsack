@@ -4,6 +4,27 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Fixed
+
+- Resolve current-source rehearsal archives through task-owned module files so
+  immutable public checksums remain valid during nested-module and CodeQL runs.
+- Resolve owned current-source archives through task-owned mutation sums rather
+  than conflicting with immutable public release checksums.
+- Keep the nested comparison adapter compatible with the strict Go 1.26
+  modernization lint policy when reporting subprocess failures.
+- Reconcile root and nested-module checksums with the canonical `v1.0.0`
+  archives after the standalone repository reset.
+- Resolve owned modules from their canonical releases in CI instead of the
+  retired pre-release bootstrap proxy.
+- Revalidate native and RSS benchmark fingerprints after checksum-only input
+  changes and refresh the BoxPacker process comparison on Linux.
+
+### Documentation
+
+- Replace archived monorepo links and completed execution artifacts with a
+  standalone, human-oriented documentation structure.
+- Correct release and reproducibility guidance for the standalone repository.
+
 ## [1.0.0] - 2026-08-25
 
 ### Changed
@@ -33,7 +54,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Documentation
 
-- Link the package README to the repository-wide Golib documentation portal.
+- Link the package README to package-owned documentation.
 
 ### Changed
 

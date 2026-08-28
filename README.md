@@ -90,14 +90,13 @@ See [usage](docs/usage.md), [API](docs/api.md), [model](docs/model.md),
 
 Go 1.26.6 is the initial minimum toolchain. `make check` is the ordinary local
 and pull-request gate. `make release-check` adds complete mutation and
-benchmark comparison for the current monorepo workspace. `make publish-check`
-additionally requires versioned dependencies without local replacements. No
-benchmark or optimality claim is valid without the checked-in evidence
-identified by those gates.
+benchmark comparison. `make publish-check` additionally requires versioned
+dependencies without local replacements. No benchmark or optimality claim is
+valid without the checked-in evidence identified by those gates.
 
 Licensed under Apache-2.0.
 
-## Ecosystem
+## Documentation
 
-Use the [Golib documentation portal](https://github.com/faustbrian/golib/blob/main/docs/index.md)
-to choose companion packages, supported stacks, recipes, and operations guidance.
+Use the [documentation index](docs/README.md) for package-owned guides,
+operational contracts, examples, and maintainer references.
