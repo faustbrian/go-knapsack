@@ -19,6 +19,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Fixed
 
+- Exercise request canonicalization, optional physical limits, and defensive
+  copies directly from the root package so per-package coverage remains exact.
 - Resolve current-source rehearsal archives through task-owned module files so
   immutable public checksums remain valid during nested-module and CodeQL runs.
 - Resolve owned current-source archives through task-owned mutation sums rather

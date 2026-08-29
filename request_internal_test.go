@@ -39,6 +39,93 @@ func cloneNormalizedSpec(source NormalizedSpec) NormalizedSpec {
 	return result
 }
 
+func TestNormalizedRequestCanonicalizesMetadataAndOwnsCopies(t *testing.T) {
+	t.Parallel()
+
+	maximum := int64(7)
+	spec := validNormalizedSpec()
+	spec.Items = append([]NormalizedItem{{
+		ID: "z-item", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1,
+		Orientations: []geometry.Orientation{geometry.OrientationXYZ}, MaxSupportedWeight: &maximum,
+	}}, spec.Items...)
+	spec.Containers = append([]NormalizedContainer{{
+		ID: "z-box", Dimensions: geometry.Dimensions{X: 3, Y: 3, Z: 3},
+		MaxContentWeight: 3, Stock: UnlimitedStock(),
+	}}, spec.Containers...)
+
+	request, err := NewNormalizedRequest(spec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	items := request.Items()
+	containers := request.Containers()
+	if items[0].ID != "item" || items[1].ID != "z-item" {
+		t.Fatalf("item order = %q, %q", items[0].ID, items[1].ID)
+	}
+	if containers[0].ID != "box" || containers[1].ID != "z-box" {
+		t.Fatalf("container order = %q, %q", containers[0].ID, containers[1].ID)
+	}
+	if got := request.Resolution(); got.Length.Amount().String() != "1" || got.Mass.Amount().String() != "1" {
+		t.Fatalf("resolution = %+v", got)
+	}
+	if got := request.ContainerTypeCount(); got != 2 {
+		t.Fatalf("container type count = %d", got)
+	}
+	*items[1].MaxSupportedWeight = 99
+	if got := *request.Items()[1].MaxSupportedWeight; got != 7 {
+		t.Fatalf("max supported weight aliases accessor copy: %d", got)
+	}
+}
+
+func TestNewRequestCanonicalizesAndNormalizesOptionalPhysicalLimits(t *testing.T) {
+	t.Parallel()
+
+	length := func(value string) measurement.Quantity { return internalQuantity(value, measurement.Metre) }
+	mass := func(value string) measurement.Quantity { return internalQuantity(value, measurement.Kilogram) }
+	dimensions := PhysicalDimensions{X: length("1"), Y: length("1"), Z: length("1")}
+	maximum := mass("7")
+	items := make([]Item, 2)
+	for index, spec := range []ItemSpec{
+		{ID: "z-item", Dimensions: dimensions, Weight: mass("2"), Orientations: []geometry.Orientation{geometry.OrientationXYZ}, MaxSupportedWeight: &maximum},
+		{ID: "a-item", Dimensions: dimensions, Weight: mass("1"), Orientations: []geometry.Orientation{geometry.OrientationXYZ}},
+	} {
+		item, err := NewItem(spec)
+		if err != nil {
+			t.Fatal(err)
+		}
+		items[index] = item
+	}
+	tare, gross := mass("1"), mass("10")
+	containers := make([]ContainerType, 2)
+	for index, spec := range []ContainerTypeSpec{
+		{ID: "z-box", InternalDimensions: PhysicalDimensions{X: length("4"), Y: length("4"), Z: length("4")}, MaxContentWeight: mass("8"), TareWeight: &tare, MaxGrossWeight: &gross, Stock: UnlimitedStock(), Reserved: []ReservedRegion{{Origin: geometry.Point{X: 1}, Dimensions: dimensions}}},
+		{ID: "a-box", InternalDimensions: PhysicalDimensions{X: length("2"), Y: length("2"), Z: length("2")}, MaxContentWeight: mass("2"), Stock: UnlimitedStock()},
+	} {
+		container, err := NewContainerType(spec)
+		if err != nil {
+			t.Fatal(err)
+		}
+		containers[index] = container
+	}
+
+	request, err := NewRequest(items, containers, Resolution{Length: length("1"), Mass: mass("1")}, DefaultLimits())
+	if err != nil {
+		t.Fatal(err)
+	}
+	normalized := request.Normalized()
+	gotItems := normalized.Items()
+	gotContainers := normalized.Containers()
+	if gotItems[0].ID != "a-item" || gotItems[1].ID != "z-item" || gotItems[1].MaxSupportedWeight == nil || *gotItems[1].MaxSupportedWeight != 7 {
+		t.Fatalf("normalized items = %+v", gotItems)
+	}
+	if gotContainers[0].ID != "a-box" || gotContainers[1].ID != "z-box" {
+		t.Fatalf("normalized container order = %q, %q", gotContainers[0].ID, gotContainers[1].ID)
+	}
+	if !gotContainers[1].HasGrossWeight || gotContainers[1].MaxGrossWeight != 10 || len(gotContainers[1].Reserved) != 1 {
+		t.Fatalf("normalized optional container limits = %+v", gotContainers[1])
+	}
+}
+
 func TestNormalizedRequestValidatesAndCopiesCenterOfGravityBounds(t *testing.T) {
 	t.Parallel()
 
