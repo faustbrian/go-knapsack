@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-knapsack",
+  "module": ".",
+  "package": "solver",
+  "gate": "mutation",
+  "input_digest": "sha256:d8966e64c05761dbcbd475e9f49a6651d99522e6adbadd84a97968dbacc67a7a",
+  "verifier_digest": "sha256:9a9499ff68a8dfd49a0be7995590297a8ee563a1aa226bfd8b9361dc53058108",
+  "result": "passed",
+  "report_digest": "sha256:9d7d249a88ac160b21000ad3f1154926a41fb032e8bf1177365c61b0a4b6505d",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "amd64",
+    "GOOS": "linux",
+    "GOVERSION": "go1.26.6",
+    "gremlins_binary_sha256": "sha256:79258e3649095fef7f2fe9359acaea7989ef11f88e63dce6acd7d86dcc347cbb"
+  },
+  "completed_at": "2026-08-29T12:34:56.857329811Z"
+}
