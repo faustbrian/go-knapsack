@@ -88,11 +88,12 @@ See [usage](docs/usage.md), [API](docs/api.md), [model](docs/model.md),
 
 ## Development
 
-Go 1.26.6 is the initial minimum toolchain. `make check` is the ordinary local
-and pull-request gate. `make release-check` adds complete mutation and
-benchmark comparison. `make publish-check` additionally requires versioned
-dependencies without local replacements. No benchmark or optimality claim is
-valid without the checked-in evidence identified by those gates.
+Go 1.26.6 is the initial minimum toolchain. Install the exact `go-library-tools`
+release pinned in `.golib.yaml`; `make check` then runs the same complete module
+contract as pull-request CI. Run `golib release dry-run` before publishing to
+prove the release archive and clean-consumer path in addition to the full
+quality contract. No benchmark or optimality claim is valid without the
+checked-in evidence identified by those gates.
 
 Licensed under Apache-2.0.
 

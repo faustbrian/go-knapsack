@@ -4,6 +4,18 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Delegate repository verification and release rehearsal to the immutable
+  shared `go-library-tools` contract while retaining Knapsack-specific fuzz,
+  interoperability, concurrency, corpus, dependency-license, and benchmark
+  policies.
+- Rebind existing benchmark measurements to source-only fingerprints after
+  removing an unrelated copied tooling file from their former input set; the
+  recorded measurements and execution metadata are unchanged.
+- Validate released dependencies outside the multi-module workspace and retain
+  their reviewed licenses in the standalone repository.
+
 ### Fixed
 
 - Resolve current-source rehearsal archives through task-owned module files so

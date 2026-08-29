@@ -3,6 +3,10 @@ Copyright 2026 Brian Faust
 
 This product includes software developed by the knapsack contributors.
 
+The Go module links against github.com/faustbrian/go-math v1.0.0 and
+github.com/faustbrian/go-measurement v1.0.0, both distributed under the MIT
+License. Copies are provided in third_party/licenses.
+
 The converted benchmark record in
 solver/testdata/corpus/dwave-sample-data-1.json derives from D-Wave Systems
 Inc.'s 3d-bin-packing sample_data_1 fixture at the pinned revision recorded in

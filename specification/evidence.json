@@ -1,14 +1,14 @@
 {
   "schema_version": "v1",
   "generated": {
-    "package_commit": "2e9b9c8a5a7fdffe3c082ed842435564f97d079b",
-    "source_sha256": "545c44117d5403cc0981af8cc4655c3f5c73cdc94dd64c42ddd9de374d9cbdc7",
+    "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
+    "source_sha256": "bbdf77316eda2a180c10d84bdc7c8bd1cc2b3bdf12ea1a8e7bb3c5d17a65a529",
     "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
     "commands": [
-      "make check",
-      "make release-check"
+      "golib check --all",
+      "golib release dry-run"
     ],
     "dependencies": {
       "github.com/faustbrian/go-math": "v1.0.0",
@@ -28,7 +28,7 @@
       "specification/benchmark-rss-thresholds.tsv": "2088df22bf41423f856a55d88d61f8a01bf82c5541b9de73f273e2e3756c291c",
       "specification/benchmark-thresholds.tsv": "6c55cc0ebf4a2bc170c9099f26203d6d1dd43b5a8886fd51a3536e3db04b2584",
       "specification/corpora.tsv": "7ef6a6833a78ccf19430940d8ee7e559928fda2863819b00aa13f28a409f6fa3",
-      "specification/dependency-licenses.tsv": "a3ea373c7f2e0aa744c42d5978be9a89fe5294b0f32e3517f013e85cd7a116b5",
+      "specification/dependency-licenses.tsv": "1d06e4f5f47ea0b3c9867a18ce94933afaf45adb6772019e1e1e6145e50837d4",
       "specification/fuzz-budgets.tsv": "9778b8fbb060319f0efd5b4481f150a79715ded65e1126149611e826dbc13aa6",
       "specification/mutation-classifications.tsv": "4baf3f69ee8d059dbccbcb38c0e00209aa93a26edb520b659da755a079b36a63",
       "specification/references.tsv": "10a9183ffedd076781d1380c4e34f473573b3815318dc8dcf5cdf462859b6d42",
@@ -3419,12 +3419,12 @@
     }
   ],
   "fuzz_execution": {
-    "command": "make fuzz",
+    "command": "golib check --all",
     "budgets": "specification/fuzz-budgets.tsv",
     "budget_mode": "exact_iterations",
     "local_multiplier": 1,
-    "ci_multiplier": 5,
-    "release_multiplier": 15
+    "ci_multiplier": 1,
+    "release_multiplier": 1
   },
   "mutation": {
     "adapter": {
@@ -3478,8 +3478,8 @@
     "thresholds": "specification/benchmark-thresholds.tsv"
   },
   "concurrency": {
-    "race_command": "make race",
-    "leak_command": "make leak",
+    "race_command": "golib check --all",
+    "leak_command": "golib check --all",
     "internal_goroutine_policy": "forbidden",
     "cancellation_rounds_per_solver": 32,
     "leak_gate_repetitions": 5,
@@ -3637,46 +3637,40 @@
     ]
   },
   "workflow_supply_chain": {
-    "lint_command": "make repository-check",
-    "actionlint_tool": "github.com/rhysd/actionlint v1.7.12",
+    "lint_command": "golib repository check",
+    "tooling_release": "github.com/faustbrian/go-library-tools v1.0.7",
     "dependency_test": "TestWorkflowsPinExternalActionsByCommit",
     "publication_test": "TestReleaseDryRunRunsStrictRootContract",
     "nilaway_job": "module contract",
-    "nilaway_test": "TestNilAwayRunsAsAdvisoryModuleGate",
+    "nilaway_test": "TestSharedToolingContractIsImmutable",
     "workflows": [
       ".github/workflows/ci.yml"
     ],
     "actions": {
-      "actions/checkout": "d23441a48e516b6c34aea4fa41551a30e30af803 # v6",
-      "actions/setup-go": "924ae3a1cded613372ab5595356fb5720e22ba16 # v6",
-      "actions/setup-node": "249970729cb0ef3589644e2896645e5dc5ba9c38 # v6",
-      "actions/upload-artifact": "b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6",
-      "denoland/setup-deno": "22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5",
-      "github/codeql-action/analyze": "e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4",
-      "github/codeql-action/init": "e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4"
+      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "b776e8f56e50b74ce9d2369de17ccdf366a27c37 # v1.0.7"
     }
   },
   "supply_chain": {
-    "dependency_license_command": "make dependency-review",
+    "dependency_license_command": "golib check --all",
     "dependency_license_manifest": "specification/dependency-licenses.tsv",
     "dependency_license_status": "approved_mit",
-    "dependency_publish_command": "make dependency-publish-review",
-    "dependency_release_status": "workspace_only",
+    "dependency_publish_command": "golib release dry-run",
+    "dependency_release_status": "ready",
     "license_record": "NOTICE",
-    "nilaway_command": "make nilaway",
+    "nilaway_command": "golib check --all",
     "nilaway_mode": "warning-only until findings are classified",
     "nilaway_tool": "go.uber.org/nilaway v0.0.0-20260720194628-9fd1b8d7bac8",
     "reference_manifest": "specification/references.tsv",
-    "reproducible_artifact_command": "make reproducible",
+    "reproducible_artifact_command": "golib release dry-run",
     "root_dependencies": [
       "github.com/faustbrian/go-math",
       "github.com/faustbrian/go-measurement"
     ],
-    "sbom_command": "make sbom",
+    "sbom_command": "golib check --all",
     "sbom_tool": "github.com/anchore/syft v1.48.0",
-    "secret_scan_command": "make secret-scan",
+    "secret_scan_command": "golib check --all",
     "secret_scan_tool": "github.com/zricethezav/gitleaks/v8 v8.30.1",
-    "vulnerability_command": "make vulnerability"
+    "vulnerability_command": "golib check --all"
   },
   "limitations": [
     {
@@ -3693,11 +3687,6 @@
       "capability": "custom callback preemption",
       "reason": "Go cannot preempt arbitrary in-process code; callbacks are supported only as trusted synchronous application extensions and must honor context cooperatively",
       "status": "unsupported_for_untrusted_callbacks"
-    },
-    {
-      "capability": "standalone module build",
-      "reason": "math and measurement use local v0.0.0 replacements and are not resolvable from an isolated source archive",
-      "status": "workspace_only_until_sibling_modules_are_published"
     },
     {
       "capability": "cross-runtime allocation counts",

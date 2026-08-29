@@ -106,8 +106,8 @@ fi
 manifest="specification/dependency-licenses.tsv"
 temporary="$(mktemp -d)"
 trap 'rm -rf "$temporary"' EXIT
-root_module="$(go list -m -f '{{.Path}}')"
-go list -deps -f '{{with .Module}}{{.Path}}{{"\t"}}{{.Version}}{{"\t"}}{{with .Replace}}{{.Path}}{{end}}{{end}}' \
+root_module="$(GOWORK=off go list -m -f '{{.Path}}')"
+GOWORK=off go list -deps -f '{{with .Module}}{{.Path}}{{"\t"}}{{.Version}}{{"\t"}}{{with .Replace}}{{.Path}}{{end}}{{end}}' \
 	./... | awk -F '\t' -v root="$root_module" \
 	'$1 != "" && $1 != root { replacement = $3; if (replacement == "") replacement = "-"; print $1 "\t" $2 "\t" replacement }' \
 	> "$temporary/actual.tsv"
