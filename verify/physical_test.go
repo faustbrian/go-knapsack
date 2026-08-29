@@ -282,6 +282,22 @@ func TestVerifyReplaysCustomPlacementConstraints(t *testing.T) {
 	}
 }
 
+func TestVerifyRejectsConstraintViewsAboveTheOwnedCopyLimit(t *testing.T) {
+	t.Parallel()
+
+	item := unitSpec("item")
+	item.Attributes = map[string]string{"oversized": string(make([]byte, 16<<20))}
+	request := normalizedRequest(t, []knapsack.ItemSpec{item}, containerSpec(1, 1, 1))
+	containers := []knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}}
+	placements := []knapsack.Placement{{ItemID: "item", ContainerID: "box#1", Orientation: geometry.OrientationXYZ, Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1}}
+	plan := planWithStatistics(t, request, containers, placements, nil)
+
+	result, err := verify.PlanContext(context.Background(), request, plan, verify.RequireAll().WithConstraints(verifierReject{}))
+	if !errors.Is(err, constraint.ErrViewLimit) || !result.Has(verify.CodeConstraint) {
+		t.Fatalf("violations=%+v error=%v", result.Violations(), err)
+	}
+}
+
 func TestVerifyDetectsPackedWeightAccumulationOverflow(t *testing.T) {
 	t.Parallel()
 	base := request(t)
