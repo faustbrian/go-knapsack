@@ -67,6 +67,10 @@ func TestCuboidSupportAreaAndAdjacency(t *testing.T) {
 	if !ok || area != 6 {
 		t.Fatalf("support area = %d, %v; want 6, true", area, ok)
 	}
+	displaced, _ := geometry.NewCuboid(geometry.Point{X: 5, Z: 2}, geometry.Dimensions{X: 1, Y: 1, Z: 1})
+	if area, ok = base.SupportArea(displaced); ok || area != 0 {
+		t.Fatalf("displaced support area = %d, %v; want 0, false", area, ok)
+	}
 	if !base.Adjacent(top) {
 		t.Fatal("supporting cuboids are not adjacent")
 	}

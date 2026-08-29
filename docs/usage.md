@@ -61,4 +61,5 @@ most 1,000 costs with 1,024-byte type IDs. Use `gomoney.NewWithLimits` when a
 larger trusted request has an explicit nonzero cost-map policy.
 
 Runnable pack-all, fixed-container, verification, and custom-constraint
-examples are maintained in `example_test.go` and checked by `make docs`.
+examples are maintained in `example_test.go` and checked by
+`golib docs check --module .`.

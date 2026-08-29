@@ -1,7 +1,8 @@
 # Mutation evidence
 
-`make mutation` delegates the root library and releasable nested modules to the
-canonical repository runner. Each production package receives its own
+`golib mutation --module .` and
+`golib mutation --module objective/gomoney` run the canonical content-addressed
+campaigns. Each production package receives its own
 content-addressed campaign and must achieve exact 100% efficacy and mutant
 coverage. Every viable mutant must be killed; uncovered, timed-out, live,
 malformed, missing, or unclassified results fail closed.

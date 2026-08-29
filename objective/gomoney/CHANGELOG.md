@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Adopt the repository's shared verification contract while retaining the
+  module's API baseline, exact fuzz budgets, benchmarks, and mutation evidence.
+
 ### Documentation
 
 - Move detailed module guidance behind a concise README and documentation index.

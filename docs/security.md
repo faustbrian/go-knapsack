@@ -24,10 +24,9 @@ diagnostic, and ID limits before decoding or normalization. A deadline must not
 be the only bound. Log bounded diagnostics, not full hostile payloads or search
 traces.
 
-Supply-chain checks use pinned tool versions: `make secret-scan` scans the
-working tree, `make sbom` generates the CycloneDX inventory twice and requires
-identical normalized output, and `make reproducible` creates the source release
-archive twice and compares it byte for byte. `make nilaway` analyzes production
-files under the module import prefix, excludes test-only flows, and preserves
-the analyzer exit status. CI contains its failure in a visible advisory job
-until the signal policy is promoted separately.
+The pinned `go-library-tools` release runs secret scanning, deterministic SBOM
+generation, reproducible source-archive checks, vulnerability review, and the
+other supply-chain gates through `golib check --all` and
+`golib release dry-run`. NilAway analyzes production files under the module
+import prefix and remains visible but advisory until its signal policy is
+promoted separately.

@@ -26,7 +26,7 @@ add_production_tree() {
 	local directory="$1"
 	find "${root}/${directory}" -type f \
 		\( -name '*.go' ! -name '*_test.go' -o -name 'go.mod' -o -name 'go.sum' \) \
-		! -path '*/.tools/*' -print >>"${paths}"
+		! -path '*/.tools/*' ! -path '*/.golib-tooling/*' -print >>"${paths}"
 }
 
 while IFS= read -r file; do
@@ -39,7 +39,7 @@ while IFS= read -r file; do
 done < <(
 	find "${module}" -type f \
 		\( -name '*.go' ! -name '*_test.go' -o -name 'go.mod' -o -name 'go.sum' \) \
-		! -path '*/.tools/*' -print
+		! -path '*/.tools/*' ! -path '*/.golib-tooling/*' -print
 )
 while IFS= read -r directory; do
 	add_production_tree "${directory}"

@@ -45,8 +45,9 @@ Before submitting a repository-wide change:
 make ci
 ```
 
-The full scheduled and release gate is `make ci`. Report every unavailable or
-failing command; do not describe partial results as release-ready.
+The full scheduled gate is `make ci`; release rehearsal is
+`golib release dry-run`. Report every unavailable or failing command; do not
+describe partial results as release-ready.
 
 ## Adding A Module
 

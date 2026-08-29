@@ -20,10 +20,11 @@ evidence and a valid common semantic subset.
 
 The pinned BoxPacker 4.2.0 adapter uses millimetres, grams, unrestricted
 orthogonal rotation, unlimited copies of one box type, and pack-all semantics.
-`make reference-integration` runs PHP and independently verifies every emitted
-placement with the Go verifier before comparing exact statistics.
+The root module's typed test operation runs the PHP reference integration and
+independently verifies every emitted placement with the Go verifier before
+comparing exact statistics.
 
-`make benchmark-compare` additionally builds the Go adapter once, performs one
+The typed benchmark operation builds the Go adapter once, performs one
 warm-up process per implementation, then alternates ten fresh PHP and Go
 processes. Wall time includes process and runtime startup, Composer autoload,
 fixture construction, solving, and JSON serialization. It excludes compilation,
@@ -59,7 +60,7 @@ search-work budgets from
 `specification/benchmark-thresholds.tsv`. It does not claim that a change beats
 an external solver or prior release.
 
-`make benchmark` also compiles the solver benchmark binary once and executes
+The same operation compiles the solver benchmark binary once and executes
 every benchmark in five fresh processes under `/usr/bin/time`. The gate records
 the maximum resident set size for each workload and fails unless the benchmark
 inventory exactly matches `specification/benchmark-rss-thresholds.tsv`. The RSS

@@ -1,0 +1,163 @@
+schema_version: 1
+tool_version: v1.0.7
+tool_checksums_sha256: beb57df2dff76b4a0044af843398baecab55a3d420986d9be7c9b14ca88befef
+
+manifest:
+  modules: modules.json
+  packages: packages.json
+
+evidence:
+  root: .verification
+
+mutation:
+  root: .verification/mutation
+  imports:
+    - module: .
+      archive: .verification/mutation/bootstrap/root.zip
+      ledger: .verification/mutation/migration-ledger.json
+    - module: objective/gomoney
+      archive: .verification/mutation/bootstrap/objective-gomoney.zip
+      ledger: .verification/mutation/migration-ledger.json
+
+api:
+  baselines:
+    - module: .
+      mode: apidiff
+      path: api/baseline.txt
+    - module: objective/gomoney
+      mode: apidiff
+      path: objective/gomoney/api/baseline.txt
+
+operations:
+  - module: .
+    gate: test
+    steps:
+      - type: make
+        makefile: verification/package.mk
+        target: package-test
+        timeout: 20m
+  - module: .
+    gate: docs
+    steps:
+      - type: make
+        makefile: verification/package.mk
+        target: docs
+        timeout: 20m
+  - module: .
+    gate: fuzz
+    steps:
+      - type: go-test
+        packages: [.]
+        fuzz: '^FuzzItemContainerValidation$'
+        budget: 250000x
+        timeout: 20m
+      - type: go-test
+        packages: [.]
+        fuzz: '^FuzzLatticeNormalization$'
+        budget: 250000x
+        timeout: 20m
+      - type: go-test
+        packages: [./encoding]
+        fuzz: '^FuzzPlanDecode$'
+        budget: 75000x
+        timeout: 20m
+      - type: go-test
+        packages: [./encoding]
+        fuzz: '^FuzzRequestDecode$'
+        budget: 40000x
+        timeout: 20m
+      - type: go-test
+        packages: [./geometry]
+        fuzz: '^FuzzGeometry$'
+        budget: 250000x
+        timeout: 20m
+      - type: go-test
+        packages: [./geometry]
+        fuzz: '^FuzzOrientationEnumeration$'
+        budget: 250000x
+        timeout: 20m
+      - type: go-test
+        packages: [./geometry]
+        fuzz: '^FuzzCuboidRelations$'
+        budget: 250000x
+        timeout: 20m
+      - type: go-test
+        packages: [./objective]
+        fuzz: '^FuzzObjectiveComparison$'
+        budget: 150000x
+        timeout: 20m
+      - type: go-test
+        packages: [./solver]
+        fuzz: '^FuzzHeuristic$'
+        budget: 100000x
+        timeout: 20m
+      - type: go-test
+        packages: [./solver]
+        fuzz: '^FuzzFixedContainerPacking$'
+        budget: 100000x
+        timeout: 20m
+      - type: go-test
+        packages: [./solver]
+        fuzz: '^FuzzVariableContainerSelection$'
+        budget: 100000x
+        timeout: 20m
+      - type: go-test
+        packages: [./solver]
+        fuzz: '^FuzzExactTinyAgreement$'
+        budget: 5000x
+        timeout: 20m
+      - type: go-test
+        packages: [./solver]
+        fuzz: '^FuzzCancellationAndBudgets$'
+        budget: 50000x
+        timeout: 20m
+      - type: go-test
+        packages: [./verify]
+        fuzz: '^FuzzSuppliedPlan$'
+        budget: 75000x
+        timeout: 20m
+      - type: go-test
+        packages: [./verify]
+        fuzz: '^FuzzPhysicalConstraints$'
+        budget: 75000x
+        timeout: 20m
+  - module: .
+    gate: benchmark
+    steps:
+      - type: make
+        makefile: verification/package.mk
+        target: benchmark
+        timeout: 60m
+  - module: objective/gomoney
+    gate: docs
+    steps:
+      - type: make
+        makefile: Makefile
+        target: docs
+        timeout: 20m
+  - module: objective/gomoney
+    gate: fuzz
+    steps:
+      - type: go-test
+        packages: [.]
+        fuzz: '^FuzzCostTypeIdentifiers$'
+        budget: 150000x
+        timeout: 20m
+      - type: go-test
+        packages: [.]
+        fuzz: '^FuzzCostMappings$'
+        budget: 150000x
+        timeout: 20m
+      - type: go-test
+        packages: [.]
+        fuzz: '^FuzzSolverCostObjective$'
+        budget: 150000x
+        timeout: 20m
+  - module: objective/gomoney
+    gate: benchmark
+    steps:
+      - type: go-test
+        packages: [./...]
+        benchmark: .
+        budget: 100ms
+        timeout: 20m

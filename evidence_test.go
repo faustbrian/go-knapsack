@@ -86,7 +86,7 @@ type fuzzExecutionProof struct {
 
 type workflowProof struct {
 	LintCommand     string            `json:"lint_command"`
-	ActionlintTool  string            `json:"actionlint_tool"`
+	ToolingRelease  string            `json:"tooling_release"`
 	DependencyTest  string            `json:"dependency_test"`
 	PublicationTest string            `json:"publication_test"`
 	NilAwayJob      string            `json:"nilaway_job"`
@@ -169,6 +169,9 @@ func TestEvidenceSourceFilesExcludeIgnoredArtifacts(t *testing.T) {
 }
 
 func TestEvidenceManifestIsCurrent(t *testing.T) {
+	if os.Getenv("GOLIB_GREMLINS_COVERAGE_PROFILE") != "" {
+		t.Skip("the unmutated integration baseline validates evidence freshness")
+	}
 	t.Parallel()
 
 	manifest := readEvidence(t)
@@ -319,8 +322,8 @@ func validateWorkflowEvidence(t *testing.T, proof workflowProof, knownTests map[
 	wantWorkflows := []string{
 		".github/workflows/ci.yml",
 	}
-	if proof.LintCommand != "make repository-check" ||
-		proof.ActionlintTool != "github.com/rhysd/actionlint v1.7.12" ||
+	if proof.LintCommand != "golib repository check" ||
+		proof.ToolingRelease != "github.com/faustbrian/go-library-tools v1.0.7" ||
 		!knownTests[proof.DependencyTest] || proof.NilAwayJob != "module contract" ||
 		!knownTests[proof.PublicationTest] ||
 		!knownTests[proof.NilAwayTest] || !slices.Equal(proof.Workflows, wantWorkflows) ||
@@ -331,9 +334,9 @@ func validateWorkflowEvidence(t *testing.T, proof workflowProof, knownTests map[
 
 func validateFuzzExecution(t *testing.T, proof fuzzExecutionProof, knownTests map[string]bool) {
 	t.Helper()
-	if proof.Command != "make fuzz" || proof.BudgetMode != "exact_iterations" ||
-		proof.LocalMultiplier != 1 || proof.CIMultiplier < 1 ||
-		proof.ReleaseMultiplier < proof.CIMultiplier {
+	if proof.Command != "golib check --all" || proof.BudgetMode != "exact_iterations" ||
+		proof.LocalMultiplier != 1 || proof.CIMultiplier != 1 ||
+		proof.ReleaseMultiplier != 1 {
 		t.Fatalf("fuzz execution evidence is incomplete: %+v", proof)
 	}
 	data, err := os.ReadFile(proof.Budgets)
@@ -358,12 +361,18 @@ func validateFuzzExecution(t *testing.T, proof fuzzExecutionProof, knownTests ma
 			t.Fatalf("fuzz target %q has no execution budget", name)
 		}
 	}
-	workflow, err := os.ReadFile(".github/workflows/ci.yml")
+	configuration, err := os.ReadFile(".golib.yaml")
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !bytes.Contains(workflow, []byte(".golib/scripts/run-modules.sh check")) {
-		t.Fatal("root workflow does not execute the module fuzz contract")
+	for index, line := range lines[1:] {
+		fields := strings.Split(line, "\t")
+		wantTarget := fmt.Sprintf("fuzz: '^%s$'", fields[1])
+		wantBudget := fmt.Sprintf("budget: %sx", fields[2])
+		if !bytes.Contains(configuration, []byte(wantTarget)) ||
+			!bytes.Contains(configuration, []byte(wantBudget)) {
+			t.Fatalf("fuzz budget row %d is absent from .golib.yaml", index+2)
+		}
 	}
 }
 
@@ -377,13 +386,13 @@ func validateConcurrencyEvidence(t *testing.T, proof concurrencyProof) {
 	if !bytes.Contains(leakTest, []byte(wantRounds)) {
 		t.Fatalf("concurrency evidence does not match solver/leak_test.go: want %q", wantRounds)
 	}
-	makefile, err := os.ReadFile(".golib/package.mk")
+	makefile, err := os.ReadFile("verification/package.mk")
 	if err != nil {
 		t.Fatal(err)
 	}
 	wantRepetitions := fmt.Sprintf("\t\t-count=%d\n", proof.LeakGateRepetitions)
-	if !bytes.Contains(makefile, []byte("\nrace:\n")) ||
-		!bytes.Contains(makefile, []byte("\nleak:\n")) ||
+	if !bytes.Contains(makefile, []byte("\npackage-test:\n")) ||
+		!bytes.Contains(makefile, []byte("$(GO) test -race")) ||
 		!bytes.Contains(makefile, []byte(wantRepetitions)) {
 		t.Fatalf("concurrency evidence does not match Makefile targets")
 	}
@@ -580,7 +589,7 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		GoVersion:     runtime.Version(),
 		Environment:   runtime.GOOS + "/" + runtime.GOARCH,
 		Date:          benchmarkEvidenceDate,
-		Commands:      []string{"make check", "make release-check"},
+		Commands:      []string{"golib check --all", "golib release dry-run"},
 		Dependencies: map[string]string{
 			"github.com/faustbrian/go-math":        "v1.0.0",
 			"github.com/faustbrian/go-measurement": "v1.0.0",

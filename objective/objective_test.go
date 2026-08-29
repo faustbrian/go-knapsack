@@ -234,6 +234,17 @@ func TestObjectiveDefinitionAndSafeCallbackBoundaries(t *testing.T) {
 	right, _ := knapsack.NewPlan(knapsack.PlanSpec{Status: knapsack.StatusBestKnown, Termination: knapsack.TerminationCompleted})
 	validComponents := []knapsack.ScoreComponent{{Name: "custom", Direction: "min", Unit: "count", Value: "1"}}
 	callback := &objectiveCallback{components: validComponents}
+	components, err := objective.SafeComponents(context.Background(), callback, knapsack.NormalizedRequest{}, left)
+	if err != nil || len(components) != 1 {
+		t.Fatalf("components=%+v error=%v", components, err)
+	}
+	components[0].Value = "changed"
+	if callback.components[0].Value != "1" {
+		t.Fatal("safe components aliases callback state")
+	}
+	if _, err := objective.SafeComponents(context.Background(), goal, knapsack.NormalizedRequest{}, left); err != nil {
+		t.Fatalf("value objective error = %v", err)
+	}
 	if _, err := objective.SafeCompare(context.Background(), nil, knapsack.NormalizedRequest{}, left, right); !errors.Is(err, objective.ErrInvalidObjective) {
 		t.Fatalf("nil comparison error = %v", err)
 	}

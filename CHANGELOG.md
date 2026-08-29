@@ -4,8 +4,26 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Delegate repository verification and release rehearsal to the immutable
+  shared `go-library-tools` contract while retaining Knapsack-specific fuzz,
+  interoperability, concurrency, corpus, dependency-license, and benchmark
+  policies.
+- Rebind existing benchmark measurements to source-only fingerprints after
+  removing an unrelated copied tooling file from their former input set; the
+  recorded measurements and execution metadata are unchanged.
+- Keep the reusable CI tooling checkout outside benchmark input fingerprints.
+- Validate released dependencies outside the multi-module workspace and retain
+  their reviewed licenses in the standalone repository.
+
 ### Fixed
 
+- Exercise request canonicalization, optional physical limits, defensive
+  copies, non-overlapping support, objective callback ownership, and verifier
+  error propagation directly so per-package coverage remains exact.
+- Validate evidence freshness in the unmutated integration baseline without
+  letting intentional Gremlins source changes invalidate later package runs.
 - Resolve current-source rehearsal archives through task-owned module files so
   immutable public checksums remain valid during nested-module and CodeQL runs.
 - Resolve owned current-source archives through task-owned mutation sums rather

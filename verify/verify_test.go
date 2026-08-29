@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/constraint"
 	packingjson "github.com/faustbrian/go-knapsack/encoding"
 	"github.com/faustbrian/go-knapsack/geometry"
 	"github.com/faustbrian/go-knapsack/objective"
@@ -156,6 +157,10 @@ func TestVerifyRecomputesConfiguredObjective(t *testing.T) {
 	if !result.Has(verify.CodeObjective) {
 		t.Fatalf("altered objective accepted: %+v", result.Violations())
 	}
+	result, err = verify.PlanContext(context.Background(), request, plan, verify.RequireAll().WithObjective(objective.Objective{}))
+	if !errors.Is(err, objective.ErrInvalidObjective) || !result.Has(verify.CodeObjective) {
+		t.Fatalf("invalid objective result=%+v error=%v", result.Violations(), err)
+	}
 }
 
 func TestVerifyContextRejectsNilAndCancellation(t *testing.T) {
@@ -171,6 +176,10 @@ func TestVerifyContextRejectsNilAndCancellation(t *testing.T) {
 	cancel()
 	if _, err := verify.PlanContext(ctx, request, plan, verify.RequireAll()); !errors.Is(err, context.Canceled) {
 		t.Fatalf("cancelled context error = %v", err)
+	}
+	result, err := verify.PlanContext(context.Background(), request, plan, verify.RequireAll().WithConstraints(nil))
+	if !errors.Is(err, constraint.ErrInvalidConstraint) || !errors.Is(result.Err(), constraint.ErrInvalidConstraint) || !result.Valid() {
+		t.Fatalf("invalid constraint result=%+v error=%v", result.Violations(), err)
 	}
 }
 

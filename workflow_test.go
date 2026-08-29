@@ -17,34 +17,20 @@ func TestWorkflowsPinExternalActionsByCommit(t *testing.T) {
 	}
 }
 
-func TestNilAwayRunsAsAdvisoryModuleGate(t *testing.T) {
+func TestSharedToolingContractIsImmutable(t *testing.T) {
 	t.Parallel()
-	contract, err := os.ReadFile(".golib/scripts/check-module.sh")
+	configuration, err := os.ReadFile(".golib.yaml")
 	if err != nil {
 		t.Fatal(err)
-	}
-	gates, err := os.ReadFile(".golib/scripts/check-gates.txt")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !strings.Contains(string(gates), "nilaway\n") {
-		t.Fatal("canonical module contract omits the NilAway advisory gate")
-	}
-	for _, required := range []string{
-		"NilAway advisory exit status",
-		"set +e",
-	} {
-		if !strings.Contains(string(contract), required) {
-			t.Fatalf("NilAway advisory gate omits %q", required)
-		}
 	}
 	workflow, err := os.ReadFile(".github/workflows/ci.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(workflow), "continue-on-error") ||
-		!strings.Contains(string(workflow), ".golib/scripts/run-modules.sh check") {
-		t.Fatal("root workflow must use the explicit advisory module gate")
+		!strings.Contains(string(configuration), "tool_version: v1.0.7") ||
+		!strings.Contains(string(workflow), "go-library-tools/.github/workflows/library-ci.yml@") {
+		t.Fatal("root workflow must use the immutable shared module contract")
 	}
 }
 
@@ -57,7 +43,8 @@ func TestReleaseDryRunRunsStrictRootContract(t *testing.T) {
 	for _, required := range []string{
 		"workflow_dispatch:",
 		"release_dry_run:",
-		".golib/scripts/run-modules.sh release-dry-run",
+		"go-library-tools/.github/workflows/library-ci.yml@",
+		"tooling_sha:",
 		"name: Required",
 	} {
 		if !strings.Contains(string(workflow), required) {
