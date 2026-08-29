@@ -169,6 +169,9 @@ func TestEvidenceSourceFilesExcludeIgnoredArtifacts(t *testing.T) {
 }
 
 func TestEvidenceManifestIsCurrent(t *testing.T) {
+	if os.Getenv("GOLIB_GREMLINS_COVERAGE_PROFILE") != "" {
+		t.Skip("the unmutated integration baseline validates evidence freshness")
+	}
 	t.Parallel()
 
 	manifest := readEvidence(t)

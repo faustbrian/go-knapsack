@@ -22,6 +22,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Exercise request canonicalization, optional physical limits, defensive
   copies, non-overlapping support, objective callback ownership, and verifier
   error propagation directly so per-package coverage remains exact.
+- Validate evidence freshness in the unmutated integration baseline without
+  letting intentional Gremlins source changes invalidate later package runs.
 - Resolve current-source rehearsal archives through task-owned module files so
   immutable public checksums remain valid during nested-module and CodeQL runs.
 - Resolve owned current-source archives through task-owned mutation sums rather
