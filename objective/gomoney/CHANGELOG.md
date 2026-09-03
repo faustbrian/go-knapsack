@@ -18,7 +18,7 @@ All notable changes to this module are documented here.
 ### Documentation
 
 - Publish selection, ownership, lifecycle, and support metadata and link to the
-  immutable v1.3.0 ecosystem guidance.
+  immutable v1.4.0 ecosystem guidance.
 
 - Move detailed module guidance behind a concise README and documentation index.
 ## 1.0.0 - 2026-08-25
