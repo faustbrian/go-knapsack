@@ -11,10 +11,10 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   repository's verification tree so the reserved specification path cannot
   imply external specification ownership.
 
-- Adopt the `go-library-tools` v1.3.0 schema-v2 cohesion contract and local
+- Adopt the `go-library-tools` v1.4.0 schema-v2 cohesion contract and local
   `make cohesion` gate for both releasable modules without changing public API
   or runtime behavior.
-- Pin reusable CI to the immutable v1.3.0 workflow and enforce cohesion
+- Pin reusable CI to the final immutable W14 workflow and enforce cohesion
   metadata in the required repository contract.
 
 - Delegate repository verification and release rehearsal to the immutable
@@ -51,7 +51,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 ### Documentation
 
 - Publish family, selection, ownership, lifecycle, support, and delivery
-  metadata and link the public README to the immutable v1.3.0 ecosystem
+  metadata and link the public README to the immutable v1.4.0 ecosystem
   guidance.
 
 - Replace archived monorepo links and completed execution artifacts with a
