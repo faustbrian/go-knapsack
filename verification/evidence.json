@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "generated": {
     "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
-    "source_sha256": "7095e3d34552117e7aba3ba4f20f91b652f67e7ea0e23dec3bde99fde6b93ef2",
+    "source_sha256": "7bca562062a03800473d79731ca0dbd45d9d75693499c33dea1f0bfe5341ec53",
     "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
@@ -3638,7 +3638,7 @@
   },
   "workflow_supply_chain": {
     "lint_command": "golib repository check",
-    "tooling_release": "github.com/faustbrian/go-library-tools v1.0.14",
+    "tooling_release": "github.com/faustbrian/go-library-tools v1.3.0",
     "dependency_test": "TestWorkflowsPinExternalActionsByCommit",
     "publication_test": "TestReleaseDryRunRunsStrictRootContract",
     "nilaway_job": "module contract",

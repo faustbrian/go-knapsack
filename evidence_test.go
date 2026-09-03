@@ -323,7 +323,7 @@ func validateWorkflowEvidence(t *testing.T, proof workflowProof, knownTests map[
 		".github/workflows/ci.yml",
 	}
 	if proof.LintCommand != "golib repository check" ||
-		proof.ToolingRelease != "github.com/faustbrian/go-library-tools v1.0.14" ||
+		proof.ToolingRelease != "github.com/faustbrian/go-library-tools v1.3.0" ||
 		!knownTests[proof.DependencyTest] || proof.NilAwayJob != "module contract" ||
 		!knownTests[proof.PublicationTest] ||
 		!knownTests[proof.NilAwayTest] || !slices.Equal(proof.Workflows, wantWorkflows) ||
