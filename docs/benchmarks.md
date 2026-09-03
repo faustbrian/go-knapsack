@@ -40,7 +40,7 @@ not define it, preserves all permitted orthogonal rotations, and records a
 reproducible heuristic upper bound of one container. That bound is a regression
 threshold, not an independently proven optimum. The pinned revision, source
 SHA-256, Apache-2.0 license, and conversion notice are recorded in
-`specification/corpora.tsv` and `NOTICE`.
+`verification/corpora.tsv` and `NOTICE`.
 
 Checked-in raw evidence:
 
@@ -57,13 +57,13 @@ The stability-heavy fixture combines exact support, transitive load, stack
 count, and exact three-axis content center-of-gravity bounds.
 It enforces reviewed p50, p95, allocation, byte, solution-quality, and
 search-work budgets from
-`specification/benchmark-thresholds.tsv`. It does not claim that a change beats
+`verification/benchmark-thresholds.tsv`. It does not claim that a change beats
 an external solver or prior release.
 
 The same operation compiles the solver benchmark binary once and executes
 every benchmark in five fresh processes under `/usr/bin/time`. The gate records
 the maximum resident set size for each workload and fails unless the benchmark
-inventory exactly matches `specification/benchmark-rss-thresholds.tsv`. The RSS
+inventory exactly matches `verification/benchmark-rss-thresholds.tsv`. The RSS
 measurement includes the Go runtime and benchmark process but excludes
 compilation. Darwin reports bytes directly; GNU time reports KiB, which the gate
 converts to bytes before comparison.

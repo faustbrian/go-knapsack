@@ -77,7 +77,7 @@ END {
 	}
 	exit failed
 }
-' specification/benchmark-thresholds.tsv "$temporary/samples.tsv"
+' verification/benchmark-thresholds.tsv "$temporary/samples.tsv"
 
 if [ -n "${BENCH_RAW_OUTPUT:-}" ]; then
 	case "$(uname -s)" in
@@ -111,7 +111,7 @@ if [ -n "${BENCH_RAW_OUTPUT:-}" ]; then
 		printf 'generator_sha256\t%s\n' \
 			"$(shasum -a 256 scripts/benchmark-compare.sh | awk '{ print $1 }')"
 		printf 'threshold_sha256\t%s\n' \
-			"$(shasum -a 256 specification/benchmark-thresholds.tsv | awk '{ print $1 }')"
+			"$(shasum -a 256 verification/benchmark-thresholds.tsv | awk '{ print $1 }')"
 		printf 'raw_format\tgo_test_benchmark\n'
 		printf 'go_test_output\n'
 		cat "$temporary/current.txt"

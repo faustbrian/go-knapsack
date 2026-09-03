@@ -28,7 +28,7 @@ func TestSharedToolingContractIsImmutable(t *testing.T) {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(workflow), "continue-on-error") ||
-		!strings.Contains(string(configuration), "tool_version: v1.0.14") ||
+		!strings.Contains(string(configuration), "tool_version: v1.3.0") ||
 		!strings.Contains(string(workflow), "go-library-tools/.github/workflows/library-ci.yml@") {
 		t.Fatal("root workflow must use the immutable shared module contract")
 	}

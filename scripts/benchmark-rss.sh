@@ -29,7 +29,7 @@ fi
 
 duration="${1:-100ms}"
 samples="${BENCH_RSS_SAMPLES:-5}"
-thresholds="${BENCH_RSS_THRESHOLDS:-specification/benchmark-rss-thresholds.tsv}"
+thresholds="${BENCH_RSS_THRESHOLDS:-verification/benchmark-rss-thresholds.tsv}"
 temporary="$(mktemp -d)"
 published=""
 trap 'rm -rf "$temporary"; test -z "$published" || rm -f "$published"' EXIT
