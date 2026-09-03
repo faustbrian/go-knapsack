@@ -419,14 +419,14 @@ func TestUpdateEvidence(t *testing.T) {
 		t.Fatal(err)
 	}
 	data = append(data, '\n')
-	if err := os.WriteFile("specification/evidence.json", data, 0o644); err != nil {
+	if err := os.WriteFile("verification/evidence.json", data, 0o644); err != nil {
 		t.Fatal(err)
 	}
 }
 
 func readEvidence(t *testing.T) evidenceManifest {
 	t.Helper()
-	data, err := os.ReadFile("specification/evidence.json")
+	data, err := os.ReadFile("verification/evidence.json")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -455,7 +455,7 @@ func readMutationRaw(t *testing.T, path string) mutationRaw {
 func mutationEvidenceForTree(t *testing.T) map[string]any {
 	t.Helper()
 	result := map[string]any{
-		"classifications":           "specification/mutation-classifications.tsv",
+		"classifications":           "verification/mutation-classifications.tsv",
 		"command":                   "make mutation",
 		"required_efficacy_percent": 100,
 		"required_execution_or_classification_percent": 100,
@@ -501,9 +501,9 @@ func benchmarkEvidenceForTree() map[string]any {
 		"raw_output":                   nativeBenchmarkRaw,
 		"rss_command":                  "make benchmark-rss",
 		"rss_raw_output":               rssBenchmarkRaw,
-		"rss_thresholds":               "specification/benchmark-rss-thresholds.tsv",
+		"rss_thresholds":               "verification/benchmark-rss-thresholds.tsv",
 		"semantic_normalization":       "identical lattice, weights, rotations, stock, constraints, and objectives",
-		"thresholds":                   "specification/benchmark-thresholds.tsv",
+		"thresholds":                   "verification/benchmark-thresholds.tsv",
 	}
 }
 
@@ -568,13 +568,13 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		"integration/boxpacker/composer.lock",
 		"solver/testdata/corpus/dwave-sample-data-1.json",
 		"testdata/fuzz/FuzzItemContainerValidation/2f162b4f416df340",
-		"specification/corpora.tsv",
-		"specification/dependency-licenses.tsv",
-		"specification/fuzz-budgets.tsv",
-		"specification/benchmark-thresholds.tsv",
-		"specification/benchmark-rss-thresholds.tsv",
-		"specification/mutation-classifications.tsv",
-		"specification/references.tsv",
+		"verification/corpora.tsv",
+		"verification/dependency-licenses.tsv",
+		"verification/fuzz-budgets.tsv",
+		"verification/benchmark-thresholds.tsv",
+		"verification/benchmark-rss-thresholds.tsv",
+		"verification/mutation-classifications.tsv",
+		"verification/references.tsv",
 	} {
 		data, readErr := os.ReadFile(path)
 		if readErr != nil {
@@ -642,7 +642,7 @@ func evidenceSourceFilesIn(t *testing.T, directory string) []string {
 		} else if statErr != nil {
 			t.Fatal(statErr)
 		}
-		if clean == "specification/evidence.json" || strings.HasPrefix(clean, "docs/benchmarks/raw/") {
+		if clean == "verification/evidence.json" || strings.HasPrefix(clean, "docs/benchmarks/raw/") {
 			continue
 		}
 		base := filepath.Base(clean)

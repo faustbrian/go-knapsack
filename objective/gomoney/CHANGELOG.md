@@ -6,6 +6,9 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Keep shared fuzz, mutation, dependency, and aggregate evidence under the
+  repository's verification tree without changing objective behavior.
+
 - Adopt the repository's schema-v2 cohesion contract for the independently
   releasable exact-money objective without changing its API or behavior.
 

@@ -103,7 +103,7 @@ elif [ "$#" -ne 0 ]; then
 	exit 2
 fi
 
-manifest="specification/dependency-licenses.tsv"
+manifest="verification/dependency-licenses.tsv"
 temporary="$(mktemp -d)"
 trap 'rm -rf "$temporary"' EXIT
 root_module="$(GOWORK=off go list -m -f '{{.Path}}')"

@@ -33,7 +33,7 @@ func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 		"raw_format":              "go_test_benchmark",
 		"benchmark_source_sha256": fileSHA256(t, "solver/benchmark_test.go"),
 		"generator_sha256":        fileSHA256(t, "scripts/benchmark-compare.sh"),
-		"threshold_sha256":        fileSHA256(t, "specification/benchmark-thresholds.tsv"),
+		"threshold_sha256":        fileSHA256(t, "verification/benchmark-thresholds.tsv"),
 		"input_sha256":            benchmarkInputSHA256(t, "native"),
 	}
 	for field, value := range want {
@@ -63,7 +63,7 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 		"gate_status":             "pass",
 		"benchmark_source_sha256": fileSHA256(t, "solver/benchmark_test.go"),
 		"generator_sha256":        fileSHA256(t, "scripts/benchmark-rss.sh"),
-		"threshold_sha256":        fileSHA256(t, "specification/benchmark-rss-thresholds.tsv"),
+		"threshold_sha256":        fileSHA256(t, "verification/benchmark-rss-thresholds.tsv"),
 		"input_sha256":            benchmarkInputSHA256(t, "rss"),
 	}
 	for field, value := range want {

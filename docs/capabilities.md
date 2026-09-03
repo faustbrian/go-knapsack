@@ -32,5 +32,5 @@
 | Curved or irregular geometry | Out of scope | No implicit bounding-cuboid approximation |
 
 Reference revisions, source hashes, license classifications, differential
-semantic subsets, and corpus provenance are in `specification/references.tsv`,
-`specification/corpora.tsv`, `integration/references`, and `NOTICE`.
+semantic subsets, and corpus provenance are in `verification/references.tsv`,
+`verification/corpora.tsv`, `integration/references`, and `NOTICE`.

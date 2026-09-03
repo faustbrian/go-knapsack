@@ -2,7 +2,7 @@
 set -eu
 
 multiplier="${1:-1}"
-budgets="${FUZZ_BUDGETS:-specification/fuzz-budgets.tsv}"
+budgets="${FUZZ_BUDGETS:-verification/fuzz-budgets.tsv}"
 
 case "$multiplier" in
 	''|*[!0-9]*)

@@ -6,6 +6,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Keep benchmark thresholds, fuzz budgets, mutation classifications,
+  dependency review, corpus provenance, and aggregate evidence under the
+  repository's verification tree so the reserved specification path cannot
+  imply external specification ownership.
+
 - Adopt the `go-library-tools` v1.3.0 schema-v2 cohesion contract and local
   `make cohesion` gate for both releasable modules without changing public API
   or runtime behavior.

@@ -67,12 +67,12 @@ case "${profile}" in
 	native)
 		add_file "solver/benchmark_test.go"
 		add_file "scripts/benchmark-compare.sh"
-		add_file "specification/benchmark-thresholds.tsv"
+		add_file "verification/benchmark-thresholds.tsv"
 		;;
 	rss)
 		add_file "solver/benchmark_test.go"
 		add_file "scripts/benchmark-rss.sh"
-		add_file "specification/benchmark-rss-thresholds.tsv"
+		add_file "verification/benchmark-rss-thresholds.tsv"
 		;;
 	boxpacker)
 		add_file "boxpacker_integration_test.go"

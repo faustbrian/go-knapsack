@@ -17,7 +17,7 @@ The package-specific test operation repeatedly cancels both solvers under the
 race detector, proves production packages contain no unmanaged goroutine
 launches, verifies the reference corpus, exercises the BoxPacker common subset,
 and validates the pinned dependency-license manifest. Fuzzing uses the reviewed
-exact execution counts from `specification/fuzz-budgets.tsv` without local or
+exact execution counts from `verification/fuzz-budgets.tsv` without local or
 CI multipliers. The consumer workflow and shared reusable workflow are pinned
 to immutable commits; repository checks reject mutable or undocumented pins.
 
@@ -27,7 +27,7 @@ proxy, and resolves each as a clean external consumer. Repository policy rejects
 permanent replacements and placeholder release metadata.
 
 The typed package test compares every compiled non-standard module with
-`specification/dependency-licenses.tsv`, pins each license hash and SPDX
+`verification/dependency-licenses.tsv`, pins each license hash and SPDX
 classification, and fails for missing, changed, local-only, or placeholder
 dependencies.
 
