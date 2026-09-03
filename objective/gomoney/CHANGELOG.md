@@ -6,10 +6,16 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Adopt the repository's schema-v2 cohesion contract for the independently
+  releasable exact-money objective without changing its API or behavior.
+
 - Adopt the repository's shared verification contract while retaining the
   module's API baseline, exact fuzz budgets, benchmarks, and mutation evidence.
 
 ### Documentation
+
+- Publish selection, ownership, lifecycle, and support metadata and link to the
+  immutable v1.3.0 ecosystem guidance.
 
 - Move detailed module guidance behind a concise README and documentation index.
 ## 1.0.0 - 2026-08-25

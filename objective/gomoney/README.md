@@ -45,6 +45,8 @@ additional guarantees beyond the documented module boundary.
 - [Complete technical guide](docs/reference.md)
 - [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney)
 - [Parent package documentation](../../docs/README.md)
+- [Versioned Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md)
+- [Domain utilities family guidance](https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/design-language.md#package-families-and-selection)
 
 ## Compatibility and support
 

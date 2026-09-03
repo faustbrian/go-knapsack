@@ -6,6 +6,12 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Adopt the `go-library-tools` v1.3.0 schema-v2 cohesion contract and local
+  `make cohesion` gate for both releasable modules without changing public API
+  or runtime behavior.
+- Pin reusable CI to the immutable v1.3.0 workflow and enforce cohesion
+  metadata in the required repository contract.
+
 - Delegate repository verification and release rehearsal to the immutable
   shared `go-library-tools` contract while retaining Knapsack-specific fuzz,
   interoperability, concurrency, corpus, dependency-license, and benchmark
@@ -38,6 +44,10 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   changes and refresh the BoxPacker process comparison on Linux.
 
 ### Documentation
+
+- Publish family, selection, ownership, lifecycle, support, and delivery
+  metadata and link the public README to the immutable v1.3.0 ecosystem
+  guidance.
 
 - Replace archived monorepo links and completed execution artifacts with a
   standalone, human-oriented documentation structure.

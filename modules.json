@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "repository": "github.com/faustbrian/go-knapsack",
   "go_version": "1.26.6",
   "modules": [
@@ -146,6 +146,98 @@
       "goal_files": [],
       "goal_status": "not-applicable",
       "goal_evidence": [],
+      "cohesion": {
+        "family": "domain-utilities",
+        "secondary_capabilities": [
+          "data-encoding",
+          "testing-and-conformance"
+        ],
+        "responsibility": "Provide deterministic, bounded offline orthogonal packing, exact objectives, extension constraints, canonical plans, and independent verification.",
+        "non_goals": [
+          "Implement classical value-maximization knapsack selection or silently omit requested items.",
+          "Provide continuous physics, irregular geometry, hazardous-goods, robotic-motion, pallet, or vehicle-axle simulation.",
+          "Own monetary arithmetic, persistence, orchestration, application policy, or process-global state."
+        ],
+        "public_package_identifier": "knapsack",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-knapsack"
+        ],
+        "package_selection": {
+          "github.com/faustbrian/go-knapsack": "Use for immutable packing requests, exact lattice normalization, bounded resource policy, and canonical plan values.",
+          "github.com/faustbrian/go-knapsack/constraint": "Use to define trusted synchronous placement constraints over immutable bounded views.",
+          "github.com/faustbrian/go-knapsack/encoding": "Use for strict bounded canonical JSON request and plan interchange.",
+          "github.com/faustbrian/go-knapsack/geometry": "Use for checked integer cuboids, physical-axis orientations, and half-open spatial predicates.",
+          "github.com/faustbrian/go-knapsack/knapsacktest": "Use in tests for canonical plan comparison and independent verification assertions.",
+          "github.com/faustbrian/go-knapsack/objective": "Use to define exact deterministic plan objectives and lexicographic criteria.",
+          "github.com/faustbrian/go-knapsack/solver": "Use for bounded deterministic heuristic packing or exhaustive small-instance proofs.",
+          "github.com/faustbrian/go-knapsack/verify": "Use to validate supplied plans independently from solver placement predicates.",
+          "github.com/faustbrian/go-knapsack/visualize": "Use to render deterministic human-readable views of canonical plans."
+        },
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "plain-function",
+          "validated-value"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "borrow",
+            "copy"
+          ],
+          "runtime_resources": "none",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [
+          "github.com/faustbrian/go-knapsack/objective/gomoney"
+        ],
+        "companions": [
+          "github.com/faustbrian/go-knapsack/constraint",
+          "github.com/faustbrian/go-knapsack/encoding",
+          "github.com/faustbrian/go-knapsack/geometry",
+          "github.com/faustbrian/go-knapsack/knapsacktest",
+          "github.com/faustbrian/go-knapsack/objective",
+          "github.com/faustbrian/go-knapsack/solver",
+          "github.com/faustbrian/go-knapsack/verify",
+          "github.com/faustbrian/go-knapsack/visualize"
+        ],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [],
+        "supported_protocols": [
+          "json"
+        ],
+        "documentation": {
+          "readme": "README.md",
+          "api": "docs/api.md",
+          "adoption": "docs/adoption.md",
+          "security": "docs/security.md",
+          "compatibility": "docs/migration.md",
+          "performance": "docs/benchmarks.md",
+          "examples": "example_test.go",
+          "faq": "docs/faq.md",
+          "changelog": "CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "gates": {
         "api_compatibility": true,
         "benchmarks": true,
@@ -182,6 +274,10 @@
       "lifecycle": "internal",
       "kind": "interoperability harness",
       "releasable": false,
+      "family": "domain-utilities",
+      "family_label": "Domain Utilities",
+      "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
+      "family_order": 8,
       "version": "unreleased",
       "tag_prefix": "integration/references/v",
       "owned_dependencies": [
@@ -265,6 +361,74 @@
       "goal_files": [],
       "goal_status": "not-applicable",
       "goal_evidence": [],
+      "cohesion": {
+        "family": "domain-utilities",
+        "secondary_capabilities": [
+          "configuration"
+        ],
+        "responsibility": "Adapt exact go-money values into deterministic Knapsack container-cost objective evaluation.",
+        "non_goals": [
+          "Own currencies, money arithmetic, exchange rates, taxes, discounts, shipping rates, or persistence.",
+          "Perform packing, select application pricing policy, or hide missing container costs.",
+          "Rename or replace the released objective/gomoney compatibility path during cohesion metadata adoption."
+        ],
+        "public_package_identifier": "gomoney",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-knapsack/objective/gomoney"
+        ],
+        "package_selection": {
+          "github.com/faustbrian/go-knapsack/objective/gomoney": "Use when Knapsack container costs already exist as exact go-money values in one fixed currency context."
+        },
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "validated-value"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "copy"
+          ],
+          "runtime_resources": "none",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [],
+        "supported_protocols": [],
+        "documentation": {
+          "readme": "objective/gomoney/README.md",
+          "api": "objective/gomoney/docs/reference.md",
+          "adoption": "objective/gomoney/README.md",
+          "security": "objective/gomoney/docs/reference.md",
+          "compatibility": "objective/gomoney/docs/reference.md",
+          "performance": "objective/gomoney/docs/reference.md",
+          "examples": "objective/gomoney/example_test.go",
+          "faq": "objective/gomoney/docs/reference.md",
+          "changelog": "objective/gomoney/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.3.0/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "not-started",
+          "hardening": "not-started",
+          "release": "not-started"
+        }
+      },
       "gates": {
         "api_compatibility": true,
         "benchmarks": true,
