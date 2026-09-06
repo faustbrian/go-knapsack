@@ -1,6 +1,6 @@
 # Release and compatibility policy
 
-The initial minimum language and toolchain is Go 1.26, controlled by the
+The initial minimum language and toolchain is Go 1.26.6, controlled by the
 repository-wide version files. Public types, typed errors, canonical encoding,
 objective semantics, coordinates, and proof statuses are contracts.
 

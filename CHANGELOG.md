@@ -50,6 +50,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Documentation
 
+- Correct the Apache-2.0 badge and Go 1.26.6 release guidance, and add the
+  internal reference-integration entry point.
 - Publish family, selection, ownership, lifecycle, support, and delivery
   metadata and link the public README to the immutable v1.4.0 ecosystem
   guidance.

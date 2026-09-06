@@ -4,6 +4,8 @@
 container costs. It depends on the owned Money module so the Knapsack core can
 remain independent of monetary policy.
 
+The independently published v1.0.0 module is stable and requires Go 1.26.6.
+
 ## Install
 
 ```sh
@@ -50,8 +52,8 @@ additional guarantees beyond the documented module boundary.
 
 ## Compatibility and support
 
-This module follows Semantic Versioning. Report vulnerabilities through the
-[parent security policy](../../SECURITY.md).
+This stable v1 module follows Semantic Versioning. Report vulnerabilities
+through the [parent security policy](../../SECURITY.md).
 
 ## License
 
