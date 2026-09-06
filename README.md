@@ -8,7 +8,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-knapsack?sort=semver)](https://github.com/faustbrian/go-knapsack/releases)
 [![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 `knapsack` is an exact-unit, deterministic library for offline orthogonal
 packing of rectangular items into rectangular containers. The sometimes-used

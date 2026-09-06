@@ -22,6 +22,10 @@
 
 - [Exact-money objective](../objective/gomoney/docs/README.md)
 
+## Internal engineering
+
+- [Reference integration harness](../integration/references/README.md)
+
 ## Reference and maintenance
 
 - [Benchmarks](benchmarks.md)
