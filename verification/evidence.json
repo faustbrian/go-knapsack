@@ -3,7 +3,7 @@
   "generated": {
     "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
     "source_sha256": "3e1b141ceac91c5be4e11c8cc13711da880927af578a213321eb1eeae5649825",
-    "go_version": "go1.27.0",
+    "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
     "commands": [
