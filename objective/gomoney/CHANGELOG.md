@@ -17,6 +17,9 @@ All notable changes to this module are documented here.
 
 ### Documentation
 
+- Clarify root and nested module tag forms, support routing, and the nested
+  documentation gate.
+
 - Document the published stable v1 status and Go 1.26.6 requirement.
 - Publish selection, ownership, lifecycle, and support metadata and link to the
   immutable v1.4.0 ecosystem guidance.
