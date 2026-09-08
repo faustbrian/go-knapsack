@@ -22,7 +22,7 @@ All notable changes to this module are documented here.
 
 - Document the published stable v1 status and Go 1.26.6 requirement.
 - Publish selection, ownership, lifecycle, and support metadata and link to the
-  immutable v1.4.0 ecosystem guidance.
+  immutable v1.5.5 ecosystem guidance.
 
 - Move detailed module guidance behind a concise README and documentation index.
 ## 1.0.0 - 2026-08-25
