@@ -1,7 +1,9 @@
 # Compatibility Policy
 
-Each releasable directory is an independent Go module and follows semantic
-versioning. Tags use `<module-directory>/v<version>`.
+The root module is released as `github.com/faustbrian/go-knapsack` and uses
+plain semantic-version tags such as `v1.0.0`. The optional nested
+`objective/gomoney` module is released independently and uses the
+`objective/gomoney/v<version>` tag form.
 
 Before `v1`, minor releases MAY contain reviewed breaking changes, but every
 break MUST be documented with migration guidance. Patch releases MUST remain
