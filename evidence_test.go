@@ -763,7 +763,7 @@ func normalizeRootEvidenceSource(t *testing.T, path string, data []byte) []byte 
 	t.Helper()
 	data = normalizeEvidenceSource(path, data)
 
-	collection, directoryField := "", ""
+	var collection, directoryField string
 	switch path {
 	case "modules.json":
 		collection, directoryField = "modules", "directory"

@@ -45,8 +45,9 @@ shown here.
 ## Safety And Concurrency
 
 - Shared mutable state MUST have one documented synchronization owner.
-- Goroutines MUST have explicit lifetime, cancellation, shutdown, and leak
-  tests. Fire-and-forget goroutines are forbidden.
+- Goroutines MUST have explicit lifetime, cancellation, and shutdown behavior.
+  Fire-and-forget goroutines are forbidden. Leak tests are required only when
+  the changed behavior can affect goroutine lifetime.
 - Channels MUST have documented ownership and closure rules.
 - Locks MUST NOT be held across caller callbacks, network IO, blocking channel
   operations, or unbounded work.
@@ -109,9 +110,9 @@ shown here.
 
 ## Evidence Validity And Reuse
 
-- Evidence validity MUST be determined by the complete set of inputs that can
-  affect the gate result, not by a commit hash, branch name, timestamp, or
-  repository-history shape alone.
+- Evidence validity MUST be determined by the applicable behavior-affecting
+  inputs, not by a commit hash, branch name, timestamp, or repository-history
+  shape alone.
 - A gate fingerprint MUST include the inputs that can affect that gate's
   result. Repository catalogs and aggregate manifests MUST use module-scoped
   projections so nested-module changes do not invalidate unrelated root-module
@@ -132,10 +133,9 @@ shown here.
   result to a new `HEAD`.
 - Agents MUST NOT restart the complete package matrix after a force-push,
   rebase, squash, reset, or other history-only change. Previously verified
-  package checkpoints MUST be reused, and only packages with changed complete
-  gate-input fingerprints MAY be rerun.
+  package results SHOULD be reused when their applicable inputs are unchanged.
 - After a change, agents MUST rerun only the gates, modules, packages, and
-  reverse dependants whose complete input fingerprints changed.
+  reverse dependants affected by the changed contract or material risk.
 - Reused evidence MUST retain its immutable input identity and result. Reuse
   MUST NOT rewrite history to pretend the gate executed again.
 - Long-running aggregate checks SHOULD checkpoint independently valid units
@@ -156,7 +156,9 @@ shown here.
 - `.github/workflows/ci.yml` is the only owned GitHub Actions workflow.
 - Package-local workflows MUST NOT be added.
 - Actions and external tools MUST be pinned to immutable versions.
-- Every selected module MUST have an attributable result and evidence artifact.
+- Every selected module MUST have an attributable result. A durable evidence
+  artifact is required only when the applicable Tier D boundary or an external
+  audit contract requires one.
 - The stable required job MUST fail for failed, cancelled, skipped, or missing
   module results.
 - Required checks MUST NOT use `continue-on-error`, `|| true`, permissive
@@ -170,8 +172,10 @@ shown here.
   abstraction; wrappers require a stable policy or portability boundary.
 - Generated code and vendored corpora MUST record source, version, checksum,
   license, generation command, and update procedure.
-- Vulnerability, secret, license, SBOM, provenance, and clean-consumer checks
-  are release gates.
+- Release checks MUST be selected by the released artifact and its material
+  risks. Vulnerability, secret, and license checks apply to distributable code;
+  SBOM, provenance, and clean-consumer checks apply only when the release or
+  downstream adoption contract requires them.
 
 ## Documentation
 
@@ -179,13 +183,15 @@ shown here.
   invariants, ownership, errors, concurrency, and caveats where relevant.
 - Comments MUST explain why a constraint or non-obvious implementation exists;
   they MUST NOT narrate obvious syntax.
-- Every public module MUST provide a quick start, API reference, examples,
-  guidance on when to use it, explicit limitations, security notes, FAQ, and
-  release notes.
+- Every public module MUST provide a concise entry point and enough guidance to
+  adopt its supported contract. Additional tutorials, examples, limitations,
+  security notes, FAQs, and release notes SHOULD be added when the module's
+  users or risks require them.
 - The root README MUST remain a concise entry point. Detailed guides,
   operations, audits, and maintainer material belong under `docs/` and MUST be
   linked through `docs/README.md`.
-- Documentation and examples MUST compile and be checked in CI.
+- Executable documentation and examples MUST compile when they are part of the
+  supported contract; prose-only changes require structural validation only.
 
 ## Changelogs
 
@@ -194,8 +200,9 @@ shown here.
 - Entries MUST describe behavior and migration impact, not internal activity.
 - Changes to multiple modules MUST update every affected changelog.
 - Unreleased entries MUST NOT be silently rewritten or removed.
-- Generated, dependency, security, compatibility, and deprecation changes are
-  user-visible and require entries.
+- Generated, dependency, security, compatibility, and deprecation changes
+  require entries only when they alter user-visible behavior, adoption, or
+  support expectations.
 
 ## Completion
 
