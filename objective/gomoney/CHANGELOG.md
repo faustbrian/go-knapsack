@@ -6,6 +6,11 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Delegate exact-money behavior to the canonical `objective/money` module while
+  preserving the legacy module's exported types, methods, sentinel identities,
+  error behavior, and package path. All legacy declarations now direct new
+  consumers to the canonical import.
+
 - Keep shared fuzz, mutation, dependency, and aggregate evidence under the
   repository's verification tree without changing objective behavior.
 

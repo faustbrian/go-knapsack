@@ -123,12 +123,10 @@ func TestProductionDependencyBoundaryExcludesAmbientPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	allowed := map[string]bool{
-		"context": true, "errors": true, "fmt": true, "math/big": true,
-		"slices": true, "strings": true,
-		"github.com/faustbrian/go-knapsack":     true,
-		"github.com/faustbrian/go-math":         true,
-		"github.com/faustbrian/go-math/decimal": true,
-		"github.com/faustbrian/go-money":        true,
+		"context":                           true,
+		"github.com/faustbrian/go-knapsack": true,
+		"github.com/faustbrian/go-knapsack/objective/money": true,
+		"github.com/faustbrian/go-money":                    true,
 	}
 	inspected := 0
 	for _, productionFile := range productionFiles {
