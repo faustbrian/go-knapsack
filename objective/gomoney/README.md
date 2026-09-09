@@ -52,8 +52,9 @@ additional guarantees beyond the documented module boundary.
 
 ## Compatibility and support
 
-This stable v1 module follows Semantic Versioning. Report vulnerabilities
-through the [parent security policy](../../SECURITY.md).
+This stable v1 module follows Semantic Versioning. Use the
+[parent support policy](../../SUPPORT.md) for adoption and defect reports, and
+report vulnerabilities through the [parent security policy](../../SECURITY.md).
 
 ## License
 

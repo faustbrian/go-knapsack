@@ -17,4 +17,5 @@
 ## Project
 
 - [Changelog](../CHANGELOG.md)
+- [Support](../../../SUPPORT.md)
 - [Parent package documentation](../../../docs/README.md)
