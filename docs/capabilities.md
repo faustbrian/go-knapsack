@@ -9,7 +9,7 @@
 | Exact small-instance oracle | Implemented | Bounded exhaustive compact search |
 | Custom constraints | Trusted only | Immutable synchronous callback view; untrusted code requires process isolation |
 | Content center of gravity | Implemented | Exact inclusive X/Y/Z PPM bounds |
-| Monetary cost | Implemented | Additive `objective/gomoney` module |
+| Monetary cost | Implemented | Canonical `objective/money` module; `objective/gomoney` compatibility path |
 | Subset selection | Deferred | Not advertised before pack-all stabilizes |
 | Irregular geometry and cylinders | Out of scope | Caller must not treat bounding cuboids as exact geometry |
 | Pallets, axle loads, robots, regulation | Out of scope | Separate domain-specific packages required |

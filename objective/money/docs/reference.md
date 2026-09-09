@@ -3,9 +3,9 @@
 This guide contains the complete behavioral and operational reference. Start
 with the [package overview](../README.md).
 
-`gomoney` is an optional adapter that lets the Knapsack solvers minimize exact
-container costs. It depends on the owned Money module so the Knapsack core can
-remain independent of monetary policy.
+`moneyobjective` is the canonical optional adapter for minimizing exact
+container costs with the Knapsack solvers. It depends on the owned Money
+module so the Knapsack core remains independent of monetary policy.
 
 ## Quick start
 
@@ -15,7 +15,7 @@ moneyContext, _ := money.DefaultContext(euro)
 small, _ := money.Parse("0.60", euro, moneyContext)
 large, _ := money.Parse("1.50", euro, moneyContext)
 
-costs, err := gomoney.New(map[string]money.Money{
+costs, err := moneyobjective.New(map[string]money.Money{
     "small": small,
     "large": large,
 })
@@ -119,7 +119,7 @@ environment, locale, registry, or exchange-rate access.
 ## Compatibility and migration
 
 The stable v1 module is independently released under tags prefixed with
-`objective/gomoney/v`. Its public API is checked against
+`objective/money/v`. Its public API is checked against
 `api/baseline.txt`.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations
@@ -127,6 +127,12 @@ that previously relied on negative costs must migrate to `NewWithPolicy` and
 explicitly set `AllowNegativeCosts`. Cash and automatic Money contexts must be
 recreated with one fixed default or custom context; the adapter never performs
 that conversion.
+
+Consumers of `objective/gomoney` migrate by changing only the import path to
+`objective/money` and using the package identifier `moneyobjective`. The
+constructors, methods, sentinel identities, error strings, score components,
+and solver behavior remain compatible. The legacy module remains supported as
+a compatibility module.
 
 ## FAQ
 
@@ -153,11 +159,11 @@ constructing the objective.
 
 ## Development
 
-Repository gates enforce formatting, tests, race safety, bounded fuzzing,
-exactly 100% statement coverage, API compatibility, documentation examples,
-benchmarks, and exactly 100% viable mutation kills. Use the repository's
-module runner so owned dependencies resolve through its isolated local proxy.
+Repository gates use risk-proportional checks. Public-contract changes require
+focused behavior, API compatibility, directly affected module and consumer
+tests, and independent review. Release checks additionally prove clean public
+module resolution.
 
 ## Documentation
 
-See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/README.md) for objective semantics, verification, and related packages.
+See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/money/v1.0.0/README.md) for objective semantics, verification, and related packages.

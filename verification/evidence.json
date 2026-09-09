@@ -1,8 +1,8 @@
 {
   "schema_version": "v1",
   "generated": {
-    "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
-    "source_sha256": "f6b268587ea77829a90f58b45896521cfee3878e0421a1f3221f6bda86caeddd",
+    "package_commit": "92eac0392e145cf28b31a18837aae9bea1be482c",
+    "source_sha256": "4f471e5a315c8ee3755c5a2f0d54bb2a90bc010e6ac1c758b8e6fe0621392746",
     "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
@@ -2662,6 +2662,188 @@
       "doc": "ErrUnsupportedScale identifies a money context whose scale is not fixed."
     },
     {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Entry.Cost",
+      "signature": "money.Money",
+      "doc": "Cost is the exact cost for each selected instance of TypeID."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Entry.TypeID",
+      "signature": "string",
+      "doc": "TypeID is the exact Knapsack container type identifier."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Limits.MaxIDBytes",
+      "signature": "uint32",
+      "doc": "MaxIDBytes bounds each container type identifier."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Limits.MaxTypes",
+      "signature": "uint32",
+      "doc": "MaxTypes bounds configured container type costs."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Policy.AllowNegativeCosts",
+      "signature": "bool",
+      "doc": "AllowNegativeCosts permits values that explicitly model credits or rebates."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "field",
+      "name": "Policy.Limits",
+      "signature": "Limits",
+      "doc": "Limits bounds the copied mapping and its type IDs."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "DefaultLimits",
+      "signature": "func() Limits",
+      "doc": "DefaultLimits returns conservative limits for untrusted cost maps."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "DefaultPolicy",
+      "signature": "func() Policy",
+      "doc": "DefaultPolicy returns the default resource limits and rejects negative costs."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "New",
+      "signature": "func(values map[string]money.Money) (Costs, error)",
+      "doc": "New validates and copies a cost map using DefaultPolicy."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "NewFromEntries",
+      "signature": "func(entries []Entry, policy Policy) (Costs, error)",
+      "doc": "NewFromEntries validates, sorts, and defensively copies a bounded nonempty\nentry sequence. It rejects duplicate type IDs and requires one currency and\none fixed Default or Custom money context across all values."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "NewWithLimits",
+      "signature": "func(values map[string]money.Money, limits Limits) (Costs, error)",
+      "doc": "NewWithLimits validates, sorts, and defensively copies a bounded nonempty\nsingle-currency cost map."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "function",
+      "name": "NewWithPolicy",
+      "signature": "func(values map[string]money.Money, policy Policy) (Costs, error)",
+      "doc": "NewWithPolicy validates and copies a cost map using an explicit negative-cost\nand resource policy. A Go map has already collapsed duplicate keys; callers\nthat need duplicate detection must use NewFromEntries."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "method",
+      "name": "Costs.Compare",
+      "signature": "func(left, right knapsack.Plan) (int, error)",
+      "doc": "Compare prefers lower exact cost, then canonical plan bytes for ties."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "method",
+      "name": "Costs.ComparePlans",
+      "signature": "func(ctx context.Context, _ knapsack.NormalizedRequest, left, right knapsack.Plan) (int, error)",
+      "doc": "ComparePlans implements objective.PlanObjective with context cancellation."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "method",
+      "name": "Costs.Components",
+      "signature": "func(ctx context.Context, _ knapsack.NormalizedRequest, plan knapsack.Plan) ([]knapsack.ScoreComponent, error)",
+      "doc": "Components returns the exact total packaging cost and ISO currency unit."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "method",
+      "name": "Costs.Total",
+      "signature": "func(plan knapsack.Plan) (money.Money, error)",
+      "doc": "Total sums configured exact costs for every selected container instance. It\napplies the Money amount bound only to the final order-independent total."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "method",
+      "name": "Costs.Valid",
+      "signature": "func() bool",
+      "doc": "Valid reports whether the objective contains aligned type IDs and costs."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "type",
+      "name": "Costs",
+      "signature": "struct {\n\ttypeIDs\t[]string\n\tvalues\t[]money.Money\n\tzero\tmoney.Money\n}",
+      "doc": "Costs is an immutable exact packaging-cost objective keyed by container\ntype ID."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "type",
+      "name": "Entry",
+      "signature": "struct {\n\t// TypeID is the exact Knapsack container type identifier.\n\tTypeID\tstring\n\t// Cost is the exact cost for each selected instance of TypeID.\n\tCost\tmoney.Money\n}",
+      "doc": "Entry is one container type ID and exact packaging cost. Entry construction\nis useful when duplicate IDs must be detected before forming a Go map."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "type",
+      "name": "Limits",
+      "signature": "struct {\n\t// MaxTypes bounds configured container type costs.\n\tMaxTypes\tuint32\n\t// MaxIDBytes bounds each container type identifier.\n\tMaxIDBytes\tuint32\n}",
+      "doc": "Limits bounds cost collections copied by the constructors."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "type",
+      "name": "Policy",
+      "signature": "struct {\n\t// Limits bounds the copied mapping and its type IDs.\n\tLimits\tLimits\n\t// AllowNegativeCosts permits values that explicitly model credits or rebates.\n\tAllowNegativeCosts\tbool\n}",
+      "doc": "Policy controls bounded construction and whether negative values explicitly\nmodel credits or rebates. DefaultPolicy rejects negative costs."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "var",
+      "name": "ErrDuplicateTypeID",
+      "signature": "",
+      "doc": "ErrDuplicateTypeID identifies repeated container type IDs supplied through\nNewFromEntries."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "var",
+      "name": "ErrInvalidCosts",
+      "signature": "",
+      "doc": "ErrInvalidCosts identifies an empty, invalid, or incompatible cost mapping."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "var",
+      "name": "ErrMissingCost",
+      "signature": "",
+      "doc": "ErrMissingCost identifies a selected container type without a configured\npackaging cost."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "var",
+      "name": "ErrNegativeCost",
+      "signature": "",
+      "doc": "ErrNegativeCost identifies a negative cost rejected by the active policy."
+    },
+    {
+      "package": "github.com/faustbrian/go-knapsack/objective/money",
+      "kind": "var",
+      "name": "ErrUnsupportedScale",
+      "signature": "",
+      "doc": "ErrUnsupportedScale identifies a money context whose scale is not fixed."
+    },
+    {
       "package": "github.com/faustbrian/go-knapsack/solver",
       "kind": "field",
       "name": "Options.AllowUnpacked",
@@ -3638,7 +3820,7 @@
   },
   "workflow_supply_chain": {
     "lint_command": "golib repository check",
-    "tooling_release": "github.com/faustbrian/go-library-tools v1.4.0",
+    "tooling_release": "github.com/faustbrian/go-library-tools v1.6.1",
     "dependency_test": "TestWorkflowsPinExternalActionsByCommit",
     "publication_test": "TestReleaseDryRunRunsStrictRootContract",
     "nilaway_job": "module contract",
@@ -3647,7 +3829,7 @@
       ".github/workflows/ci.yml"
     ],
     "actions": {
-      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "531e4db50fd81a7201257a7b488a0cf22d333aca # v1.4.0 W14 enforcement"
+      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "14d1e594d5f246a795d0c0c11cf7d2d6c8e5617f # v1.6.1"
     }
   },
   "supply_chain": {

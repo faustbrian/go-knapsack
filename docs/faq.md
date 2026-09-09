@@ -25,8 +25,9 @@ why the requested search or proof did not finish.
 
 ## How is monetary cost represented?
 
-Use `objective/gomoney`. It bridges `money` without burdening the root
-module. Container count and cost remain separate lexicographic criteria.
+Use `objective/money`. It bridges `money` without burdening the root module.
+`objective/gomoney` remains supported for existing consumers. Container count
+and cost remain separate lexicographic criteria.
 
 ## How do I debug an external plan?
 

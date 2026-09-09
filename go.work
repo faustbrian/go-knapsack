@@ -4,4 +4,5 @@ use (
 	.
 	./integration/references
 	./objective/gomoney
+	./objective/money
 )

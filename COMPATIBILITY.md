@@ -1,9 +1,10 @@
 # Compatibility Policy
 
 The root module is released as `github.com/faustbrian/go-knapsack` and uses
-plain semantic-version tags such as `v1.0.0`. The optional nested
-`objective/gomoney` module is released independently and uses the
-`objective/gomoney/v<version>` tag form.
+plain semantic-version tags such as `v1.0.0`. The canonical optional
+`objective/money` module and legacy `objective/gomoney` module are released
+independently using `objective/money/v<version>` and
+`objective/gomoney/v<version>` tags, respectively.
 
 Before `v1`, minor releases MAY contain reviewed breaking changes, but every
 break MUST be documented with migration guidance. Patch releases MUST remain

@@ -24,6 +24,11 @@ checked by the structurally separate `verify` package.
 The independently published v1.0.0 root module is stable and requires Go
 1.26.6.
 
+Exact container-cost optimization lives in the independently released
+[`objective/money`](objective/money/) module. Existing
+[`objective/gomoney`](objective/gomoney/) consumers remain supported through
+the compatibility path.
+
 ## Install
 
 ```sh
@@ -113,5 +118,5 @@ Use the [documentation index](docs/README.md) for package-owned guides,
 operational contracts, examples, and maintainer references.
 
 For ecosystem-wide selection and ownership guidance, see the versioned
-[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/README.md)
-and its [Domain utilities family](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/design-language.md#package-families-and-selection).
+[Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md)
+and its [Domain utilities family](https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/design-language.md#package-families-and-selection).

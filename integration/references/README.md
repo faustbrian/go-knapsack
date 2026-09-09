@@ -17,5 +17,5 @@ GOWORK=off go test ./...
 
 The `cmd/knapsack-compare` executable emits the owned comparison-adapter schema
 used by repository evidence tooling. See the parent
-[capability assessment](../../docs/capabilities.md) and
-[benchmark methodology](../../docs/benchmarks.md) for scope and interpretation.
+[capability assessment](https://github.com/faustbrian/go-knapsack/blob/v1.0.0/docs/capabilities.md) and
+[benchmark methodology](https://github.com/faustbrian/go-knapsack/blob/v1.0.0/docs/benchmarks.md) for scope and interpretation.
