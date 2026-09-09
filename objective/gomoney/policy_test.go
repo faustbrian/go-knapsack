@@ -115,6 +115,24 @@ func TestEntryConstructionEnforcesEveryCollectionBoundary(t *testing.T) {
 	}
 }
 
+func TestExcessEntriesAreRejectedBeforeFacadeConversion(t *testing.T) {
+	entries := []gomoney.Entry{
+		{TypeID: "small", Cost: mustEuro(t, "1.00")},
+		{TypeID: "medium", Cost: mustEuro(t, "2.00")},
+		{TypeID: "large", Cost: mustEuro(t, "3.00")},
+	}
+	policy := gomoney.Policy{
+		Limits: gomoney.Limits{MaxTypes: 2, MaxIDBytes: 16},
+	}
+
+	allocations := testing.AllocsPerRun(100, func() {
+		_, _ = gomoney.NewFromEntries(entries, policy)
+	})
+	if allocations != 0 {
+		t.Fatalf("NewFromEntries(excess entries) allocations = %v, want 0 before facade conversion", allocations)
+	}
+}
+
 func TestCostsRequireOneSupportedExactCurrencyContext(t *testing.T) {
 	t.Parallel()
 
@@ -199,14 +217,6 @@ func TestOversizedTypeIDsAreRejectedBeforeSorting(t *testing.T) {
 	}
 	if errors.Is(err, gomoney.ErrDuplicateTypeID) {
 		t.Fatalf("NewFromEntries() inspected sortable entries after oversized ID: %v", err)
-	}
-	allocations := testing.AllocsPerRun(100, func() {
-		_, _ = gomoney.NewFromEntries(entries, gomoney.Policy{
-			Limits: gomoney.Limits{MaxTypes: 3, MaxIDBytes: 8},
-		})
-	})
-	if allocations != 0 {
-		t.Fatalf("NewFromEntries(oversized) allocations = %v, want 0 before cloning", allocations)
 	}
 }
 

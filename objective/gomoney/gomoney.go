@@ -1,37 +1,43 @@
-// Package gomoney adds exact money packaging-cost comparison without
-// making monetary dependencies part of the root module.
+// Package gomoney preserves the legacy exact-money Knapsack objective API.
+// New consumers should use github.com/faustbrian/go-knapsack/objective/money.
 package gomoney
 
 import (
 	"context"
-	"errors"
-	"fmt"
-	"math/big"
-	"slices"
-	"strings"
 
 	"github.com/faustbrian/go-knapsack"
-	gomath "github.com/faustbrian/go-math"
-	"github.com/faustbrian/go-math/decimal"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
 	"github.com/faustbrian/go-money"
 )
 
 var (
 	// ErrInvalidCosts identifies an empty, invalid, or incompatible cost mapping.
-	ErrInvalidCosts = errors.New("gomoney objective: invalid costs")
+	//
+	// Deprecated: use moneyobjective.ErrInvalidCosts.
+	ErrInvalidCosts = moneyobjective.ErrInvalidCosts
 	// ErrMissingCost identifies a selected container type without a configured
 	// packaging cost.
-	ErrMissingCost = errors.New("gomoney objective: missing container cost")
+	//
+	// Deprecated: use moneyobjective.ErrMissingCost.
+	ErrMissingCost = moneyobjective.ErrMissingCost
 	// ErrDuplicateTypeID identifies repeated container type IDs supplied through
 	// NewFromEntries.
-	ErrDuplicateTypeID = errors.New("gomoney objective: duplicate container type ID")
+	//
+	// Deprecated: use moneyobjective.ErrDuplicateTypeID.
+	ErrDuplicateTypeID = moneyobjective.ErrDuplicateTypeID
 	// ErrUnsupportedScale identifies a money context whose scale is not fixed.
-	ErrUnsupportedScale = errors.New("gomoney objective: unsupported money scale")
+	//
+	// Deprecated: use moneyobjective.ErrUnsupportedScale.
+	ErrUnsupportedScale = moneyobjective.ErrUnsupportedScale
 	// ErrNegativeCost identifies a negative cost rejected by the active policy.
-	ErrNegativeCost = errors.New("gomoney objective: negative container cost")
+	//
+	// Deprecated: use moneyobjective.ErrNegativeCost.
+	ErrNegativeCost = moneyobjective.ErrNegativeCost
 )
 
 // Limits bounds cost collections copied by the constructors.
+//
+// Deprecated: use moneyobjective.Limits.
 type Limits struct {
 	// MaxTypes bounds configured container type costs.
 	MaxTypes uint32
@@ -40,10 +46,17 @@ type Limits struct {
 }
 
 // DefaultLimits returns conservative limits for untrusted cost maps.
-func DefaultLimits() Limits { return Limits{MaxTypes: 1_000, MaxIDBytes: 1_024} }
+//
+// Deprecated: use moneyobjective.DefaultLimits.
+func DefaultLimits() Limits {
+	limits := moneyobjective.DefaultLimits()
+	return Limits{MaxTypes: limits.MaxTypes, MaxIDBytes: limits.MaxIDBytes}
+}
 
 // Policy controls bounded construction and whether negative values explicitly
 // model credits or rebates. DefaultPolicy rejects negative costs.
+//
+// Deprecated: use moneyobjective.Policy.
 type Policy struct {
 	// Limits bounds the copied mapping and its type IDs.
 	Limits Limits
@@ -52,10 +65,23 @@ type Policy struct {
 }
 
 // DefaultPolicy returns the default resource limits and rejects negative costs.
-func DefaultPolicy() Policy { return Policy{Limits: DefaultLimits()} }
+//
+// Deprecated: use moneyobjective.DefaultPolicy.
+func DefaultPolicy() Policy {
+	policy := moneyobjective.DefaultPolicy()
+	return Policy{
+		Limits: Limits{
+			MaxTypes:   policy.Limits.MaxTypes,
+			MaxIDBytes: policy.Limits.MaxIDBytes,
+		},
+		AllowNegativeCosts: policy.AllowNegativeCosts,
+	}
+}
 
 // Entry is one container type ID and exact packaging cost. Entry construction
 // is useful when duplicate IDs must be detected before forming a Go map.
+//
+// Deprecated: use moneyobjective.Entry.
 type Entry struct {
 	// TypeID is the exact Knapsack container type identifier.
 	TypeID string
@@ -65,204 +91,113 @@ type Entry struct {
 
 // Costs is an immutable exact packaging-cost objective keyed by container
 // type ID.
+//
+// Deprecated: use moneyobjective.Costs.
 type Costs struct {
-	typeIDs []string
-	values  []money.Money
-	zero    money.Money
+	successor moneyobjective.Costs
 }
 
 // New validates and copies a cost map using DefaultPolicy.
+//
+// Deprecated: use moneyobjective.New.
 func New(values map[string]money.Money) (Costs, error) {
-	return NewWithPolicy(values, DefaultPolicy())
+	result, err := moneyobjective.New(values)
+	return Costs{successor: result}, err
 }
 
 // NewWithLimits validates, sorts, and defensively copies a bounded nonempty
 // single-currency cost map.
+//
+// Deprecated: use moneyobjective.NewWithLimits.
 func NewWithLimits(values map[string]money.Money, limits Limits) (Costs, error) {
-	policy := DefaultPolicy()
-	policy.Limits = limits
-	return NewWithPolicy(values, policy)
+	result, err := moneyobjective.NewWithLimits(values, successorLimits(limits))
+	return Costs{successor: result}, err
 }
 
 // NewWithPolicy validates and copies a cost map using an explicit negative-cost
 // and resource policy. A Go map has already collapsed duplicate keys; callers
 // that need duplicate detection must use NewFromEntries.
+//
+// Deprecated: use moneyobjective.NewWithPolicy.
 func NewWithPolicy(values map[string]money.Money, policy Policy) (Costs, error) {
-	if err := validateCount(uint64(len(values)), policy.Limits); err != nil {
-		return Costs{}, err
-	}
-	entries := make([]Entry, 0, len(values))
-	for typeID, cost := range values {
-		entries = append(entries, Entry{TypeID: typeID, Cost: cost})
-	}
-	return newFromEntries(entries, policy)
+	result, err := moneyobjective.NewWithPolicy(values, successorPolicy(policy))
+	return Costs{successor: result}, err
 }
 
 // NewFromEntries validates, sorts, and defensively copies a bounded nonempty
 // entry sequence. It rejects duplicate type IDs and requires one currency and
 // one fixed Default or Custom money context across all values.
+//
+// Deprecated: use moneyobjective.NewFromEntries.
 func NewFromEntries(entries []Entry, policy Policy) (Costs, error) {
-	if err := validateCount(uint64(len(entries)), policy.Limits); err != nil {
-		return Costs{}, err
+	if uint64(len(entries)) > uint64(policy.Limits.MaxTypes) {
+		return Costs{}, ErrInvalidCosts
 	}
-	return newFromEntries(entries, policy)
-}
-
-func newFromEntries(entries []Entry, policy Policy) (Costs, error) {
-	limits := policy.Limits
-	for _, entry := range entries {
-		if uint64(len(entry.TypeID)) > uint64(limits.MaxIDBytes) || strings.TrimSpace(entry.TypeID) == "" {
-			return Costs{}, ErrInvalidCosts
+	successorEntries := make([]moneyobjective.Entry, len(entries))
+	for index, entry := range entries {
+		successorEntries[index] = moneyobjective.Entry{
+			TypeID: entry.TypeID,
+			Cost:   entry.Cost,
 		}
 	}
-	owned := slices.Clone(entries)
-	slices.SortFunc(owned, func(left, right Entry) int {
-		return strings.Compare(left.TypeID, right.TypeID)
-	})
-	for index, entry := range owned {
-		if index > 0 && entry.TypeID == owned[index-1].TypeID {
-			return Costs{}, invalidCosts(ErrDuplicateTypeID)
-		}
-	}
-	for _, entry := range owned {
-		if !entry.Cost.Valid() {
-			return Costs{}, invalidCosts(money.ErrInvalidMoney)
-		}
-		if entry.Cost.Context().Kind() != money.ContextDefault &&
-			entry.Cost.Context().Kind() != money.ContextCustom {
-			return Costs{}, invalidCosts(ErrUnsupportedScale)
-		}
-		if entry.Cost.Sign() < 0 && !policy.AllowNegativeCosts {
-			return Costs{}, invalidCosts(ErrNegativeCost)
-		}
-	}
-
-	first := owned[0].Cost
-	result := Costs{
-		typeIDs: make([]string, len(owned)),
-		values:  make([]money.Money, len(owned)),
-	}
-	for index, entry := range owned {
-		if entry.Cost.Currency() != first.Currency() {
-			return Costs{}, invalidCosts(money.ErrCurrencyMismatch)
-		}
-		if entry.Cost.Context() != first.Context() {
-			return Costs{}, invalidCosts(money.ErrContextMismatch)
-		}
-		result.typeIDs[index] = entry.TypeID
-		result.values[index] = entry.Cost
-	}
-	// Identical immutable values are necessarily compatible, and subtracting a
-	// value from itself cannot exceed the amount bounds.
-	result.zero, _ = first.Sub(first)
-	return result, nil
+	result, err := moneyobjective.NewFromEntries(successorEntries, successorPolicy(policy))
+	return Costs{successor: result}, err
 }
 
 // Valid reports whether the objective contains aligned type IDs and costs.
+//
+// Deprecated: use moneyobjective.Costs.Valid.
 func (c Costs) Valid() bool {
-	return c.zero.Valid()
+	return c.successor.Valid()
 }
 
 // ComparePlans implements objective.PlanObjective with context cancellation.
-func (c Costs) ComparePlans(ctx context.Context, _ knapsack.NormalizedRequest, left, right knapsack.Plan) (int, error) {
-	if ctx == nil {
-		return 0, knapsack.ErrInvalidOptions
-	}
-	if err := ctx.Err(); err != nil {
-		return 0, err
-	}
-	return c.Compare(left, right)
+//
+// Deprecated: use moneyobjective.Costs.ComparePlans.
+func (c Costs) ComparePlans(
+	ctx context.Context,
+	request knapsack.NormalizedRequest,
+	left knapsack.Plan,
+	right knapsack.Plan,
+) (int, error) {
+	return c.successor.ComparePlans(ctx, request, left, right)
 }
 
 // Components returns the exact total packaging cost and ISO currency unit.
-func (c Costs) Components(ctx context.Context, _ knapsack.NormalizedRequest, plan knapsack.Plan) ([]knapsack.ScoreComponent, error) {
-	if ctx == nil {
-		return nil, knapsack.ErrInvalidOptions
-	}
-	if err := ctx.Err(); err != nil {
-		return nil, err
-	}
-	total, err := c.Total(plan)
-	if err != nil {
-		return nil, err
-	}
-	return []knapsack.ScoreComponent{{
-		Name: "total_packaging_cost", Direction: "min",
-		Unit: total.Currency().String(), Value: total.Amount().String(),
-	}}, nil
+//
+// Deprecated: use moneyobjective.Costs.Components.
+func (c Costs) Components(
+	ctx context.Context,
+	request knapsack.NormalizedRequest,
+	plan knapsack.Plan,
+) ([]knapsack.ScoreComponent, error) {
+	return c.successor.Components(ctx, request, plan)
 }
 
-// Total sums configured exact costs for every selected container instance. It
-// applies the Money amount bound only to the final order-independent total.
+// Total sums configured exact costs for every selected container instance.
+//
+// Deprecated: use moneyobjective.Costs.Total.
 func (c Costs) Total(plan knapsack.Plan) (money.Money, error) {
-	if !c.Valid() {
-		return money.Money{}, ErrInvalidCosts
-	}
-	coefficient := new(big.Int)
-	for _, container := range plan.Containers() {
-		cost, ok := c.cost(container.TypeID)
-		if !ok {
-			return money.Money{}, ErrMissingCost
-		}
-		coefficient.Add(coefficient, cost.Amount().Decimal().Coefficient())
-	}
-	// Accumulating before applying Money's final amount bound avoids
-	// order-sensitive intermediate overflow when an explicit negative-cost
-	// policy is active.
-	aggregationLimits := gomath.DefaultLimits()
-	aggregationLimits.MaxInputDigits = money.MaxAmountDigits
-	aggregationLimits.MaxOutputDigits = money.MaxAmountDigits
-	exact, err := decimal.FromBig(
-		coefficient,
-		-int32(c.zero.Context().Scale()),
-		aggregationLimits,
-	)
-	if err != nil {
-		return money.Money{}, err
-	}
-	return money.Parse(exact.String(), c.zero.Currency(), c.zero.Context())
+	return c.successor.Total(plan)
 }
 
 // Compare prefers lower exact cost, then canonical plan bytes for ties.
+//
+// Deprecated: use moneyobjective.Costs.Compare.
 func (c Costs) Compare(left, right knapsack.Plan) (int, error) {
-	leftTotal, err := c.Total(left)
-	if err != nil {
-		return 0, err
-	}
-	rightTotal, err := c.Total(right)
-	if err != nil {
-		return 0, err
-	}
-	comparison, err := leftTotal.Compare(rightTotal)
-	if err != nil || comparison != 0 {
-		return comparison, err
-	}
-	return strings.Compare(left.CanonicalString(), right.CanonicalString()), nil
-}
-func (c Costs) cost(typeID string) (money.Money, bool) {
-	index, found := slices.BinarySearch(c.typeIDs, typeID)
-	if !found {
-		return money.Money{}, false
-	}
-	return c.values[index], true
+	return c.successor.Compare(left, right)
 }
 
-func invalidCosts(cause error) error {
-	return fmt.Errorf("%w: %w", ErrInvalidCosts, cause)
+func successorLimits(limits Limits) moneyobjective.Limits {
+	return moneyobjective.Limits{
+		MaxTypes:   limits.MaxTypes,
+		MaxIDBytes: limits.MaxIDBytes,
+	}
 }
 
-func validateCount(count uint64, limits Limits) error {
-	if limits.MaxTypes == 0 {
-		return ErrInvalidCosts
+func successorPolicy(policy Policy) moneyobjective.Policy {
+	return moneyobjective.Policy{
+		Limits:             successorLimits(policy.Limits),
+		AllowNegativeCosts: policy.AllowNegativeCosts,
 	}
-	if limits.MaxIDBytes == 0 {
-		return ErrInvalidCosts
-	}
-	if count == 0 {
-		return ErrInvalidCosts
-	}
-	if count > uint64(limits.MaxTypes) {
-		return ErrInvalidCosts
-	}
-	return nil
 }
