@@ -4,6 +4,12 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Added
+
+- Add the independently releasable `objective/money` module as the canonical
+  target-oriented exact-money objective while retaining the released
+  `objective/gomoney` path for compatibility.
+
 ### Changed
 
 - Keep benchmark thresholds, fuzz budgets, mutation classifications,

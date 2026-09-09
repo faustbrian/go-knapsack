@@ -55,10 +55,12 @@ code; isolate any third-party implementation in a separately sandboxed
 process before invoking the library.
 
 Monetary container costs are additive through the nested
-`github.com/faustbrian/go-knapsack/objective/gomoney` module. The root module
-does not invent a money type or require `money`. `gomoney.New` accepts at
-most 1,000 costs with 1,024-byte type IDs. Use `gomoney.NewWithLimits` when a
-larger trusted request has an explicit nonzero cost-map policy.
+`github.com/faustbrian/go-knapsack/objective/money` module. Its natural package
+identifier is `moneyobjective`. The released `objective/gomoney` module remains
+supported for compatibility. The root module does not invent a money type or
+require `money`. `moneyobjective.New` accepts at most 1,000 costs with
+1,024-byte type IDs. Use `moneyobjective.NewWithLimits` when a larger trusted
+request has an explicit nonzero cost-map policy.
 
 Runnable pack-all, fixed-container, verification, and custom-constraint
 examples are maintained in `example_test.go` and checked by

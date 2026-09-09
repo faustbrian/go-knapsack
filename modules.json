@@ -133,7 +133,8 @@
       ],
       "reverse_owned_dependencies": [
         "github.com/faustbrian/go-knapsack/integration/references",
-        "github.com/faustbrian/go-knapsack/objective/gomoney"
+        "github.com/faustbrian/go-knapsack/objective/gomoney",
+        "github.com/faustbrian/go-knapsack/objective/money"
       ],
       "external_runtime_dependencies": [],
       "required_services": [],
@@ -193,7 +194,8 @@
         },
         "optional_owned_dependencies": [],
         "adapters": [
-          "github.com/faustbrian/go-knapsack/objective/gomoney"
+          "github.com/faustbrian/go-knapsack/objective/gomoney",
+          "github.com/faustbrian/go-knapsack/objective/money"
         ],
         "companions": [
           "github.com/faustbrian/go-knapsack/constraint",
@@ -229,7 +231,7 @@
           "faq": "docs/faq.md",
           "changelog": "CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
@@ -420,13 +422,142 @@
           "faq": "objective/gomoney/docs/reference.md",
           "changelog": "objective/gomoney/CHANGELOG.md",
           "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney",
-          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.4.0/docs/ecosystem/README.md"
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
           "implementation": "not-started",
           "hardening": "not-started",
           "release": "not-started"
+        }
+      },
+      "gates": {
+        "api_compatibility": true,
+        "benchmarks": true,
+        "conformance": false,
+        "coverage": true,
+        "documentation": true,
+        "fuzz": true,
+        "lint": true,
+        "mutation": true,
+        "race": true,
+        "security": true,
+        "tests": true
+      }
+    },
+    {
+      "directory": "objective/money",
+      "module_path": "github.com/faustbrian/go-knapsack/objective/money",
+      "go_version": "1.26.6",
+      "packages": [
+        {
+          "module_directory": "objective/money",
+          "directory": ".",
+          "name": "moneyobjective",
+          "import_path": "github.com/faustbrian/go-knapsack/objective/money",
+          "kind": "public",
+          "production": true,
+          "executable": true,
+          "coverage_required": true,
+          "build_required": true,
+          "build_tags": []
+        }
+      ],
+      "purpose": "`moneyobjective` is the canonical optional adapter that lets Knapsack solvers minimize exact container costs without adding monetary policy to the root module.",
+      "lifecycle": "stable",
+      "kind": "adapter",
+      "releasable": true,
+      "family": "domain-utilities",
+      "family_label": "Domain Utilities",
+      "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
+      "family_order": 8,
+      "version": "1.0.0",
+      "tag_prefix": "objective/money/v",
+      "owned_dependencies": [
+        "github.com/faustbrian/go-international",
+        "github.com/faustbrian/go-knapsack",
+        "github.com/faustbrian/go-math",
+        "github.com/faustbrian/go-measurement",
+        "github.com/faustbrian/go-money"
+      ],
+      "reverse_owned_dependencies": [],
+      "external_runtime_dependencies": [],
+      "required_services": [],
+      "build_tags": [],
+      "test_tags": [],
+      "interoperability_tools": [],
+      "specifications": [],
+      "conformance_corpora": [],
+      "provenance": [],
+      "goal_files": [],
+      "goal_status": "not-applicable",
+      "goal_evidence": [],
+      "cohesion": {
+        "family": "domain-utilities",
+        "secondary_capabilities": [
+          "configuration"
+        ],
+        "responsibility": "Adapt exact go-money values into deterministic Knapsack container-cost objective evaluation through the canonical target-oriented path.",
+        "non_goals": [
+          "Own currencies, money arithmetic, exchange rates, taxes, discounts, shipping rates, or persistence.",
+          "Perform packing, select application pricing policy, or hide missing container costs.",
+          "Remove or change the released objective/gomoney compatibility path."
+        ],
+        "public_package_identifier": "moneyobjective",
+        "primary_entry_packages": [
+          "github.com/faustbrian/go-knapsack/objective/money"
+        ],
+        "package_selection": {
+          "github.com/faustbrian/go-knapsack/objective/money": "Use when Knapsack container costs already exist as exact go-money values in one fixed currency context."
+        },
+        "lifecycle_status": "active",
+        "maturity": "stable",
+        "construction_styles": [
+          "validated-value"
+        ],
+        "lifecycle_styles": [
+          "stateless"
+        ],
+        "ownership": {
+          "configuration": "caller",
+          "mutable_inputs": [
+            "copy"
+          ],
+          "runtime_resources": "none",
+          "background_work": "none"
+        },
+        "optional_owned_dependencies": [],
+        "adapters": [],
+        "companions": [],
+        "supported_go": {
+          "minimum": "1.26.6",
+          "tested": [
+            "1.26.6"
+          ]
+        },
+        "supported_platforms": [
+          "portable-go"
+        ],
+        "supported_backends": [],
+        "supported_protocols": [],
+        "documentation": {
+          "readme": "objective/money/README.md",
+          "api": "objective/money/docs/reference.md",
+          "adoption": "objective/money/README.md",
+          "security": "objective/money/docs/reference.md",
+          "compatibility": "objective/money/docs/reference.md",
+          "performance": "objective/money/docs/reference.md",
+          "examples": "objective/money/example_test.go",
+          "faq": "objective/money/docs/reference.md",
+          "changelog": "objective/money/CHANGELOG.md",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money",
+          "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md"
+        },
+        "known_good_compatibility_sets": [],
+        "delivery": {
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
         }
       },
       "gates": {

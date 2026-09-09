@@ -31,7 +31,7 @@ add_production_tree() {
 
 while IFS= read -r file; do
 	case "${file}" in
-		"${module}/integration/references/"* | "${module}/objective/gomoney/"*)
+		"${module}/integration/references/"* | "${module}/objective/gomoney/"* | "${module}/objective/money/"*)
 			continue
 			;;
 	esac

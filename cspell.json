@@ -233,6 +233,7 @@
     "gomeasurement",
     "gomodguard",
     "gomoney",
+    "moneyobjective",
     "goodput",
     "gooutbox",
     "goqueue",

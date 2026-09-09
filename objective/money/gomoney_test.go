@@ -1,0 +1,264 @@
+package moneyobjective_test
+
+import (
+	"context"
+	"errors"
+	"fmt"
+	"strings"
+	"testing"
+
+	"github.com/faustbrian/go-international/currency"
+	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/geometry"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
+	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-knapsack/verify"
+	gomath "github.com/faustbrian/go-math"
+	"github.com/faustbrian/go-math/decimal"
+	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-money"
+)
+
+func TestNewRejectsMoreThanDefaultCostTypes(t *testing.T) {
+	t.Parallel()
+
+	euro, _ := currency.Parse("EUR")
+	moneyContext, _ := money.DefaultContext(euro)
+	value, _ := money.Parse("1.00", euro, moneyContext)
+	values := make(map[string]money.Money, 1_001)
+	for index := range 1_001 {
+		values[fmt.Sprintf("box-%04d", index)] = value
+	}
+	if _, err := moneyobjective.New(values); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+		t.Fatalf("cost limit error = %v", err)
+	}
+	if _, err := moneyobjective.NewWithLimits(values, moneyobjective.Limits{MaxTypes: 1_001, MaxIDBytes: 16}); err != nil {
+		t.Fatalf("explicit cost limits rejected: %v", err)
+	}
+	if _, err := moneyobjective.NewWithLimits(values, moneyobjective.Limits{}); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+		t.Fatalf("invalid limits error = %v", err)
+	}
+	for name, limits := range map[string]moneyobjective.Limits{
+		"zero type limit": {MaxIDBytes: 16},
+		"zero ID limit":   {MaxTypes: 1},
+	} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			if _, err := moneyobjective.NewWithLimits(map[string]money.Money{"box": value}, limits); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+				t.Fatalf("NewWithLimits() error = %v, want ErrInvalidCosts", err)
+			}
+		})
+	}
+	if _, err := moneyobjective.NewWithLimits(
+		map[string]money.Money{"box": value},
+		moneyobjective.Limits{MaxTypes: 1, MaxIDBytes: 3},
+	); err != nil {
+		t.Fatalf("exact type ID limit rejected: %v", err)
+	}
+	if _, err := moneyobjective.NewWithLimits(
+		map[string]money.Money{"too-long": value},
+		moneyobjective.Limits{MaxTypes: 1, MaxIDBytes: 3},
+	); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+		t.Fatalf("type ID limit error = %v", err)
+	}
+}
+
+func TestCostObjectiveEntriesRejectNilContext(t *testing.T) {
+	euro, _ := currency.Parse("EUR")
+	moneyContext, _ := money.DefaultContext(euro)
+	value, _ := money.Parse("1.00", euro, moneyContext)
+	costs, err := moneyobjective.New(map[string]money.Money{"box": value})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var ctx context.Context
+	if _, err := costs.ComparePlans(ctx, knapsack.NormalizedRequest{}, knapsack.Plan{}, knapsack.Plan{}); !errors.Is(err, knapsack.ErrInvalidOptions) {
+		t.Fatalf("compare error = %v", err)
+	}
+	if _, err := costs.Components(ctx, knapsack.NormalizedRequest{}, knapsack.Plan{}); !errors.Is(err, knapsack.ErrInvalidOptions) {
+		t.Fatalf("components error = %v", err)
+	}
+}
+
+func TestCostObjectiveRejectsInvalidAndUnpriceablePlans(t *testing.T) {
+	t.Parallel()
+
+	euro, _ := currency.Parse("EUR")
+	dollar, _ := currency.Parse("USD")
+	euroContext, _ := money.DefaultContext(euro)
+	dollarContext, _ := money.DefaultContext(dollar)
+	euroCost, _ := money.Parse("1.00", euro, euroContext)
+	dollarCost, _ := money.Parse("1.00", dollar, dollarContext)
+
+	for name, values := range map[string]map[string]money.Money{
+		"empty":          {},
+		"blank type ID":  {" ": euroCost},
+		"invalid money":  {"box": {}},
+		"mixed currency": {"box": euroCost, "crate": dollarCost},
+	} {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			if _, err := moneyobjective.New(values); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+				t.Fatalf("New() error = %v, want ErrInvalidCosts", err)
+			}
+		})
+	}
+
+	costs, err := moneyobjective.New(map[string]money.Money{"box": euroCost})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !costs.Valid() {
+		t.Fatal("constructed costs are invalid")
+	}
+	if (moneyobjective.Costs{}).Valid() {
+		t.Fatal("zero-value costs are valid")
+	}
+	if _, err := (moneyobjective.Costs{}).Total(mustPlan(t)); !errors.Is(err, moneyobjective.ErrInvalidCosts) {
+		t.Fatalf("zero-value Total() error = %v", err)
+	}
+	canceled, cancel := context.WithCancel(context.Background())
+	cancel()
+	if _, err := costs.ComparePlans(canceled, knapsack.NormalizedRequest{}, knapsack.Plan{}, knapsack.Plan{}); !errors.Is(err, context.Canceled) {
+		t.Fatalf("ComparePlans(canceled) error = %v", err)
+	}
+	if _, err := costs.Components(canceled, knapsack.NormalizedRequest{}, knapsack.Plan{}); !errors.Is(err, context.Canceled) {
+		t.Fatalf("Components(canceled) error = %v", err)
+	}
+
+	missing := mustPlan(t, "missing")
+	priced := mustPlan(t, "box")
+	if _, err := costs.Total(missing); !errors.Is(err, moneyobjective.ErrMissingCost) {
+		t.Fatalf("Total(missing) error = %v", err)
+	}
+	if _, err := costs.Components(context.Background(), knapsack.NormalizedRequest{}, missing); !errors.Is(err, moneyobjective.ErrMissingCost) {
+		t.Fatalf("Components(missing) error = %v", err)
+	}
+	if _, err := costs.Compare(missing, priced); !errors.Is(err, moneyobjective.ErrMissingCost) {
+		t.Fatalf("Compare(missing left) error = %v", err)
+	}
+	if _, err := costs.Compare(priced, missing); !errors.Is(err, moneyobjective.ErrMissingCost) {
+		t.Fatalf("Compare(missing right) error = %v", err)
+	}
+
+	maximum, _ := money.Parse(strings.Repeat("9", money.MaxAmountDigits), euro, moneyContextZero(t))
+	overflowing, err := moneyobjective.New(map[string]money.Money{"box": maximum})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := overflowing.Total(mustPlan(t, "box", "box")); !errors.Is(err, gomath.ErrLimitExceeded) {
+		t.Fatalf("Total(overflowing) error = %v, want ErrLimitExceeded", err)
+	}
+	minimum, err := maximum.Neg()
+	if err != nil {
+		t.Fatal(err)
+	}
+	policy := moneyobjective.DefaultPolicy()
+	policy.AllowNegativeCosts = true
+	underflowing, err := moneyobjective.NewWithPolicy(map[string]money.Money{"box": minimum}, policy)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := underflowing.Total(mustPlan(t, "box", "box")); !errors.Is(err, gomath.ErrLimitExceeded) {
+		t.Fatalf("Total(underflowing) error = %v, want ErrLimitExceeded", err)
+	}
+}
+
+func mustPlan(t *testing.T, typeIDs ...string) knapsack.Plan {
+	t.Helper()
+	containers := make([]knapsack.ContainerInstance, len(typeIDs))
+	for index, typeID := range typeIDs {
+		containers[index] = knapsack.ContainerInstance{ID: fmt.Sprintf("box-%d", index), TypeID: typeID}
+	}
+	plan, err := knapsack.NewPlan(knapsack.PlanSpec{
+		Containers: containers, Status: knapsack.StatusFeasible,
+		Termination: knapsack.TerminationCompleted,
+	})
+	if err != nil {
+		t.Fatalf("NewPlan() error = %v", err)
+	}
+	return plan
+}
+
+func moneyContextZero(t *testing.T) money.Context {
+	t.Helper()
+	monetaryContext, err := money.CustomContext(0)
+	if err != nil {
+		t.Fatalf("CustomContext(0) error = %v", err)
+	}
+	return monetaryContext
+}
+
+func TestExactPackagingCostComparison(t *testing.T) {
+	t.Parallel()
+	euro, _ := currency.Parse("EUR")
+	moneyContext, _ := money.DefaultContext(euro)
+	small, _ := money.Parse("0.60", euro, moneyContext)
+	large, _ := money.Parse("1.50", euro, moneyContext)
+	costs, err := moneyobjective.New(map[string]money.Money{"small": small, "large": large})
+	if err != nil {
+		t.Fatal(err)
+	}
+	twoSmall, _ := knapsack.NewPlan(knapsack.PlanSpec{Containers: []knapsack.ContainerInstance{{ID: "s1", TypeID: "small"}, {ID: "s2", TypeID: "small"}}, Status: knapsack.StatusFeasible, Termination: knapsack.TerminationCompleted})
+	oneLarge, _ := knapsack.NewPlan(knapsack.PlanSpec{Containers: []knapsack.ContainerInstance{{ID: "l1", TypeID: "large"}}, Status: knapsack.StatusFeasible, Termination: knapsack.TerminationCompleted})
+	comparison, err := costs.Compare(twoSmall, oneLarge)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if comparison >= 0 {
+		t.Fatal("exact cheaper multi-box plan was not preferred")
+	}
+
+	equalLarge, err := money.Parse("1.20", euro, moneyContext)
+	if err != nil {
+		t.Fatal(err)
+	}
+	equalCosts, err := moneyobjective.New(map[string]money.Money{"small": small, "large": equalLarge})
+	if err != nil {
+		t.Fatal(err)
+	}
+	comparison, err = equalCosts.Compare(twoSmall, oneLarge)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := strings.Compare(twoSmall.CanonicalString(), oneLarge.CanonicalString())
+	if comparison != want || comparison == 0 {
+		t.Fatalf("equal-cost comparison = %d, want canonical comparison %d", comparison, want)
+	}
+}
+
+func TestExactSolverUsesExactPackagingCost(t *testing.T) {
+	t.Parallel()
+	euro, _ := currency.Parse("EUR")
+	moneyContext, _ := money.DefaultContext(euro)
+	smallCost, _ := money.Parse("0.60", euro, moneyContext)
+	largeCost, _ := money.Parse("1.50", euro, moneyContext)
+	costs, _ := moneyobjective.New(map[string]money.Money{"small": smallCost, "large": largeCost})
+	quantity := func(value int64, unit measurement.Unit) measurement.Quantity {
+		return measurement.MustNew(decimal.New(value), unit)
+	}
+	dimensions := knapsack.PhysicalDimensions{X: quantity(2, measurement.Metre), Y: quantity(1, measurement.Metre), Z: quantity(1, measurement.Metre)}
+	items := make([]knapsack.Item, 2)
+	for index, id := range []string{"a", "b"} {
+		items[index], _ = knapsack.NewItem(knapsack.ItemSpec{ID: id, Dimensions: dimensions, Weight: quantity(1, measurement.Kilogram), Orientations: []geometry.Orientation{geometry.OrientationXYZ}})
+	}
+	small, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "small", InternalDimensions: dimensions, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.UnlimitedStock()})
+	large, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "large", InternalDimensions: knapsack.PhysicalDimensions{X: quantity(4, measurement.Metre), Y: quantity(1, measurement.Metre), Z: quantity(1, measurement.Metre)}, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.UnlimitedStock()})
+	request, err := knapsack.NewRequest(items, []knapsack.ContainerType{small, large}, knapsack.Resolution{Length: quantity(1, measurement.Metre), Mass: quantity(1, measurement.Kilogram)}, knapsack.DefaultLimits())
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (solver.Exact{}).PackAll(context.Background(), request.Normalized(), solver.Options{PlanObjective: costs})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(plan.Containers()) != 2 || plan.Containers()[0].TypeID != "small" || plan.Containers()[1].TypeID != "small" {
+		t.Fatalf("containers = %+v", plan.Containers())
+	}
+	if result := verify.Plan(request.Normalized(), plan, verify.RequireAll()); !result.Valid() {
+		t.Fatalf("invalid plan: %+v", result.Violations())
+	}
+	if got := plan.Objective(); len(got) != 1 || got[0].Value != "1.20" || got[0].Unit != "EUR" {
+		t.Fatalf("objective = %+v", got)
+	}
+}

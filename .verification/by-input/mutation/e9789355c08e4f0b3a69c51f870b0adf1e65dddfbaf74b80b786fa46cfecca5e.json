@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-knapsack",
+  "module": "objective/money",
+  "package": ".",
+  "gate": "mutation",
+  "input_digest": "sha256:e9789355c08e4f0b3a69c51f870b0adf1e65dddfbaf74b80b786fa46cfecca5e",
+  "verifier_digest": "sha256:5eba124f842305aecef71fc439aea0f1056429b253fad3b2ed47468f614595a3",
+  "result": "passed",
+  "report_digest": "sha256:a29799d83e52333e239cf79578b4b4dc470f9b14eacda2bf33ddedba8d7e57d2",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.26.6",
+    "gremlins_binary_sha256": "sha256:64714f20e349f682a75f2c4b000977adf3d98743c4d69cb711898fe8bb91130c"
+  },
+  "completed_at": "2026-09-09T10:12:58.444161Z"
+}
