@@ -11,11 +11,11 @@
 
 ## Security and compatibility
 
-- [Parent security policy](../../../SECURITY.md)
+- [Parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SECURITY.md)
 - [Compatibility and limitations](reference.md)
 
 ## Project
 
 - [Changelog](../CHANGELOG.md)
-- [Support](../../../SUPPORT.md)
-- [Parent package documentation](../../../docs/README.md)
+- [Support](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SUPPORT.md)
+- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/docs/README.md)

@@ -46,15 +46,15 @@ additional guarantees beyond the documented module boundary.
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
 - [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney)
-- [Parent package documentation](../../docs/README.md)
+- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/docs/README.md)
 - [Versioned Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/README.md)
 - [Domain utilities family guidance](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/design-language.md#package-families-and-selection)
 
 ## Compatibility and support
 
 This stable v1 module follows Semantic Versioning. Use the
-[parent support policy](../../SUPPORT.md) for adoption and defect reports, and
-report vulnerabilities through the [parent security policy](../../SECURITY.md).
+[parent support policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SUPPORT.md) for adoption and defect reports, and
+report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SECURITY.md).
 
 ## License
 

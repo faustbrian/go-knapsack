@@ -160,4 +160,4 @@ module runner so owned dependencies resolve through its isolated local proxy.
 
 ## Documentation
 
-See the [root package documentation](../../../README.md) for objective semantics, verification, and related packages.
+See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/README.md) for objective semantics, verification, and related packages.
