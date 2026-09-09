@@ -1,8 +1,8 @@
 {
   "schema_version": "v1",
   "generated": {
-    "package_commit": "92eac0392e145cf28b31a18837aae9bea1be482c",
-    "source_sha256": "4f471e5a315c8ee3755c5a2f0d54bb2a90bc010e6ac1c758b8e6fe0621392746",
+    "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
+    "source_sha256": "c0f23c52b8c3ee5c66d5d7ee048bb941f7dcf9f13a7e1934a3a3d6987f12a42e",
     "go_version": "go1.26.6",
     "environment": "darwin/arm64",
     "date": "2026-08-15",
@@ -19,7 +19,6 @@
       "docs/benchmarks/raw/2026-08-12-darwin-arm64-rss.tsv": "fe6bed7f816ddfccb007246d5328d17ba4ec7c5bd49b0b3a45e57acd801f6108",
       "docs/benchmarks/raw/2026-08-12-darwin-arm64.txt": "c0c404d8eb99f2ddc4789edc3c48b14469760aa3da561c6a188a7f9490056153",
       "docs/mutation/raw/adapter.json": "70d430a64c2d359696d3e22240bc7b29ac2dcaea3b46198209527ce96cc1ed6a",
-      "docs/mutation/raw/gomoney.json": "acf53dcf792c52afca0f8af30d63ee4570ebaf836d3d11e53020e7a228d59479",
       "docs/mutation/raw/root.json": "cfcc406fe7fe6218e74cd8654a180b8f05c9230d3a0be7f04b6f79ac92defe27",
       "encoding/testdata/v1/plan.json": "b6a5dee66bd91999776b174877cafb19740b8e794e2644c711c25007634b39cf",
       "encoding/testdata/v1/request.json": "7d3cff1f7deb64e0a2a41fa4d3c7b6652f61a2380297ae31e7765def8f96a1b2",
@@ -2526,140 +2525,140 @@
       "kind": "function",
       "name": "DefaultLimits",
       "signature": "func() Limits",
-      "doc": "DefaultLimits returns conservative limits for untrusted cost maps."
+      "doc": "DefaultLimits returns conservative limits for untrusted cost maps.\n\nDeprecated: use moneyobjective.DefaultLimits."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "function",
       "name": "DefaultPolicy",
       "signature": "func() Policy",
-      "doc": "DefaultPolicy returns the default resource limits and rejects negative costs."
+      "doc": "DefaultPolicy returns the default resource limits and rejects negative costs.\n\nDeprecated: use moneyobjective.DefaultPolicy."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "function",
       "name": "New",
       "signature": "func(values map[string]money.Money) (Costs, error)",
-      "doc": "New validates and copies a cost map using DefaultPolicy."
+      "doc": "New validates and copies a cost map using DefaultPolicy.\n\nDeprecated: use moneyobjective.New."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "function",
       "name": "NewFromEntries",
       "signature": "func(entries []Entry, policy Policy) (Costs, error)",
-      "doc": "NewFromEntries validates, sorts, and defensively copies a bounded nonempty\nentry sequence. It rejects duplicate type IDs and requires one currency and\none fixed Default or Custom money context across all values."
+      "doc": "NewFromEntries validates, sorts, and defensively copies a bounded nonempty\nentry sequence. It rejects duplicate type IDs and requires one currency and\none fixed Default or Custom money context across all values.\n\nDeprecated: use moneyobjective.NewFromEntries."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "function",
       "name": "NewWithLimits",
       "signature": "func(values map[string]money.Money, limits Limits) (Costs, error)",
-      "doc": "NewWithLimits validates, sorts, and defensively copies a bounded nonempty\nsingle-currency cost map."
+      "doc": "NewWithLimits validates, sorts, and defensively copies a bounded nonempty\nsingle-currency cost map.\n\nDeprecated: use moneyobjective.NewWithLimits."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "function",
       "name": "NewWithPolicy",
       "signature": "func(values map[string]money.Money, policy Policy) (Costs, error)",
-      "doc": "NewWithPolicy validates and copies a cost map using an explicit negative-cost\nand resource policy. A Go map has already collapsed duplicate keys; callers\nthat need duplicate detection must use NewFromEntries."
+      "doc": "NewWithPolicy validates and copies a cost map using an explicit negative-cost\nand resource policy. A Go map has already collapsed duplicate keys; callers\nthat need duplicate detection must use NewFromEntries.\n\nDeprecated: use moneyobjective.NewWithPolicy."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "method",
       "name": "Costs.Compare",
       "signature": "func(left, right knapsack.Plan) (int, error)",
-      "doc": "Compare prefers lower exact cost, then canonical plan bytes for ties."
+      "doc": "Compare prefers lower exact cost, then canonical plan bytes for ties.\n\nDeprecated: use moneyobjective.Costs.Compare."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "method",
       "name": "Costs.ComparePlans",
-      "signature": "func(ctx context.Context, _ knapsack.NormalizedRequest, left, right knapsack.Plan) (int, error)",
-      "doc": "ComparePlans implements objective.PlanObjective with context cancellation."
+      "signature": "func(\n\tctx context.Context,\n\trequest knapsack.NormalizedRequest,\n\tleft knapsack.Plan,\n\tright knapsack.Plan,\n) (int, error)",
+      "doc": "ComparePlans implements objective.PlanObjective with context cancellation.\n\nDeprecated: use moneyobjective.Costs.ComparePlans."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "method",
       "name": "Costs.Components",
-      "signature": "func(ctx context.Context, _ knapsack.NormalizedRequest, plan knapsack.Plan) ([]knapsack.ScoreComponent, error)",
-      "doc": "Components returns the exact total packaging cost and ISO currency unit."
+      "signature": "func(\n\tctx context.Context,\n\trequest knapsack.NormalizedRequest,\n\tplan knapsack.Plan,\n) ([]knapsack.ScoreComponent, error)",
+      "doc": "Components returns the exact total packaging cost and ISO currency unit.\n\nDeprecated: use moneyobjective.Costs.Components."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "method",
       "name": "Costs.Total",
       "signature": "func(plan knapsack.Plan) (money.Money, error)",
-      "doc": "Total sums configured exact costs for every selected container instance. It\napplies the Money amount bound only to the final order-independent total."
+      "doc": "Total sums configured exact costs for every selected container instance.\n\nDeprecated: use moneyobjective.Costs.Total."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "method",
       "name": "Costs.Valid",
       "signature": "func() bool",
-      "doc": "Valid reports whether the objective contains aligned type IDs and costs."
+      "doc": "Valid reports whether the objective contains aligned type IDs and costs.\n\nDeprecated: use moneyobjective.Costs.Valid."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "type",
       "name": "Costs",
-      "signature": "struct {\n\ttypeIDs\t[]string\n\tvalues\t[]money.Money\n\tzero\tmoney.Money\n}",
-      "doc": "Costs is an immutable exact packaging-cost objective keyed by container\ntype ID."
+      "signature": "struct {\n\tsuccessor moneyobjective.Costs\n}",
+      "doc": "Costs is an immutable exact packaging-cost objective keyed by container\ntype ID.\n\nDeprecated: use moneyobjective.Costs."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "type",
       "name": "Entry",
       "signature": "struct {\n\t// TypeID is the exact Knapsack container type identifier.\n\tTypeID\tstring\n\t// Cost is the exact cost for each selected instance of TypeID.\n\tCost\tmoney.Money\n}",
-      "doc": "Entry is one container type ID and exact packaging cost. Entry construction\nis useful when duplicate IDs must be detected before forming a Go map."
+      "doc": "Entry is one container type ID and exact packaging cost. Entry construction\nis useful when duplicate IDs must be detected before forming a Go map.\n\nDeprecated: use moneyobjective.Entry."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "type",
       "name": "Limits",
       "signature": "struct {\n\t// MaxTypes bounds configured container type costs.\n\tMaxTypes\tuint32\n\t// MaxIDBytes bounds each container type identifier.\n\tMaxIDBytes\tuint32\n}",
-      "doc": "Limits bounds cost collections copied by the constructors."
+      "doc": "Limits bounds cost collections copied by the constructors.\n\nDeprecated: use moneyobjective.Limits."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "type",
       "name": "Policy",
       "signature": "struct {\n\t// Limits bounds the copied mapping and its type IDs.\n\tLimits\tLimits\n\t// AllowNegativeCosts permits values that explicitly model credits or rebates.\n\tAllowNegativeCosts\tbool\n}",
-      "doc": "Policy controls bounded construction and whether negative values explicitly\nmodel credits or rebates. DefaultPolicy rejects negative costs."
+      "doc": "Policy controls bounded construction and whether negative values explicitly\nmodel credits or rebates. DefaultPolicy rejects negative costs.\n\nDeprecated: use moneyobjective.Policy."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "var",
       "name": "ErrDuplicateTypeID",
       "signature": "",
-      "doc": "ErrDuplicateTypeID identifies repeated container type IDs supplied through\nNewFromEntries."
+      "doc": "ErrDuplicateTypeID identifies repeated container type IDs supplied through\nNewFromEntries.\n\nDeprecated: use moneyobjective.ErrDuplicateTypeID."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "var",
       "name": "ErrInvalidCosts",
       "signature": "",
-      "doc": "ErrInvalidCosts identifies an empty, invalid, or incompatible cost mapping."
+      "doc": "ErrInvalidCosts identifies an empty, invalid, or incompatible cost mapping.\n\nDeprecated: use moneyobjective.ErrInvalidCosts."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "var",
       "name": "ErrMissingCost",
       "signature": "",
-      "doc": "ErrMissingCost identifies a selected container type without a configured\npackaging cost."
+      "doc": "ErrMissingCost identifies a selected container type without a configured\npackaging cost.\n\nDeprecated: use moneyobjective.ErrMissingCost."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "var",
       "name": "ErrNegativeCost",
       "signature": "",
-      "doc": "ErrNegativeCost identifies a negative cost rejected by the active policy."
+      "doc": "ErrNegativeCost identifies a negative cost rejected by the active policy.\n\nDeprecated: use moneyobjective.ErrNegativeCost."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/gomoney",
       "kind": "var",
       "name": "ErrUnsupportedScale",
       "signature": "",
-      "doc": "ErrUnsupportedScale identifies a money context whose scale is not fixed."
+      "doc": "ErrUnsupportedScale identifies a money context whose scale is not fixed.\n\nDeprecated: use moneyobjective.ErrUnsupportedScale."
     },
     {
       "package": "github.com/faustbrian/go-knapsack/objective/money",
@@ -3621,16 +3620,6 @@
     },
     "classifications": "verification/mutation-classifications.tsv",
     "command": "make mutation",
-    "gomoney": {
-      "killed": 25,
-      "lived": 0,
-      "mutator_coverage_percent": 100,
-      "raw": "docs/mutation/raw/gomoney.json",
-      "records": 25,
-      "test_efficacy_percent": 100,
-      "timed_out": 0,
-      "tool_uncovered_classified": 0
-    },
     "required_efficacy_percent": 100,
     "required_execution_or_classification_percent": 100,
     "root": {

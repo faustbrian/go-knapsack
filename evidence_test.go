@@ -168,6 +168,74 @@ func TestEvidenceSourceFilesExcludeIgnoredArtifacts(t *testing.T) {
 	}
 }
 
+func TestEvidenceSourceFilesStayWithinRootModule(t *testing.T) {
+	t.Parallel()
+
+	repository := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(repository, "nested"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	for path, contents := range map[string]string{
+		"go.mod":           "module example.com/root\n",
+		"root.go":          "package root\n",
+		"README.md":        "root documentation\n",
+		"modules.json":     "{}\n",
+		"packages.json":    "{}\n",
+		"nested/go.mod":    "module example.com/nested\n",
+		"nested/nested.go": "package nested\n",
+	} {
+		if err := os.WriteFile(filepath.Join(repository, path), []byte(contents), 0o600); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if output, err := exec.Command("git", "-C", repository, "init", "-q").CombinedOutput(); err != nil {
+		t.Fatalf("initialize evidence fixture: %v\n%s", err, output)
+	}
+	if output, err := exec.Command("git", "-C", repository, "add", ".").CombinedOutput(); err != nil {
+		t.Fatalf("index evidence fixture: %v\n%s", err, output)
+	}
+
+	files := rootEvidenceSourceFilesIn(t, repository)
+	if !slices.Equal(files, []string{"go.mod", "modules.json", "packages.json", "root.go"}) {
+		t.Fatalf("root evidence source files = %v", files)
+	}
+}
+
+func TestRootEvidenceManifestNormalizationBindsOnlyRootEntries(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		path          string
+		baseline      string
+		nestedChanged string
+		rootChanged   string
+	}{
+		{
+			path:          "modules.json",
+			baseline:      `{"schema_version":2,"modules":[{"directory":".","version":"1.0.0"},{"directory":"nested","version":"1.0.0"}]}`,
+			nestedChanged: `{"schema_version":2,"modules":[{"directory":".","version":"1.0.0"},{"directory":"nested","version":"1.1.0"}]}`,
+			rootChanged:   `{"schema_version":2,"modules":[{"directory":".","version":"1.1.0"},{"directory":"nested","version":"1.0.0"}]}`,
+		},
+		{
+			path:          "packages.json",
+			baseline:      `{"schema_version":1,"packages":[{"module_directory":".","name":"root"},{"module_directory":"nested","name":"nested"}]}`,
+			nestedChanged: `{"schema_version":1,"packages":[{"module_directory":".","name":"root"},{"module_directory":"nested","name":"changed"}]}`,
+			rootChanged:   `{"schema_version":1,"packages":[{"module_directory":".","name":"changed"},{"module_directory":"nested","name":"nested"}]}`,
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.path, func(t *testing.T) {
+			baseline := normalizeRootEvidenceSource(t, test.path, []byte(test.baseline))
+			if nested := normalizeRootEvidenceSource(t, test.path, []byte(test.nestedChanged)); !bytes.Equal(baseline, nested) {
+				t.Fatal("nested-only manifest change altered root evidence input")
+			}
+			if root := normalizeRootEvidenceSource(t, test.path, []byte(test.rootChanged)); bytes.Equal(baseline, root) {
+				t.Fatal("root manifest change did not alter root evidence input")
+			}
+		})
+	}
+}
+
 func TestEvidenceManifestIsCurrent(t *testing.T) {
 	if os.Getenv("GOLIB_GREMLINS_COVERAGE_PROFILE") != "" {
 		t.Skip("the unmutated integration baseline validates evidence freshness")
@@ -253,7 +321,6 @@ func TestMutationEvidenceMatchesRawArtifacts(t *testing.T) {
 	manifest := readEvidence(t)
 	for name, path := range map[string]string{
 		"root":    "docs/mutation/raw/root.json",
-		"gomoney": "docs/mutation/raw/gomoney.json",
 		"adapter": "docs/mutation/raw/adapter.json",
 	} {
 		raw := readMutationRaw(t, path)
@@ -464,7 +531,6 @@ func mutationEvidenceForTree(t *testing.T) map[string]any {
 	}
 	for name, path := range map[string]string{
 		"root":    "docs/mutation/raw/root.json",
-		"gomoney": "docs/mutation/raw/gomoney.json",
 		"adapter": "docs/mutation/raw/adapter.json",
 	} {
 		raw := readMutationRaw(t, path)
@@ -533,14 +599,14 @@ func updateBoxPackerFeatureEvidence(t *testing.T, features []map[string]any) {
 
 func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 	t.Helper()
-	files := evidenceSourceFiles(t)
+	files := rootEvidenceSourceFiles(t)
 	hash := sha256.New()
 	for _, path := range files {
 		data, err := os.ReadFile(path)
 		if err != nil {
 			t.Fatal(err)
 		}
-		data = normalizeEvidenceSource(path, data)
+		data = normalizeRootEvidenceSource(t, path, data)
 		fmt.Fprintf(hash, "%s\x00%d\x00", path, len(data))
 		_, _ = hash.Write(data)
 	}
@@ -560,7 +626,6 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		"docs/benchmarks/raw/2026-08-12-darwin-arm64.txt",
 		"docs/benchmarks/raw/2026-08-12-darwin-arm64-rss.tsv",
 		"docs/benchmarks/raw/2026-08-12-boxpacker-runtime.json",
-		"docs/mutation/raw/gomoney.json",
 		"docs/mutation/raw/adapter.json",
 		"docs/mutation/raw/root.json",
 		"encoding/testdata/v1/plan.json",
@@ -622,6 +687,27 @@ func evidenceSourceFiles(t *testing.T) []string {
 	return evidenceSourceFilesIn(t, ".")
 }
 
+func rootEvidenceSourceFiles(t *testing.T) []string {
+	t.Helper()
+	return rootEvidenceSourceFilesIn(t, ".")
+}
+
+func rootEvidenceSourceFilesIn(t *testing.T, directory string) []string {
+	t.Helper()
+	files := evidenceSourceFilesIn(t, directory)
+	nestedModules := make([]string, 0)
+	for _, path := range files {
+		if filepath.Base(path) == "go.mod" && filepath.Dir(path) != "." {
+			nestedModules = append(nestedModules, filepath.ToSlash(filepath.Dir(path))+"/")
+		}
+	}
+	return slices.DeleteFunc(files, func(path string) bool {
+		return strings.HasSuffix(path, ".md") || slices.ContainsFunc(nestedModules, func(prefix string) bool {
+			return strings.HasPrefix(path, prefix)
+		})
+	})
+}
+
 func evidenceSourceFilesIn(t *testing.T, directory string) []string {
 	t.Helper()
 
@@ -669,6 +755,50 @@ func normalizeEvidenceSource(path string, data []byte) []byte {
 			continue
 		}
 		normalized = append(normalized, line...)
+	}
+	return normalized
+}
+
+func normalizeRootEvidenceSource(t *testing.T, path string, data []byte) []byte {
+	t.Helper()
+	data = normalizeEvidenceSource(path, data)
+
+	collection, directoryField := "", ""
+	switch path {
+	case "modules.json":
+		collection, directoryField = "modules", "directory"
+	case "packages.json":
+		collection, directoryField = "packages", "module_directory"
+	default:
+		return data
+	}
+
+	var document map[string]any
+	if err := json.Unmarshal(data, &document); err != nil {
+		t.Fatalf("parse %s for root evidence: %v", path, err)
+	}
+	entries, ok := document[collection].([]any)
+	if !ok {
+		t.Fatalf("%s omits %s array", path, collection)
+	}
+	rootEntries := make([]any, 0, len(entries))
+	for _, raw := range entries {
+		entry, entryOK := raw.(map[string]any)
+		if !entryOK {
+			t.Fatalf("%s contains a non-object %s entry", path, collection)
+		}
+		directory, directoryOK := entry[directoryField].(string)
+		if !directoryOK {
+			t.Fatalf("%s %s entry omits %s", path, collection, directoryField)
+		}
+		if directory == "." {
+			rootEntries = append(rootEntries, entry)
+		}
+	}
+	document[collection] = rootEntries
+	normalized, err := json.Marshal(document)
+	if err != nil {
+		t.Fatalf("normalize %s for root evidence: %v", path, err)
 	}
 	return normalized
 }
