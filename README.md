@@ -21,6 +21,15 @@ optimality. The bounded exact solver is for small instances and reports
 `optimal` or `infeasible` only after exhaustive search. Every solver result is
 checked by the structurally separate `verify` package.
 
+The independently published v1.0.0 root module is stable and requires Go
+1.26.6.
+
+## Install
+
+```sh
+go get github.com/faustbrian/go-knapsack@v1
+```
+
 ## Quick start
 
 Construct immutable `knapsack.Item` and `knapsack.ContainerType` values with
@@ -84,7 +93,8 @@ See [usage](docs/usage.md), [API](docs/api.md), [model](docs/model.md),
 [architecture](docs/architecture.md), [capabilities](docs/capabilities.md),
 [migration](docs/migration.md), [adoption](docs/adoption.md),
 [benchmarks](docs/benchmarks.md), [security](docs/security.md),
-[FAQ and troubleshooting](docs/faq.md), and [release policy](docs/release.md).
+[FAQ and troubleshooting](docs/faq.md), [support](SUPPORT.md), and
+[release policy](docs/release.md).
 
 ## Development
 

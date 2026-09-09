@@ -50,6 +50,9 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Documentation
 
+- Add the canonical root installation command, state stable-v1 maturity, and
+  link the support policy from the package entry point.
+
 - Correct the Apache-2.0 badge and Go 1.26.6 release guidance, and add the
   internal reference-integration entry point.
 - Publish family, selection, ownership, lifecycle, support, and delivery

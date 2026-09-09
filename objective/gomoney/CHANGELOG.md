@@ -17,6 +17,8 @@ All notable changes to this module are documented here.
 
 ### Documentation
 
+- Link the parent support policy from both module documentation entry points.
+
 - Clarify root and nested module tag forms, support routing, and the nested
   documentation gate.
 
