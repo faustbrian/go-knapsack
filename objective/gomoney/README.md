@@ -1,10 +1,11 @@
 # Exact-money knapsack objective
 
-`gomoney` is an optional adapter that lets the Knapsack solvers minimize exact
-container costs. It depends on the owned Money module so the Knapsack core can
-remain independent of monetary policy.
+`gomoney` is the deprecated compatibility facade for the released exact-money
+objective path. It preserves the existing public API while delegating behavior
+to the canonical [`objective/money`](../money/) module.
 
-The independently published v1.0.0 module is stable and requires Go 1.26.6.
+The independently published v1.1.0 module remains stable for compatibility and
+requires Go 1.26.6. New code should use `objective/money`.
 
 ## Install
 
@@ -46,15 +47,24 @@ additional guarantees beyond the documented module boundary.
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
 - [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney)
-- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/docs/README.md)
+- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/docs/README.md)
 - [Versioned Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/README.md)
 - [Domain utilities family guidance](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/design-language.md#package-families-and-selection)
 
 ## Compatibility and support
 
-This stable v1 module follows Semantic Versioning. Use the
-[parent support policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SUPPORT.md) for adoption and defect reports, and
-report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/SECURITY.md).
+This deprecated stable-v1 facade follows Semantic Versioning and remains
+supported throughout v1. Migrate by changing the module and import path to
+`objective/money` and using its `moneyobjective` package identifier. The
+constructors, methods, sentinel identities, errors, score components, and
+solver behavior remain compatible. The facade will remain available for the
+longer of 180 days and two published stable minor releases after
+`objective/money` became public. Removal also requires clean external-consumer
+evidence and an authorized v2.0.0 release.
+
+Use the
+[parent support policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/SUPPORT.md) for adoption and defect reports, and
+report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/SECURITY.md).
 
 ## License
 

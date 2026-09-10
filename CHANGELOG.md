@@ -10,6 +10,13 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   target-oriented exact-money objective while retaining the released
   `objective/gomoney` path for compatibility.
 
+### Deprecated
+
+- Mark `objective/gomoney` as the compatibility facade for the canonical
+  `objective/money` module. Existing v1 consumers remain supported; new code
+  should use the successor. Removal requires the full interval and evidence in
+  the compatibility policy and an authorized next-major release.
+
 ### Changed
 
 - Keep benchmark thresholds, fuzz budgets, mutation classifications,
