@@ -7,7 +7,7 @@
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-knapsack?sort=semver)](https://github.com/faustbrian/go-knapsack/releases)
-[![Go](https://img.shields.io/badge/go-1.26.6-00ADD8?logo=go)](https://go.dev/)
+[![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 `knapsack` is an exact-unit, deterministic library for offline orthogonal
@@ -22,7 +22,7 @@ optimality. The bounded exact solver is for small instances and reports
 checked by the structurally separate `verify` package.
 
 The independently published v1.0.0 root module is stable and requires Go
-1.26.6.
+1.26.6. Current unreleased source requires Go 1.27.0.
 
 Exact container-cost optimization lives in the independently released
 [`objective/money`](objective/money/) module. Existing
@@ -103,7 +103,7 @@ See [usage](docs/usage.md), [API](docs/api.md), [model](docs/model.md),
 
 ## Development
 
-Go 1.26.6 is the initial minimum toolchain. Install the exact `go-library-tools`
+Go 1.27.0 is the minimum toolchain. Install the exact `go-library-tools`
 release pinned in `.golib.yaml`; `make check` then runs the same complete module
 contract as pull-request CI. Run `golib release dry-run` before publishing to
 prove the release archive and clean-consumer path in addition to the full
