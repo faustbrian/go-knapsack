@@ -4,7 +4,8 @@
 container costs with the Knapsack solvers. Its target-oriented import path
 keeps the Money dependency outside the Knapsack core.
 
-The independently published v1.0.0 module is stable and requires Go 1.27.0.
+The independently published v1.0.0 module is stable and requires Go 1.26.6.
+Current unreleased source requires Go 1.27.0.
 
 ## Install
 
