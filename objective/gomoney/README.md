@@ -2,7 +2,9 @@
 
 `gomoney` is the deprecated compatibility facade for the released exact-money
 objective path. It preserves the existing public API while delegating behavior
-to the canonical [`objective/money`](../money/) module.
+to the canonical
+[`objective/money`](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money)
+module.
 
 The independently published v1.1.0 module remains stable for compatibility and
 requires Go 1.26.6. New code should use `objective/money`.
