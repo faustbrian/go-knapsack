@@ -1,6 +1,6 @@
 module github.com/faustbrian/go-knapsack/objective/money
 
-go 1.26.6
+go 1.27.0
 
 require (
 	github.com/faustbrian/go-international v1.1.0

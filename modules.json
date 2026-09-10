@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
   "repository": "github.com/faustbrian/go-knapsack",
-  "go_version": "1.26.6",
+  "go_version": "1.27.0",
   "modules": [
     {
       "directory": ".",
       "module_path": "github.com/faustbrian/go-knapsack",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": ".",
@@ -208,7 +208,7 @@
           "github.com/faustbrian/go-knapsack/visualize"
         ],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -257,7 +257,7 @@
     {
       "directory": "integration/references",
       "module_path": "github.com/faustbrian/go-knapsack/integration/references",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "integration/references",
@@ -319,7 +319,7 @@
     {
       "directory": "objective/gomoney",
       "module_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "objective/gomoney",
@@ -402,7 +402,7 @@
         "adapters": [],
         "companions": [],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]
@@ -449,7 +449,7 @@
     {
       "directory": "objective/money",
       "module_path": "github.com/faustbrian/go-knapsack/objective/money",
-      "go_version": "1.26.6",
+      "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "objective/money",
@@ -531,7 +531,7 @@
         "adapters": [],
         "companions": [],
         "supported_go": {
-          "minimum": "1.26.6",
+          "minimum": "1.27.0",
           "tested": [
             "1.27.0"
           ]

@@ -9,7 +9,7 @@ The reference libraries provide comparison evidence; Knapsack's independent
 `verify` package remains authoritative for placement feasibility. Differences
 outside the documented common subset are not compatibility failures.
 
-Run the comparison tests independently with Go 1.26.6:
+Run the comparison tests independently with Go 1.27.0:
 
 ```sh
 GOWORK=off go test ./...

@@ -7,7 +7,7 @@ to the canonical
 module.
 
 The independently published v1.1.0 module remains stable for compatibility and
-requires Go 1.26.6. New code should use `objective/money`.
+requires Go 1.27.0. New code should use `objective/money`.
 
 ## Install
 
