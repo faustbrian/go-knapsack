@@ -3,9 +3,9 @@
 This guide contains the complete behavioral and operational reference. Start
 with the [package overview](../README.md).
 
-`gomoney` is an optional adapter that lets the Knapsack solvers minimize exact
-container costs. It depends on the owned Money module so the Knapsack core can
-remain independent of monetary policy.
+`gomoney` is the deprecated compatibility facade for the released exact-money
+objective path. It preserves the existing public API while delegating behavior
+to the canonical `objective/money` module.
 
 ## Quick start
 
@@ -118,9 +118,17 @@ environment, locale, registry, or exchange-rate access.
 
 ## Compatibility and migration
 
-The stable v1 module is independently released under tags prefixed with
+The deprecated facade is independently released under tags prefixed with
 `objective/gomoney/v`. Its public API is checked against
 `api/baseline.txt`.
+
+Migrate by changing the module and import path to `objective/money` and using
+its `moneyobjective` package identifier. Constructors, methods, sentinel
+identities, errors, score components, and solver behavior remain compatible.
+The facade remains supported throughout v1 and for the longer of 180 days and
+two published stable minor releases after `objective/money` became public.
+Removal also requires clean external-consumer evidence and an authorized
+v2.0.0 release.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations
 that previously relied on negative costs must migrate to `NewWithPolicy` and
@@ -153,11 +161,11 @@ constructing the objective.
 
 ## Development
 
-Repository gates enforce formatting, tests, race safety, bounded fuzzing,
-exactly 100% statement coverage, API compatibility, documentation examples,
-benchmarks, and exactly 100% viable mutation kills. Use the repository's
-module runner so owned dependencies resolve through its isolated local proxy.
+Repository gates use risk-proportional checks. Public-contract changes require
+focused behavior, API compatibility, directly affected module and consumer
+tests, and independent review. Release checks additionally prove clean public
+module resolution.
 
 ## Documentation
 
-See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.0.0/README.md) for objective semantics, verification, and related packages.
+See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/README.md) for objective semantics, verification, and related packages.

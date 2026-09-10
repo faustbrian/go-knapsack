@@ -4,6 +4,14 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Deprecated
+
+- Mark this module as the compatibility facade for canonical
+  `objective/money`. Existing v1 consumers remain supported; new code should
+  migrate its module and import path and use the `moneyobjective` package
+  identifier. Removal requires the full interval and evidence in the parent
+  compatibility policy and an authorized v2.0.0 release.
+
 ### Changed
 
 - Delegate exact-money behavior to the canonical `objective/money` module while

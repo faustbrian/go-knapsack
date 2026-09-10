@@ -334,8 +334,8 @@
           "build_tags": []
         }
       ],
-      "purpose": "`gomoney` is an optional adapter that lets the Knapsack solvers minimize exact container costs. It depends on the owned Money module so the Knapsack core can remain independent of monetary policy.",
-      "lifecycle": "stable",
+      "purpose": "`gomoney` is the deprecated compatibility facade for the released exact-money objective path. It preserves the public API while delegating behavior to the canonical `objective/money` module.",
+      "lifecycle": "deprecated",
       "kind": "adapter",
       "releasable": true,
       "family": "domain-utilities",
@@ -369,20 +369,20 @@
         "secondary_capabilities": [
           "configuration"
         ],
-        "responsibility": "Adapt exact go-money values into deterministic Knapsack container-cost objective evaluation.",
+        "responsibility": "Preserve the released exact-money objective API while delegating behavior to the canonical target-oriented module.",
         "non_goals": [
           "Own currencies, money arithmetic, exchange rates, taxes, discounts, shipping rates, or persistence.",
           "Perform packing, select application pricing policy, or hide missing container costs.",
-          "Rename or replace the released objective/gomoney compatibility path during cohesion metadata adoption."
+          "Own new exact-money objective behavior; new development belongs in objective/money."
         ],
         "public_package_identifier": "gomoney",
         "primary_entry_packages": [
           "github.com/faustbrian/go-knapsack/objective/gomoney"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-knapsack/objective/gomoney": "Use when Knapsack container costs already exist as exact go-money values in one fixed currency context."
+          "github.com/faustbrian/go-knapsack/objective/gomoney": "Use only to preserve the released import path during migration; new code uses objective/money."
         },
-        "lifecycle_status": "active",
+        "lifecycle_status": "deprecated",
         "maturity": "stable",
         "construction_styles": [
           "validated-value"
