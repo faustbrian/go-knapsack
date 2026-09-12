@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Reconcile public dependency checksums so clean consumers can verify the
+  module graph without bypassing checksum validation.
+
 ### Documentation
 
 - Move detailed module guidance behind a concise README and documentation index.

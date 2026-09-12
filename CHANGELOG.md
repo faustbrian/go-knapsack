@@ -4,6 +4,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Register maintained API baselines and typed compatibility operations for the
+  root module and the independently releasable money objective adapter.
+
 ### Fixed
 
 - Keep the nested comparison adapter compatible with the strict Go 1.26

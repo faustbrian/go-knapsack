@@ -9,7 +9,7 @@ SYFT ?= $(GO) run github.com/anchore/syft/cmd/syft@v1.48.0
 FUZZ_MULTIPLIER ?= 1
 BENCH_TIME ?= 100ms
 
-.PHONY: benchmark benchmark-compare benchmark-rss benchmark-rss-test check \
+.PHONY: api benchmark benchmark-compare benchmark-rss benchmark-rss-test check \
 	coverage dependency-publish-review dependency-review dependency-review-test \
 	docs evidence evidence-update \
 	format format-check fuzz leak lint mutation nilaway race reference-integration \
@@ -22,6 +22,10 @@ format:
 
 format-check:
 	test -z "$$(gofmt -l .)"
+
+api:
+	./.golib/scripts/check-api-baseline.sh .
+	./.golib/scripts/check-api-baseline.sh objective/gomoney
 
 tidy-check:
 	$(GO) mod tidy -diff
