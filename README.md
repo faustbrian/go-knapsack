@@ -22,7 +22,7 @@ optimality. The bounded exact solver is for small instances and reports
 checked by the structurally separate `verify` package.
 
 The independently published v1.0.0 root module is stable and requires Go
-1.26.6. Current unreleased source requires Go 1.27.0.
+1.27.0.
 
 Exact container-cost optimization lives in the independently released
 [`objective/money`](objective/money/) module. Existing
