@@ -246,6 +246,7 @@ func TestEvidenceManifestIsCurrent(t *testing.T) {
 	want := generatedEvidenceForTree(t)
 	want.Date = manifest.Generated.Date
 	want.Environment = manifest.Generated.Environment
+	want.GoVersion = manifest.Generated.GoVersion
 	want.Commands = manifest.Generated.Commands
 	if manifest.SchemaVersion != "v1" {
 		t.Fatalf("evidence schema = %q, want v1", manifest.SchemaVersion)

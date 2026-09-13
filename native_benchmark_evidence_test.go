@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"os"
 	"os/exec"
-	"runtime"
 	"strings"
 	"testing"
 )
@@ -22,7 +21,6 @@ func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 
 	metadata := readBenchmarkMetadata(t, nativeBenchmarkRaw)
 	want := map[string]string{
-		"go_version":              runtime.Version(),
 		"environment":             benchmarkEvidenceEnvironment,
 		"date":                    benchmarkEvidenceDate,
 		"duration":                "1s",
@@ -41,7 +39,7 @@ func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 			t.Fatalf("native benchmark evidence %s = %q, want %q", field, metadata[field], value)
 		}
 	}
-	for _, field := range []string{"processor", "command", "semantic_normalization"} {
+	for _, field := range []string{"go_version", "processor", "command", "semantic_normalization"} {
 		if metadata[field] == "" {
 			t.Fatalf("native benchmark evidence omits %s", field)
 		}
@@ -53,7 +51,6 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 
 	metadata := readBenchmarkMetadata(t, rssBenchmarkRaw)
 	want := map[string]string{
-		"go_version":              runtime.Version(),
 		"environment":             benchmarkEvidenceEnvironment,
 		"date":                    benchmarkEvidenceDate,
 		"duration":                "100ms",
@@ -71,7 +68,7 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 			t.Fatalf("RSS benchmark evidence %s = %q, want %q", field, metadata[field], value)
 		}
 	}
-	for _, field := range []string{"processor", "command", "semantic_normalization", "time_format"} {
+	for _, field := range []string{"go_version", "processor", "command", "semantic_normalization", "time_format"} {
 		if metadata[field] == "" {
 			t.Fatalf("RSS benchmark evidence omits %s", field)
 		}

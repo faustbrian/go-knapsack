@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "generated": {
     "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
-    "source_sha256": "b34bb10fb537df21137b33f0f6725a94c263f15be6da532b1570d7c9eade9d76",
+    "source_sha256": "81225fa727a56ffc896103c90a3c57dc5c8570351dad9319ba93365793371450",
     "go_version": "go1.27.1",
     "environment": "darwin/arm64",
     "date": "2026-09-13",
