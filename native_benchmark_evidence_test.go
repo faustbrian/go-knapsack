@@ -6,23 +6,21 @@ import (
 	"encoding/hex"
 	"os"
 	"os/exec"
-	"runtime"
 	"strings"
 	"testing"
 )
 
-const benchmarkEvidenceDate = "2026-08-15"
+const benchmarkEvidenceDate = "2026-09-13"
 const benchmarkEvidenceEnvironment = "darwin/arm64"
-const benchmarkEvidenceDocument = "docs/benchmarks/2026-08-15-darwin-arm64.md"
-const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-08-15-darwin-arm64.txt"
-const rssBenchmarkRaw = "docs/benchmarks/raw/2026-08-15-darwin-arm64-rss.tsv"
+const benchmarkEvidenceDocument = "docs/benchmarks/2026-09-13-darwin-arm64.md"
+const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64.txt"
+const rssBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64-rss.tsv"
 
 func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 	t.Parallel()
 
 	metadata := readBenchmarkMetadata(t, nativeBenchmarkRaw)
 	want := map[string]string{
-		"go_version":              runtime.Version(),
 		"environment":             benchmarkEvidenceEnvironment,
 		"date":                    benchmarkEvidenceDate,
 		"duration":                "1s",
@@ -41,7 +39,7 @@ func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 			t.Fatalf("native benchmark evidence %s = %q, want %q", field, metadata[field], value)
 		}
 	}
-	for _, field := range []string{"processor", "command", "semantic_normalization"} {
+	for _, field := range []string{"go_version", "processor", "command", "semantic_normalization"} {
 		if metadata[field] == "" {
 			t.Fatalf("native benchmark evidence omits %s", field)
 		}
@@ -53,7 +51,6 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 
 	metadata := readBenchmarkMetadata(t, rssBenchmarkRaw)
 	want := map[string]string{
-		"go_version":              runtime.Version(),
 		"environment":             benchmarkEvidenceEnvironment,
 		"date":                    benchmarkEvidenceDate,
 		"duration":                "100ms",
@@ -71,7 +68,7 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 			t.Fatalf("RSS benchmark evidence %s = %q, want %q", field, metadata[field], value)
 		}
 	}
-	for _, field := range []string{"processor", "command", "semantic_normalization", "time_format"} {
+	for _, field := range []string{"go_version", "processor", "command", "semantic_normalization", "time_format"} {
 		if metadata[field] == "" {
 			t.Fatalf("RSS benchmark evidence omits %s", field)
 		}

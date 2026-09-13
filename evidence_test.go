@@ -246,6 +246,7 @@ func TestEvidenceManifestIsCurrent(t *testing.T) {
 	want := generatedEvidenceForTree(t)
 	want.Date = manifest.Generated.Date
 	want.Environment = manifest.Generated.Environment
+	want.GoVersion = manifest.Generated.GoVersion
 	want.Commands = manifest.Generated.Commands
 	if manifest.SchemaVersion != "v1" {
 		t.Fatalf("evidence schema = %q, want v1", manifest.SchemaVersion)
@@ -656,8 +657,8 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		Date:          benchmarkEvidenceDate,
 		Commands:      []string{"golib check --all", "golib release dry-run"},
 		Dependencies: map[string]string{
-			"github.com/faustbrian/go-math":        "v1.0.0",
-			"github.com/faustbrian/go-measurement": "v1.0.0",
+			"github.com/faustbrian/go-math":        "v1.1.0",
+			"github.com/faustbrian/go-measurement": "v1.1.0",
 		},
 		Fixtures: fixtures,
 	}

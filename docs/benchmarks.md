@@ -44,6 +44,8 @@ SHA-256, Apache-2.0 license, and conversion notice are recorded in
 
 Checked-in raw evidence:
 
+- [2026-09-13 Apple M4 Max](benchmarks/2026-09-13-darwin-arm64.md)
+- [2026-09-13 BoxPacker fresh-process comparison](benchmarks/raw/2026-09-13-boxpacker-runtime.json)
 - [2026-08-15 Apple M4 Max](benchmarks/2026-08-15-darwin-arm64.md)
 - [BoxPacker fresh-process comparison](benchmarks/raw/2026-08-15-boxpacker-runtime.json)
 - [2026-08-12 Apple M4 Max](benchmarks/2026-08-12-darwin-arm64.md)
