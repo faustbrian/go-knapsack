@@ -656,8 +656,8 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		Date:          benchmarkEvidenceDate,
 		Commands:      []string{"golib check --all", "golib release dry-run"},
 		Dependencies: map[string]string{
-			"github.com/faustbrian/go-math":        "v1.0.0",
-			"github.com/faustbrian/go-measurement": "v1.0.0",
+			"github.com/faustbrian/go-math":        "v1.1.0",
+			"github.com/faustbrian/go-measurement": "v1.1.0",
 		},
 		Fixtures: fixtures,
 	}

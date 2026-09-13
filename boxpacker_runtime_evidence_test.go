@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-const boxPackerRuntimeRaw = "docs/benchmarks/raw/2026-08-15-boxpacker-runtime.json"
-const boxPackerRuntimeEvidenceDate = "2026-08-27"
+const boxPackerRuntimeRaw = "docs/benchmarks/raw/2026-09-13-boxpacker-runtime.json"
+const boxPackerRuntimeEvidenceDate = "2026-09-13"
 
 func TestBoxPackerRuntimeEvidenceIsCurrent(t *testing.T) {
 	t.Parallel()

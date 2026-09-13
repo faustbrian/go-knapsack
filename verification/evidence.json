@@ -2,17 +2,17 @@
   "schema_version": "v1",
   "generated": {
     "package_commit": "b1c64ea19f73f3ee50580b20eab30c3dd48a8767",
-    "source_sha256": "d3f747b19b14bac013c6b257a4826e8f095159947a35e63df52675594d08d56d",
-    "go_version": "go1.26.6",
+    "source_sha256": "b34bb10fb537df21137b33f0f6725a94c263f15be6da532b1570d7c9eade9d76",
+    "go_version": "go1.27.1",
     "environment": "darwin/arm64",
-    "date": "2026-08-15",
+    "date": "2026-09-13",
     "commands": [
       "golib check --all",
       "golib release dry-run"
     ],
     "dependencies": {
-      "github.com/faustbrian/go-math": "v1.0.0",
-      "github.com/faustbrian/go-measurement": "v1.0.0"
+      "github.com/faustbrian/go-math": "v1.1.0",
+      "github.com/faustbrian/go-measurement": "v1.1.0"
     },
     "fixtures": {
       "docs/benchmarks/raw/2026-08-12-boxpacker-runtime.json": "7213ff10a2acd93cfe01f84a4ddc7614f4fa22f0b3fb2bb8039b0c0898dd82aa",
@@ -3496,7 +3496,7 @@
     {
       "feature": "fresh-process runtime comparison",
       "semantic_scope": "identical verified common subset with startup, serialization, RSS, and deadline treatment",
-      "status": "docs/benchmarks/raw/2026-08-15-boxpacker-runtime.json"
+      "status": "docs/benchmarks/raw/2026-09-13-boxpacker-runtime.json"
     },
     {
       "feature": "single-pass online packing",
@@ -3637,13 +3637,13 @@
   },
   "benchmarks": {
     "boxpacker_runtime_command": "scripts/benchmark-boxpacker.sh",
-    "boxpacker_runtime_raw_output": "docs/benchmarks/raw/2026-08-15-boxpacker-runtime.json",
+    "boxpacker_runtime_raw_output": "docs/benchmarks/raw/2026-09-13-boxpacker-runtime.json",
     "command": "make benchmark",
     "comparison_command": "make benchmark-compare",
-    "environment": "docs/benchmarks/2026-08-15-darwin-arm64.md",
-    "raw_output": "docs/benchmarks/raw/2026-08-15-darwin-arm64.txt",
+    "environment": "docs/benchmarks/2026-09-13-darwin-arm64.md",
+    "raw_output": "docs/benchmarks/raw/2026-09-13-darwin-arm64.txt",
     "rss_command": "make benchmark-rss",
-    "rss_raw_output": "docs/benchmarks/raw/2026-08-15-darwin-arm64-rss.tsv",
+    "rss_raw_output": "docs/benchmarks/raw/2026-09-13-darwin-arm64-rss.tsv",
     "rss_thresholds": "verification/benchmark-rss-thresholds.tsv",
     "semantic_normalization": "identical lattice, weights, rotations, stock, constraints, and objectives",
     "thresholds": "verification/benchmark-thresholds.tsv"
@@ -3818,7 +3818,7 @@
       ".github/workflows/ci.yml"
     ],
     "actions": {
-      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "14d1e594d5f246a795d0c0c11cf7d2d6c8e5617f # v1.6.1"
+      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "47269f1aa78baa637a8c377b0af24c113b34c1c9 # v1.7.2"
     }
   },
   "supply_chain": {

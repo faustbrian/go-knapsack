@@ -11,11 +11,11 @@ import (
 	"testing"
 )
 
-const benchmarkEvidenceDate = "2026-08-15"
+const benchmarkEvidenceDate = "2026-09-13"
 const benchmarkEvidenceEnvironment = "darwin/arm64"
-const benchmarkEvidenceDocument = "docs/benchmarks/2026-08-15-darwin-arm64.md"
-const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-08-15-darwin-arm64.txt"
-const rssBenchmarkRaw = "docs/benchmarks/raw/2026-08-15-darwin-arm64-rss.tsv"
+const benchmarkEvidenceDocument = "docs/benchmarks/2026-09-13-darwin-arm64.md"
+const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64.txt"
+const rssBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64-rss.tsv"
 
 func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 	t.Parallel()
