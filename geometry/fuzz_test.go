@@ -3,7 +3,7 @@ package geometry_test
 import (
 	"testing"
 
-	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
 )
 
 func FuzzGeometry(f *testing.F) {

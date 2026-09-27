@@ -3,12 +3,12 @@ package knapsack_test
 import (
 	"context"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/constraint"
-	packingjson "github.com/faustbrian/go-knapsack/encoding"
-	"github.com/faustbrian/go-knapsack/objective"
-	"github.com/faustbrian/go-knapsack/solver"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
+	packingjson "github.com/faustbrian/go-knapsack/v2/encoding"
+	"github.com/faustbrian/go-knapsack/v2/objective"
+	"github.com/faustbrian/go-knapsack/v2/solver"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
 // Compile-time assignments pin the initial cross-package adoption surface.

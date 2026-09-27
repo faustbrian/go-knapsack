@@ -68,3 +68,11 @@ strict, versioned, bounded by bytes/depth/collections, reject unknown fields
 and duplicate keys, reconstruct exact units, and validate before returning.
 Persisted v1 request and plan fixtures under `encoding/testdata/v1` lock exact
 bytes and are decoded, re-encoded, and independently verified in every check.
+
+## Major-version adoption
+
+Root packages use `github.com/faustbrian/go-knapsack/v2`; their physical
+quantities use `github.com/faustbrian/go-measurement/v2`. Update these imports
+together. The root module remains at the repository root on main, and its
+serialized request and plan schema is still v1. Independently versioned nested
+adapters do not acquire a new dependency until their own migration is delivered.

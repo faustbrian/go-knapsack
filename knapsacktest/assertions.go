@@ -5,8 +5,8 @@ package knapsacktest
 import (
 	"testing"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
 // RequireVerified fails the test when independent verification rejects plan.

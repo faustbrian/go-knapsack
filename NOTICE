@@ -3,8 +3,8 @@ Copyright 2026 Brian Faust
 
 This product includes software developed by the knapsack contributors.
 
-The Go module links against github.com/faustbrian/go-math v1.0.0 and
-github.com/faustbrian/go-measurement v1.0.0, both distributed under the MIT
+The Go module links against github.com/faustbrian/go-math v1.1.0 and
+github.com/faustbrian/go-measurement/v2 v2.0.0, both distributed under the MIT
 License. Copies are provided in third_party/licenses.
 
 The converted benchmark record in

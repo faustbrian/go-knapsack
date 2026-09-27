@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
 )
 
 func TestPlanRejectsInvalidStateAndAcceptsEveryDocumentedStatus(t *testing.T) {

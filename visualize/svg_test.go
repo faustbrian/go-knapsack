@@ -5,12 +5,12 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/verify"
-	"github.com/faustbrian/go-knapsack/visualize"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/verify"
+	"github.com/faustbrian/go-knapsack/v2/visualize"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-measurement/v2"
 )
 
 func TestSVGConsumesOnlyVerifiedPlansAndEscapesLabels(t *testing.T) {

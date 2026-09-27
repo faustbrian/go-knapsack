@@ -3,7 +3,7 @@ package objective_test
 import (
 	"testing"
 
-	"github.com/faustbrian/go-knapsack/objective"
+	"github.com/faustbrian/go-knapsack/v2/objective"
 )
 
 func FuzzObjectiveComparison(f *testing.F) {

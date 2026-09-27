@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/constraint"
-	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
+	"github.com/faustbrian/go-knapsack/v2/solver"
 )
 
 const cancellationRounds = 32

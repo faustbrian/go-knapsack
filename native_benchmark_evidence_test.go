@@ -16,23 +16,21 @@ const benchmarkEvidenceDocument = "docs/benchmarks/2026-09-13-darwin-arm64.md"
 const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64.txt"
 const rssBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64-rss.tsv"
 
-func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
+func TestHistoricalNativeBenchmarkEvidenceRetainsIntegrity(t *testing.T) {
 	t.Parallel()
 
 	metadata := readBenchmarkMetadata(t, nativeBenchmarkRaw)
 	want := map[string]string{
-		"environment":             benchmarkEvidenceEnvironment,
-		"date":                    benchmarkEvidenceDate,
-		"duration":                "1s",
-		"samples":                 "10",
-		"seed":                    "0",
-		"solver_parallelism":      "1",
-		"gate_status":             "pass",
-		"raw_format":              "go_test_benchmark",
-		"benchmark_source_sha256": fileSHA256(t, "solver/benchmark_test.go"),
-		"generator_sha256":        fileSHA256(t, "scripts/benchmark-compare.sh"),
-		"threshold_sha256":        fileSHA256(t, "verification/benchmark-thresholds.tsv"),
-		"input_sha256":            benchmarkInputSHA256(t, "native"),
+		"environment":        benchmarkEvidenceEnvironment,
+		"date":               benchmarkEvidenceDate,
+		"duration":           "1s",
+		"samples":            "10",
+		"seed":               "0",
+		"solver_parallelism": "1",
+		"gate_status":        "pass",
+		"raw_format":         "go_test_benchmark",
+		"generator_sha256":   fileSHA256(t, "scripts/benchmark-compare.sh"),
+		"threshold_sha256":   fileSHA256(t, "verification/benchmark-thresholds.tsv"),
 	}
 	for field, value := range want {
 		if metadata[field] != value {
@@ -44,24 +42,23 @@ func TestNativeBenchmarkEvidenceIsCurrent(t *testing.T) {
 			t.Fatalf("native benchmark evidence omits %s", field)
 		}
 	}
+	validateRecordedBenchmarkHashes(t, metadata)
 }
 
-func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
+func TestHistoricalRSSBenchmarkEvidenceRetainsIntegrity(t *testing.T) {
 	t.Parallel()
 
 	metadata := readBenchmarkMetadata(t, rssBenchmarkRaw)
 	want := map[string]string{
-		"environment":             benchmarkEvidenceEnvironment,
-		"date":                    benchmarkEvidenceDate,
-		"duration":                "100ms",
-		"samples":                 "5",
-		"seed":                    "0",
-		"solver_parallelism":      "1",
-		"gate_status":             "pass",
-		"benchmark_source_sha256": fileSHA256(t, "solver/benchmark_test.go"),
-		"generator_sha256":        fileSHA256(t, "scripts/benchmark-rss.sh"),
-		"threshold_sha256":        fileSHA256(t, "verification/benchmark-rss-thresholds.tsv"),
-		"input_sha256":            benchmarkInputSHA256(t, "rss"),
+		"environment":        benchmarkEvidenceEnvironment,
+		"date":               benchmarkEvidenceDate,
+		"duration":           "100ms",
+		"samples":            "5",
+		"seed":               "0",
+		"solver_parallelism": "1",
+		"gate_status":        "pass",
+		"generator_sha256":   fileSHA256(t, "scripts/benchmark-rss.sh"),
+		"threshold_sha256":   fileSHA256(t, "verification/benchmark-rss-thresholds.tsv"),
 	}
 	for field, value := range want {
 		if metadata[field] != value {
@@ -71,6 +68,18 @@ func TestRSSBenchmarkEvidenceIsCurrent(t *testing.T) {
 	for _, field := range []string{"go_version", "processor", "command", "semantic_normalization", "time_format"} {
 		if metadata[field] == "" {
 			t.Fatalf("RSS benchmark evidence omits %s", field)
+		}
+	}
+	validateRecordedBenchmarkHashes(t, metadata)
+}
+
+// Historical results keep their original input identity; they do not prove
+// current-source performance after dependencies or imports change.
+func validateRecordedBenchmarkHashes(t *testing.T, metadata map[string]string) {
+	t.Helper()
+	for _, name := range []string{"benchmark_source_sha256", "input_sha256"} {
+		if value, err := hex.DecodeString(metadata[name]); err != nil || len(value) != sha256.Size {
+			t.Fatalf("historical benchmark has invalid recorded %s", name)
 		}
 	}
 }

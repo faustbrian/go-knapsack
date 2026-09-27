@@ -7,14 +7,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/constraint"
-	packingjson "github.com/faustbrian/go-knapsack/encoding"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/objective"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
+	packingjson "github.com/faustbrian/go-knapsack/v2/encoding"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/objective"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-measurement/v2"
 )
 
 type cancelAfterChecks struct{ remaining int }

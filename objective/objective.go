@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/v2"
 )
 
 var (

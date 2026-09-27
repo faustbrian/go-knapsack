@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/solver"
-	"github.com/faustbrian/go-knapsack/verify"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/solver"
+	"github.com/faustbrian/go-knapsack/v2/verify"
+	"github.com/faustbrian/go-measurement/v2"
 )
 
 type gridCell struct{ x, y int64 }

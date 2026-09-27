@@ -19,6 +19,11 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
+- Move the root module and its packages to `go-knapsack/v2` and require
+  `go-measurement/v2` exact quantities. Physical input and result APIs now use
+  measurement v2 types; callers must update both imports together. Canonical
+  request and plan schema v1 and integer-lattice packing semantics are retained.
+
 - Keep benchmark thresholds, fuzz budgets, mutation classifications,
   dependency review, corpus provenance, and aggregate evidence under the
   repository's verification tree so the reserved specification path cannot

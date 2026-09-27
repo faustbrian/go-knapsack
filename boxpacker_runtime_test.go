@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
 type runtimeComparisonEvidence struct {
@@ -92,7 +92,7 @@ func TestBoxPackerRuntimeComparison(t *testing.T) {
 	}
 	commands := []comparisonCommand{
 		{implementation: "dvdoug/BoxPacker", path: "php", arguments: []string{"integration/boxpacker/compare.php"}},
-		{implementation: "github.com/faustbrian/go-knapsack", path: goBinary},
+		{implementation: "github.com/faustbrian/go-knapsack/v2", path: goBinary},
 	}
 	request := boxPackerRequest(t)
 	for _, command := range commands {

@@ -18,7 +18,7 @@ func TestProductionPackageDependencyDirection(t *testing.T) {
 		forbidden []string
 	}{
 		{".", []string{"/constraint", "/encoding", "/objective", "/solver", "/verify", "/visualize"}},
-		{"geometry", []string{"github.com/faustbrian/go-knapsack"}},
+		{"geometry", []string{"github.com/faustbrian/go-knapsack/v2"}},
 		{"verify", []string{"/solver"}},
 		{"constraint", []string{"/encoding", "/objective", "/solver", "/verify", "/visualize"}},
 		{"objective", []string{"/encoding", "/solver", "/verify", "/visualize"}},

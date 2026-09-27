@@ -1,5 +1,11 @@
 # Benchmark methodology
 
+The dated results and `verification/evidence.json` are historical v1 records.
+Their original source identities, dependencies, hashes and raw samples are
+retained unchanged. They are not v2 performance or mutation proof. Current
+packing behavior, security boundaries and public APIs are checked independently;
+a new performance claim requires a new applicable benchmark run.
+
 Each result records fixture hash, item and container counts, constraints,
 objective order, feasibility and verification time, score, container count,
 utilization, known bound or optimum, solver work, allocations, bytes, machine,

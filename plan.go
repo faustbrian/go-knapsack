@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"slices"
 
-	"github.com/faustbrian/go-knapsack/geometry"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
 )
 
 // Status distinguishes feasible evidence, exhaustive proof, heuristic partial

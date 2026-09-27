@@ -5,14 +5,14 @@
   "modules": [
     {
       "directory": ".",
-      "module_path": "github.com/faustbrian/go-knapsack",
+      "module_path": "github.com/faustbrian/go-knapsack/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": ".",
           "directory": ".",
           "name": "knapsack",
-          "import_path": "github.com/faustbrian/go-knapsack",
+          "import_path": "github.com/faustbrian/go-knapsack/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -24,7 +24,7 @@
           "module_directory": ".",
           "directory": "constraint",
           "name": "constraint",
-          "import_path": "github.com/faustbrian/go-knapsack/constraint",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/constraint",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -36,7 +36,7 @@
           "module_directory": ".",
           "directory": "encoding",
           "name": "encoding",
-          "import_path": "github.com/faustbrian/go-knapsack/encoding",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/encoding",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -48,7 +48,7 @@
           "module_directory": ".",
           "directory": "geometry",
           "name": "geometry",
-          "import_path": "github.com/faustbrian/go-knapsack/geometry",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/geometry",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -60,7 +60,7 @@
           "module_directory": ".",
           "directory": "knapsacktest",
           "name": "knapsacktest",
-          "import_path": "github.com/faustbrian/go-knapsack/knapsacktest",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/knapsacktest",
           "kind": "test support",
           "production": false,
           "executable": true,
@@ -72,7 +72,7 @@
           "module_directory": ".",
           "directory": "objective",
           "name": "objective",
-          "import_path": "github.com/faustbrian/go-knapsack/objective",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/objective",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -84,7 +84,7 @@
           "module_directory": ".",
           "directory": "solver",
           "name": "solver",
-          "import_path": "github.com/faustbrian/go-knapsack/solver",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/solver",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -96,7 +96,7 @@
           "module_directory": ".",
           "directory": "verify",
           "name": "verify",
-          "import_path": "github.com/faustbrian/go-knapsack/verify",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/verify",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -108,7 +108,7 @@
           "module_directory": ".",
           "directory": "visualize",
           "name": "visualize",
-          "import_path": "github.com/faustbrian/go-knapsack/visualize",
+          "import_path": "github.com/faustbrian/go-knapsack/v2/visualize",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -125,11 +125,11 @@
       "family_label": "Domain Utilities",
       "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
       "family_order": 8,
-      "version": "1.0.0",
+      "version": "2.0.0",
       "tag_prefix": "v",
       "owned_dependencies": [
         "github.com/faustbrian/go-math",
-        "github.com/faustbrian/go-measurement"
+        "github.com/faustbrian/go-measurement/v2"
       ],
       "reverse_owned_dependencies": [
         "github.com/faustbrian/go-knapsack/integration/references",
@@ -161,18 +161,18 @@
         ],
         "public_package_identifier": "knapsack",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-knapsack"
+          "github.com/faustbrian/go-knapsack/v2"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-knapsack": "Use for immutable packing requests, exact lattice normalization, bounded resource policy, and canonical plan values.",
-          "github.com/faustbrian/go-knapsack/constraint": "Use to define trusted synchronous placement constraints over immutable bounded views.",
-          "github.com/faustbrian/go-knapsack/encoding": "Use for strict bounded canonical JSON request and plan interchange.",
-          "github.com/faustbrian/go-knapsack/geometry": "Use for checked integer cuboids, physical-axis orientations, and half-open spatial predicates.",
-          "github.com/faustbrian/go-knapsack/knapsacktest": "Use in tests for canonical plan comparison and independent verification assertions.",
-          "github.com/faustbrian/go-knapsack/objective": "Use to define exact deterministic plan objectives and lexicographic criteria.",
-          "github.com/faustbrian/go-knapsack/solver": "Use for bounded deterministic heuristic packing or exhaustive small-instance proofs.",
-          "github.com/faustbrian/go-knapsack/verify": "Use to validate supplied plans independently from solver placement predicates.",
-          "github.com/faustbrian/go-knapsack/visualize": "Use to render deterministic human-readable views of canonical plans."
+          "github.com/faustbrian/go-knapsack/v2": "Use for immutable packing requests, exact lattice normalization, bounded resource policy, and canonical plan values.",
+          "github.com/faustbrian/go-knapsack/v2/constraint": "Use to define trusted synchronous placement constraints over immutable bounded views.",
+          "github.com/faustbrian/go-knapsack/v2/encoding": "Use for strict bounded canonical JSON request and plan interchange.",
+          "github.com/faustbrian/go-knapsack/v2/geometry": "Use for checked integer cuboids, physical-axis orientations, and half-open spatial predicates.",
+          "github.com/faustbrian/go-knapsack/v2/knapsacktest": "Use in tests for canonical plan comparison and independent verification assertions.",
+          "github.com/faustbrian/go-knapsack/v2/objective": "Use to define exact deterministic plan objectives and lexicographic criteria.",
+          "github.com/faustbrian/go-knapsack/v2/solver": "Use for bounded deterministic heuristic packing or exhaustive small-instance proofs.",
+          "github.com/faustbrian/go-knapsack/v2/verify": "Use to validate supplied plans independently from solver placement predicates.",
+          "github.com/faustbrian/go-knapsack/v2/visualize": "Use to render deterministic human-readable views of canonical plans."
         },
         "lifecycle_status": "active",
         "maturity": "stable",
@@ -198,14 +198,14 @@
           "github.com/faustbrian/go-knapsack/objective/money"
         ],
         "companions": [
-          "github.com/faustbrian/go-knapsack/constraint",
-          "github.com/faustbrian/go-knapsack/encoding",
-          "github.com/faustbrian/go-knapsack/geometry",
-          "github.com/faustbrian/go-knapsack/knapsacktest",
-          "github.com/faustbrian/go-knapsack/objective",
-          "github.com/faustbrian/go-knapsack/solver",
-          "github.com/faustbrian/go-knapsack/verify",
-          "github.com/faustbrian/go-knapsack/visualize"
+          "github.com/faustbrian/go-knapsack/v2/constraint",
+          "github.com/faustbrian/go-knapsack/v2/encoding",
+          "github.com/faustbrian/go-knapsack/v2/geometry",
+          "github.com/faustbrian/go-knapsack/v2/knapsacktest",
+          "github.com/faustbrian/go-knapsack/v2/objective",
+          "github.com/faustbrian/go-knapsack/v2/solver",
+          "github.com/faustbrian/go-knapsack/v2/verify",
+          "github.com/faustbrian/go-knapsack/v2/visualize"
         ],
         "supported_go": {
           "minimum": "1.27.0",
@@ -230,7 +230,7 @@
           "examples": "example_test.go",
           "faq": "docs/faq.md",
           "changelog": "CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],

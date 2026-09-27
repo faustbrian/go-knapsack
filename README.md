@@ -5,7 +5,7 @@
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
-[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack)
+[![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack/v2.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack/v2)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-knapsack?sort=semver)](https://github.com/faustbrian/go-knapsack/releases)
 [![Go](https://img.shields.io/badge/go-1.27.0-00ADD8?logo=go)](https://go.dev/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -21,8 +21,12 @@ optimality. The bounded exact solver is for small instances and reports
 `optimal` or `infeasible` only after exhaustive search. Every solver result is
 checked by the structurally separate `verify` package.
 
-The independently published v1.0.0 root module is stable and requires Go
-1.27.0.
+The v2 root module requires Go 1.27.0 and uses the bounded exact quantities
+from `github.com/faustbrian/go-measurement/v2`. Change root imports to
+`github.com/faustbrian/go-knapsack/v2` and construct physical inputs with
+measurement v2; v1 and v2 quantities have distinct Go type identities.
+Serialized request and plan schema v1 remains unchanged. Existing independently
+released objective adapters retain their v1 dependencies until migrated.
 
 Exact container-cost optimization lives in the independently released
 [`objective/money`](objective/money/) module. Existing
@@ -32,7 +36,7 @@ the compatibility path.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-knapsack@v1
+go get github.com/faustbrian/go-knapsack/v2@v2
 ```
 
 ## Quick start

@@ -10,11 +10,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/constraint"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/objective"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/objective"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
 // Options selects deterministic solver extensions and partial-result policy.

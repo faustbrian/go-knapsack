@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack"
-	packingjson "github.com/faustbrian/go-knapsack/encoding"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2"
+	packingjson "github.com/faustbrian/go-knapsack/v2/encoding"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-measurement/v2"
 )
 
 func TestV1GoldenRequestAndPlanCompatibility(t *testing.T) {

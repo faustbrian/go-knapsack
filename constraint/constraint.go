@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/v2"
 )
 
 var (

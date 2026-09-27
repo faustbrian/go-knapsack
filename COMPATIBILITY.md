@@ -1,7 +1,13 @@
 # Compatibility Policy
 
-The root module is released as `github.com/faustbrian/go-knapsack` and uses
-plain semantic-version tags such as `v1.0.0`. The canonical optional
+The current root module uses `github.com/faustbrian/go-knapsack/v2` and plain
+major-version tags such as `v2.0.0` from main. The previously published
+unsuffixed `github.com/faustbrian/go-knapsack` v1 module remains an immutable
+legacy consumer dependency; it is not the current root source. The v2 root
+uses `github.com/faustbrian/go-measurement/v2` quantities, so callers update
+both imports together. Canonical request and plan schema v1 is retained.
+
+The canonical optional
 `objective/money` module and deprecated `objective/gomoney` compatibility
 facade are released independently using `objective/money/v<version>` and
 `objective/gomoney/v<version>` tags, respectively.

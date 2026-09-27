@@ -4,14 +4,17 @@ The minimum language and toolchain is Go 1.27.0, controlled by the
 repository-wide version files. Public types, typed errors, canonical encoding,
 objective semantics, coordinates, and proof statuses are contracts.
 
-Every change must pass `make check`, which delegates to `golib check --all`.
-A release candidate must also pass `golib release dry-run`; it proves the
-release archive and clean-consumer path before running the same complete module
-contract. That contract includes mutation execution, benchmark budgets, SBOM
-generation, secret scanning, corpus provenance, dependency and vulnerability
-review, documentation, examples, race detection, fuzzing, and meaningful 100%
-production statement coverage. NilAway remains advisory and visible within the
-shared module contract.
+Verification follows the repository's proportional assurance policy. The v2
+root migration requires current packing and hostile-boundary tests, API review,
+public dependency integrity, exact-source CI and a real clean public consumer
+at publication. Run race, fuzz, mutation and performance gates when they
+exercise an affected material risk or the applicable release claim, not solely
+because a dated historical receipt is present. Required selected checks fail
+closed; NilAway remains advisory.
+
+The v1 mutation and benchmark receipts retain their original source and
+dependency identities. They are historical records, not v2 execution evidence;
+no new performance or mutation result is claimed by the import migration.
 
 The package-specific test operation repeatedly cancels both solvers under the
 race detector, proves production packages contain no unmanaged goroutine

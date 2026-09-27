@@ -7,11 +7,11 @@ import (
 	"math/big"
 	"slices"
 
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/constraint"
-	packingjson "github.com/faustbrian/go-knapsack/encoding"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/objective"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
+	packingjson "github.com/faustbrian/go-knapsack/v2/encoding"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/objective"
 )
 
 // Code is a stable machine-readable verifier violation category.
