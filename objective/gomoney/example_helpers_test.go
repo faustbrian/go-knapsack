@@ -3,7 +3,7 @@ package gomoney_test
 import (
 	"fmt"
 
-	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/v2"
 )
 
 func mustPlanForExample(typeIDs ...string) knapsack.Plan {

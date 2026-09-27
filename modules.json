@@ -316,14 +316,14 @@
     },
     {
       "directory": "objective/gomoney",
-      "module_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+      "module_path": "github.com/faustbrian/go-knapsack/objective/gomoney/v2",
       "go_version": "1.27.0",
       "packages": [
         {
           "module_directory": "objective/gomoney",
           "directory": ".",
           "name": "gomoney",
-          "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+          "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney/v2",
           "kind": "public",
           "production": true,
           "executable": true,
@@ -340,14 +340,14 @@
       "family_label": "Domain Utilities",
       "family_description": "Domain-specific immutable values, algorithms, parsers, proofs, and calculations.",
       "family_order": 8,
-      "version": "1.1.0",
+      "version": "2.0.0",
       "tag_prefix": "objective/gomoney/v",
       "owned_dependencies": [
         "github.com/faustbrian/go-international",
-        "github.com/faustbrian/go-knapsack",
-        "github.com/faustbrian/go-knapsack/objective/money",
+        "github.com/faustbrian/go-knapsack/v2",
+        "github.com/faustbrian/go-knapsack/objective/money/v2",
         "github.com/faustbrian/go-math",
-        "github.com/faustbrian/go-measurement",
+        "github.com/faustbrian/go-measurement/v2",
         "github.com/faustbrian/go-money"
       ],
       "reverse_owned_dependencies": [],
@@ -375,10 +375,10 @@
         ],
         "public_package_identifier": "gomoney",
         "primary_entry_packages": [
-          "github.com/faustbrian/go-knapsack/objective/gomoney"
+          "github.com/faustbrian/go-knapsack/objective/gomoney/v2"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-knapsack/objective/gomoney": "Use only to preserve the released import path during migration; new code uses objective/money."
+          "github.com/faustbrian/go-knapsack/objective/gomoney/v2": "Deprecated facade for v2 packing types; new code uses objective/money/v2."
         },
         "lifecycle_status": "deprecated",
         "maturity": "stable",
@@ -420,14 +420,14 @@
           "examples": "objective/gomoney/example_test.go",
           "faq": "objective/gomoney/docs/reference.md",
           "changelog": "objective/gomoney/CHANGELOG.md",
-          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney",
+          "pkg_go_dev": "https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney/v2",
           "ecosystem_index": "https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md"
         },
         "known_good_compatibility_sets": [],
         "delivery": {
-          "implementation": "not-started",
-          "hardening": "not-started",
-          "release": "not-started"
+          "implementation": "in-progress",
+          "hardening": "in-progress",
+          "release": "in-progress"
         }
       },
       "gates": {

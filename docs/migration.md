@@ -16,10 +16,10 @@ packing subset are unchanged.
 
 The current canonical adapter source uses
 `github.com/faustbrian/go-knapsack/objective/money/v2` for root v2 packing types.
-Adoption requires its own public `objective/money/v2.0.0` tag and module
-artifacts. Publish that canonical adapter before
-the deprecated `objective/gomoney` facade adopts it through its own next-major
-path and `objective/gomoney/v2.0.0` tag. Retain supported v1 adapter releases
+The canonical adapter's public `objective/money/v2.0.0` module is available.
+Current deprecated facade source adopts it through `objective/gomoney/v2`;
+adopt that facade only after its own `objective/gomoney/v2.0.0` tag and public
+module artifacts exist. Update root and Measurement imports to `/v2` together. Retain supported v1 adapter releases
 and the facade's existing removal interval; root publication alone neither
 migrates nor removes them. No storage or canonical schema migration is implied.
 

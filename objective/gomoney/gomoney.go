@@ -1,12 +1,12 @@
 // Package gomoney preserves the legacy exact-money Knapsack objective API.
-// New consumers should use github.com/faustbrian/go-knapsack/objective/money.
+// New consumers should use github.com/faustbrian/go-knapsack/objective/money/v2.
 package gomoney
 
 import (
 	"context"
 
-	"github.com/faustbrian/go-knapsack"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	"github.com/faustbrian/go-knapsack/v2"
 	"github.com/faustbrian/go-money"
 )
 

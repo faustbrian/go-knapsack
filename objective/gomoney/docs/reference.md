@@ -5,7 +5,7 @@ with the [package overview](../README.md).
 
 `gomoney` is the deprecated compatibility facade for the released exact-money
 objective path. It preserves the existing public API while delegating behavior
-to the canonical `objective/money` module.
+to the canonical `objective/money/v2` module.
 
 ## Quick start
 
@@ -120,13 +120,14 @@ environment, locale, registry, or exchange-rate access.
 
 The deprecated facade is independently released under tags prefixed with
 `objective/gomoney/v`. Its public API is checked against
-`api/baseline.txt`.
+`api/v2.txt`; the complete historical v1 `api/baseline.txt` is retained.
 
-Migrate by changing the module and import path to `objective/money` and using
+Migrate by changing the module and import path to `objective/money/v2` and using
 its `moneyobjective` package identifier. Constructors, methods, sentinel
 identities, errors, score components, and solver behavior remain compatible.
 The facade remains supported throughout v1 and for the longer of 180 days and
-two published stable minor releases after `objective/money` became public.
+two published stable minor releases after `objective/money` first became public.
+The v2 facade does not restart or shorten that interval.
 Removal also requires clean external-consumer evidence and an authorized
 v2.0.0 release.
 
@@ -168,4 +169,4 @@ module resolution.
 
 ## Documentation
 
-See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/README.md) for objective semantics, verification, and related packages.
+See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/README.md) for objective semantics, verification, and related packages.

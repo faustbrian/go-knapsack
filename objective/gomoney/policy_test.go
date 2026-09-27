@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-international/currency"
-	"github.com/faustbrian/go-knapsack/objective/gomoney"
+	"github.com/faustbrian/go-knapsack/objective/gomoney/v2"
 	"github.com/faustbrian/go-money"
 )
 

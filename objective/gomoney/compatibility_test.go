@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack/objective/gomoney"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
+	"github.com/faustbrian/go-knapsack/objective/gomoney/v2"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
 	"github.com/faustbrian/go-money"
 )
 
@@ -24,7 +24,7 @@ func TestCompatibilityFacadeRetainsIdentityAndDelegatesBehavior(t *testing.T) {
 		}
 	}
 
-	const legacyPath = "github.com/faustbrian/go-knapsack/objective/gomoney"
+	const legacyPath = "github.com/faustbrian/go-knapsack/objective/gomoney/v2"
 	for _, value := range []any{
 		gomoney.Limits{}, gomoney.Policy{}, gomoney.Entry{}, gomoney.Costs{},
 	} {

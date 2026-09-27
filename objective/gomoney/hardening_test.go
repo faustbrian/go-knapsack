@@ -19,12 +19,12 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-international/currency"
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/geometry"
-	"github.com/faustbrian/go-knapsack/objective/gomoney"
-	"github.com/faustbrian/go-knapsack/solver"
+	"github.com/faustbrian/go-knapsack/objective/gomoney/v2"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/solver"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-measurement/v2"
 	"github.com/faustbrian/go-money"
 )
 
@@ -123,10 +123,10 @@ func TestProductionDependencyBoundaryExcludesAmbientPolicy(t *testing.T) {
 		t.Fatal(err)
 	}
 	allowed := map[string]bool{
-		"context":                           true,
-		"github.com/faustbrian/go-knapsack": true,
-		"github.com/faustbrian/go-knapsack/objective/money": true,
-		"github.com/faustbrian/go-money":                    true,
+		"context":                              true,
+		"github.com/faustbrian/go-knapsack/v2": true,
+		"github.com/faustbrian/go-knapsack/objective/money/v2": true,
+		"github.com/faustbrian/go-money":                       true,
 	}
 	inspected := 0
 	for _, productionFile := range productionFiles {
