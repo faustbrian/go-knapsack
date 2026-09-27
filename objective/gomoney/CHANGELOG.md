@@ -4,11 +4,22 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## 2.0.0 - 2026-09-27
+
+### Changed
+
+- Prepare the official `/v2` module and imports for published Knapsack v2,
+  Measurement v2 and canonical money objective v2. Go 1.27 is required.
+  Facade-owned defined types and direct canonical sentinel identities remain;
+  exact money behavior, packing semantics and persisted formats are unchanged.
+- Retain the complete historical v1 API baseline and existing deprecation
+  support interval. This dated source preparation does not assert publication.
+
 ### Deprecated
 
 - Mark this module as the compatibility facade for canonical
   `objective/money`. Existing v1 consumers remain supported; new code should
-  migrate its module and import path and use the `moneyobjective` package
+  migrate to `objective/money/v2` for v2 packing types and use the `moneyobjective` package
   identifier. Removal requires the full interval and evidence in the parent
   compatibility policy and an authorized v2.0.0 release.
 
@@ -16,7 +27,8 @@ All notable changes to this module are documented here.
 
 - Delegate exact-money behavior to the canonical `objective/money` module while
   preserving the legacy module's exported types, methods, sentinel identities,
-  error behavior, and package path. All legacy declarations now direct new
+  error behavior, and facade-owned defined types. The v2 module identity is
+  explicit; supported v1 tags retain their original package path. Declarations direct new
   consumers to the canonical import.
 
 - Keep shared fuzz, mutation, dependency, and aggregate evidence under the
@@ -35,7 +47,7 @@ All notable changes to this module are documented here.
 - Clarify root and nested module tag forms, support routing, and the nested
   documentation gate.
 
-- Document the published stable v1 status and Go 1.26.6 requirement.
+- Retain published stable v1 support while preparing v2 with Go 1.27.
 - Publish selection, ownership, lifecycle, and support metadata and link to the
   immutable v1.5.5 ecosystem guidance.
 

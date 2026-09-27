@@ -9,4 +9,5 @@ docs:
 	test -s CHANGELOG.md
 	test -s LICENSE
 	test -s api/baseline.txt
+	test -s api/v2.txt
 	$(GO) test ./... -run '^Example' -count=1

@@ -8,16 +8,18 @@ uses `github.com/faustbrian/go-measurement/v2` quantities, so callers update
 both imports together. Canonical request and plan schema v1 is retained.
 
 The canonical optional
-`objective/money/v2` module and deprecated `objective/gomoney` v1 compatibility
+`objective/money/v2` module and deprecated `objective/gomoney/v2` compatibility
 facade are released independently using `objective/money/v<version>` and
 `objective/gomoney/v<version>` tags, respectively.
 
-The facade remains supported throughout its v1 line and delegates exact-money
-behavior to published `objective/money` v1. Within that legacy type cohort,
+Published facade v1 remains supported throughout its v1 line and delegates
+exact-money behavior to published `objective/money` v1. Within that legacy type cohort,
 migrate by changing the module and import path to `objective/money` and using
 its `moneyobjective` package identifier. Current root v2 types instead require
-`objective/money/v2`, whose adoption awaits its own public artifacts. The
-facade must not depend on that new major before canonical publication. The
+the published `objective/money/v2`. Current facade source prepares
+`objective/gomoney/v2` against that canonical dependency; adopt the facade
+once its own public tag and artifacts exist. Its defined types remain
+facade-owned and its sentinel errors directly share canonical identity. The
 facade will remain available for the longer of 180 days and two published
 stable minor releases after `objective/money` became public. Removal also
 requires clean external-consumer evidence and an authorized

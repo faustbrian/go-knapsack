@@ -27,7 +27,8 @@ why the requested search or proof did not finish.
 
 Use `objective/money/v2` with root v2 after the adapter's public artifacts
 exist. It bridges `money` without burdening the root module.
-`objective/gomoney` v1 remains supported for existing v1 consumers. Container count
+`objective/gomoney` v1 remains supported for existing v1 consumers; current
+`objective/gomoney/v2` source targets v2 and awaits its own public artifacts. Container count
 and cost remain separate lexicographic criteria.
 
 ## How do I debug an external plan?

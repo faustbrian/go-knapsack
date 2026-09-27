@@ -55,10 +55,11 @@ code; isolate any third-party implementation in a separately sandboxed
 process before invoking the library.
 
 Monetary container costs are additive through the nested
-`github.com/faustbrian/go-knapsack/objective/money/v2` module, once its public
-artifacts are available. Its natural package identifier is `moneyobjective`.
+published `github.com/faustbrian/go-knapsack/objective/money/v2` v2.0.0 module. Its natural package identifier is `moneyobjective`.
 The released `objective/gomoney` v1 module remains supported with v1 packing
-types, not as an interchangeable root v2 adapter. The root module does not invent a money type or
+types, not as an interchangeable root v2 adapter. Current deprecated
+`objective/gomoney/v2` source targets v2 packing types; adopt it only after
+its own public artifacts exist. The root module does not invent a money type or
 require `money`. `moneyobjective.New` accepts at most 1,000 costs with
 1,024-byte type IDs. Use `moneyobjective.NewWithLimits` when a larger trusted
 request has an explicit nonzero cost-map policy.

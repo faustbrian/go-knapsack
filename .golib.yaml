@@ -26,7 +26,7 @@ api:
       path: api/baseline.txt
     - module: objective/gomoney
       mode: apidiff
-      path: objective/gomoney/api/baseline.txt
+      path: objective/gomoney/api/v2.txt
     - module: objective/money
       mode: apidiff
       path: objective/money/api/v2.txt

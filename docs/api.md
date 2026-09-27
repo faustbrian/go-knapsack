@@ -8,7 +8,8 @@ plans independently. `constraint` owns immutable callback views. `objective`
 defines exact lexicographic comparisons; the nested `objective/money/v2` module
 adds `money` costs without burdening root consumers. The released
 `objective/gomoney` v1 path remains supported with legacy packing types;
-canonical v2 adoption requires its own published adapter artifacts. `encoding` owns
+current `objective/gomoney/v2` facade source targets canonical v2 and awaits
+its own public artifacts. `encoding` owns
 strict versioned JSON.
 
 Zero-value items, containers, requests, plans, objectives, and limits are

@@ -3,17 +3,20 @@
 `gomoney` is the deprecated compatibility facade for the released exact-money
 objective path. It preserves the existing public API while delegating behavior
 to the canonical
-[`objective/money`](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money)
+[`objective/money/v2`](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v2)
 module.
 
-The independently published v1.1.0 module remains stable for compatibility and
-requires Go 1.26.6. Current unreleased source requires Go 1.27.0. New code
-should use `objective/money`.
+Current source prepares the deprecated `/v2` facade for Knapsack v2 and
+Measurement v2 and requires Go 1.27.0. Adopt it once its own public tag and
+module artifacts exist. Published v1 releases remain supported with their
+legacy packing types. New code should use `objective/money/v2`.
 
 ## Install
 
+After facade v2 publication:
+
 ```sh
-go get github.com/faustbrian/go-knapsack/objective/gomoney@v1
+go get github.com/faustbrian/go-knapsack/objective/gomoney/v2@v2.0.0
 ```
 
 ## Quick start
@@ -49,16 +52,17 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney)
-- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/docs/README.md)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/gomoney/v2)
+- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/docs/README.md)
 - [Versioned Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/README.md)
 - [Domain utilities family guidance](https://github.com/faustbrian/go-library-tools/blob/v1.5.5/docs/ecosystem/design-language.md#package-families-and-selection)
 
 ## Compatibility and support
 
-This deprecated stable-v1 facade follows Semantic Versioning and remains
-supported throughout v1. Migrate by changing the module and import path to
-`objective/money` and using its `moneyobjective` package identifier. The
+The facade retains its own defined types and directly shares canonical error
+sentinels. The v2 facade uses v2 packing types; published v1 remains supported
+throughout v1. Migrate new code by changing the module and import path to
+`objective/money/v2` and using its `moneyobjective` package identifier. The
 constructors, methods, sentinel identities, errors, score components, and
 solver behavior remain compatible. The facade will remain available for the
 longer of 180 days and two published stable minor releases after
@@ -66,8 +70,8 @@ longer of 180 days and two published stable minor releases after
 evidence and an authorized v2.0.0 release.
 
 Use the
-[parent support policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/SUPPORT.md) for adoption and defect reports, and
-report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/gomoney/v1.1.0/SECURITY.md).
+[parent support policy](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/SUPPORT.md) for adoption and defect reports, and
+report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/SECURITY.md).
 
 ## License
 

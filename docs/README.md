@@ -21,7 +21,7 @@
 ## Optional modules
 
 - [Canonical exact-money objective](../objective/money/docs/README.md)
-- [Legacy exact-money compatibility module](../objective/gomoney/docs/README.md)
+- [Deprecated exact-money compatibility facade](../objective/gomoney/docs/README.md)
 
 ## Internal engineering
 

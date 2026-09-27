@@ -90,7 +90,7 @@
       "module_directory": "objective/gomoney",
       "directory": ".",
       "name": "gomoney",
-      "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney",
+      "import_path": "github.com/faustbrian/go-knapsack/objective/gomoney/v2",
       "kind": "public",
       "production": true,
       "executable": true,
