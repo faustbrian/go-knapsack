@@ -4,6 +4,13 @@ The minimum language and toolchain is Go 1.27.0, controlled by the
 repository-wide version files. Public types, typed errors, canonical encoding,
 objective semantics, coordinates, and proof statuses are contracts.
 
+The root v2.0.0 release uses a `v2.0.0` tag from main and the `/v2` module
+path, without a version-specific source directory. Eligibility and a dated
+changelog are not publication proof. Publish and verify the root artifacts and
+a clean public consumer before migrating the independently versioned adapters
+as described in [migration](migration.md). The existing v1 adapters keep their
+own manifests and release histories until that separate migration.
+
 Verification follows the repository's proportional assurance policy. The v2
 root migration requires current packing and hostile-boundary tests, API review,
 public dependency integrity, exact-source CI and a real clean public consumer

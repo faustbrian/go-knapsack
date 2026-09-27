@@ -10,7 +10,18 @@ normalization and request/plan schema v1 are retained. Reject errors from
 measurement quantity construction before constructing packing inputs.
 
 Independently versioned objective adapters and the reference harness retain
-their published v1 dependency sets until their separate v2 migrations.
+their published v1 dependency sets until root v2.0.0 is publicly available.
+Then migrate `integration/references` to the published root and measurement v2
+types before claiming current-root comparison results. Its module is an
+internal harness, not an independently released public adapter.
+
+The public `objective/money` API accepts root packing types, so adopting the
+distinct v2 type identities requires its own next-major module/import path and
+`objective/money/v2.0.0` tag. Migrate and publish that canonical adapter before
+the deprecated `objective/gomoney` facade adopts it through its own next-major
+path and `objective/gomoney/v2.0.0` tag. Retain supported v1 adapter releases
+and the facade's existing removal interval; root publication alone neither
+migrates nor removes them. No storage or canonical schema migration is implied.
 
 ## Other packing libraries
 

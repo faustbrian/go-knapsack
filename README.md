@@ -35,9 +35,15 @@ the compatibility path.
 
 ## Install
 
+Install root v2.0.0 once its public tag and module artifacts are available:
+
 ```sh
-go get github.com/faustbrian/go-knapsack/v2@v2
+go get github.com/faustbrian/go-knapsack/v2@v2.0.0
 ```
+
+Before publication, existing consumers can retain their released v1 root and
+objective module versions. Do not bypass publication with local replacements
+or pseudo-versions. Follow [migration](docs/migration.md) when adopting v2.
 
 ## Quick start
 

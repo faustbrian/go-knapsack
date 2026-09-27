@@ -2,7 +2,11 @@
 
 All notable changes follow Keep a Changelog and Semantic Versioning.
 
-## [Unreleased]
+## [2.0.0] - 2026-09-27
+
+This entry describes the root v2.0.0 release source; its date does not establish
+publication. Adoption requires the public root tag and module artifacts.
+Independently versioned objective modules retain their own release histories.
 
 ### Added
 
@@ -261,5 +265,5 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Replaced nil-context panics in solver and objective entry points with the
   stable `knapsack.ErrInvalidOptions` category.
 
-[Unreleased]: https://github.com/faustbrian/go-knapsack/compare/v1.0.0...HEAD
+[2.0.0]: https://github.com/faustbrian/go-knapsack/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/faustbrian/go-knapsack/releases/tag/v1.0.0
