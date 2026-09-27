@@ -660,13 +660,6 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 	}
 }
 
-func equalGenerated(got, want generatedEvidence) bool {
-	return got.SourceSHA256 == want.SourceSHA256 && got.GoVersion == want.GoVersion &&
-		mapsEqual(got.Dependencies, want.Dependencies) &&
-		mapsEqual(got.Fixtures, want.Fixtures) && got.Date != "" && got.Environment != "" &&
-		len(got.Commands) > 0
-}
-
 func mapsEqual(left, right map[string]string) bool {
 	if len(left) != len(right) {
 		return false

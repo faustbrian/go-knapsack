@@ -5,7 +5,6 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"os"
-	"os/exec"
 	"strings"
 	"testing"
 )
@@ -106,15 +105,6 @@ func readBenchmarkMetadata(t *testing.T, path string) map[string]string {
 		t.Fatal(err)
 	}
 	return metadata
-}
-
-func benchmarkInputSHA256(t *testing.T, profile string) string {
-	t.Helper()
-	output, err := exec.Command("./scripts/benchmark-input-digest.sh", profile).Output()
-	if err != nil {
-		t.Fatalf("benchmark input digest: %v", err)
-	}
-	return strings.TrimSpace(string(output))
 }
 
 func fileSHA256(t *testing.T, path string) string {
