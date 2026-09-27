@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-international/currency"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
-	"github.com/faustbrian/go-knapsack/solver"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	"github.com/faustbrian/go-knapsack/v2/solver"
 	"github.com/faustbrian/go-money"
 )
 

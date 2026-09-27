@@ -5,9 +5,10 @@ plans, statuses, typed errors, and resource limits. `geometry` owns checked
 integer cuboids and physical-axis rotations. `solver` exposes heuristic and
 exact pack-all and fixed-container operations. `verify` validates supplied
 plans independently. `constraint` owns immutable callback views. `objective`
-defines exact lexicographic comparisons; the nested `objective/money` module
+defines exact lexicographic comparisons; the nested `objective/money/v2` module
 adds `money` costs without burdening root consumers. The released
-`objective/gomoney` path remains supported for compatibility. `encoding` owns
+`objective/gomoney` v1 path remains supported with legacy packing types;
+canonical v2 adoption requires its own published adapter artifacts. `encoding` owns
 strict versioned JSON.
 
 Zero-value items, containers, requests, plans, objectives, and limits are
@@ -57,7 +58,7 @@ most applications receive views through solver callbacks rather than building
 them directly.
 
 `objective.New` accepts at most the seven distinct built-in metrics and rejects
-longer input before allocating validation state. `objective/money.New` uses
+longer input before allocating validation state. `moneyobjective.New` uses
 safe defaults of 1,000 cost entries and 1,024 bytes per type ID;
 `NewWithLimits` permits an explicit nonzero policy for larger trusted maps.
 

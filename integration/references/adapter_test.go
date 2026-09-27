@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/faustbrian/go-knapsack/verify"
+	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
 type comparisonAdapterOutput struct {
@@ -70,7 +70,7 @@ func TestGoComparisonAdapterCommonSubset(t *testing.T) {
 		t.Fatal(err)
 	}
 	if output.AdapterSchema != "v2" ||
-		output.Implementation != "github.com/faustbrian/go-knapsack" ||
+		output.Implementation != "github.com/faustbrian/go-knapsack/v2" ||
 		output.ImplementationVersion == "" || output.ImplementationRevision == "" ||
 		output.RuntimeVersion == "" || output.Timing.SolveNanoseconds <= 0 ||
 		output.Timing.ProcessStartupIncluded || output.Timing.AutoloadAndFixtureIncluded ||

@@ -21,8 +21,9 @@ invariants and replays extension contracts through their immutable views; it
 never calls solver predicates. `encoding`, `visualize`, and `knapsacktest` are
 leaf consumers.
 
-Monetary comparison is isolated in the canonical nested `objective/money`
-module; `objective/gomoney` remains a compatibility path. Differential
+Monetary comparison is isolated in the canonical nested `objective/money/v2`
+module; its adoption requires public adapter artifacts. `objective/gomoney` v1
+remains a compatibility path for legacy packing types. Differential
 dependencies stay in `integration/references`. Built-in geometry and
 physical rules remain direct solver/verifier code rather than a slower generic
 callback path. Extension interfaces never expose mutable bins or search state.

@@ -5,6 +5,11 @@ public package or supported application dependency. It compares Knapsack with
 `gopackx` and `bp3d` only across their shared integral-cuboid, unrestricted
 rotation, weight-capacity, and pack-all behavior.
 
+The harness consumes published Knapsack v2.0.0 and measurement v2.0.0 without
+local replacements. Its adapter schema remains v2; the implementation field
+now identifies `github.com/faustbrian/go-knapsack/v2`. This module migration
+does not change the common-subset packing or feasibility contract.
+
 The reference libraries provide comparison evidence; Knapsack's independent
 `verify` package remains authoritative for placement feasibility. Differences
 outside the documented common subset are not compatibility failures.
@@ -17,5 +22,5 @@ GOWORK=off go test ./...
 
 The `cmd/knapsack-compare` executable emits the owned comparison-adapter schema
 used by repository evidence tooling. See the parent
-[capability assessment](https://github.com/faustbrian/go-knapsack/blob/v1.0.0/docs/capabilities.md) and
-[benchmark methodology](https://github.com/faustbrian/go-knapsack/blob/v1.0.0/docs/benchmarks.md) for scope and interpretation.
+[capability assessment](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/docs/capabilities.md) and
+[benchmark methodology](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/docs/benchmarks.md) for scope and interpretation.

@@ -9,15 +9,15 @@ No numeric conversion or canonical schema migration is required: exact lattice
 normalization and request/plan schema v1 are retained. Reject errors from
 measurement quantity construction before constructing packing inputs.
 
-Independently versioned objective adapters and the reference harness retain
-their published v1 dependency sets until root v2.0.0 is publicly available.
-Then migrate `integration/references` to the published root and measurement v2
-types before claiming current-root comparison results. Its module is an
-internal harness, not an independently released public adapter.
+Root v2.0.0 and measurement v2.0.0 are published dependencies of the current
+`integration/references` harness. Its module remains an internal harness, not
+an independently released public adapter. The comparison schema and shared
+packing subset are unchanged.
 
-The public `objective/money` API accepts root packing types, so adopting the
-distinct v2 type identities requires its own next-major module/import path and
-`objective/money/v2.0.0` tag. Migrate and publish that canonical adapter before
+The current canonical adapter source uses
+`github.com/faustbrian/go-knapsack/objective/money/v2` for root v2 packing types.
+Adoption requires its own public `objective/money/v2.0.0` tag and module
+artifacts. Publish that canonical adapter before
 the deprecated `objective/gomoney` facade adopts it through its own next-major
 path and `objective/gomoney/v2.0.0` tag. Retain supported v1 adapter releases
 and the facade's existing removal interval; root publication alone neither

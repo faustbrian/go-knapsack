@@ -8,5 +8,6 @@ docs:
 	test -s docs/reference.md
 	test -s CHANGELOG.md
 	test -s LICENSE
-	test -s api/baseline.txt
+	test -s api/v1.txt
+	test -s api/v2.txt
 	$(GO) test ./... -run '^Example' -count=1

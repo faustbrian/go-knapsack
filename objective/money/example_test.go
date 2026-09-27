@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/faustbrian/go-international/currency"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
 	"github.com/faustbrian/go-money"
 )
 

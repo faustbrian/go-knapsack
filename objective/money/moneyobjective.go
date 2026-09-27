@@ -10,7 +10,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/faustbrian/go-knapsack"
+	"github.com/faustbrian/go-knapsack/v2"
 	gomath "github.com/faustbrian/go-math"
 	"github.com/faustbrian/go-math/decimal"
 	"github.com/faustbrian/go-money"

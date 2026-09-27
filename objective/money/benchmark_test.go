@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-international/currency"
-	"github.com/faustbrian/go-knapsack"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	"github.com/faustbrian/go-knapsack/v2"
 	"github.com/faustbrian/go-money"
 )
 

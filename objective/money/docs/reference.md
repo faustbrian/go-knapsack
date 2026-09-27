@@ -118,9 +118,11 @@ environment, locale, registry, or exchange-rate access.
 
 ## Compatibility and migration
 
-The stable v1 module is independently released under tags prefixed with
-`objective/money/v`. Its public API is checked against
-`api/baseline.txt`.
+The stable v2 line uses module/import path
+`github.com/faustbrian/go-knapsack/objective/money/v2`, with tags such as
+`objective/money/v2.0.0`, while source stays in `objective/money` on main.
+Its API is checked against `api/v2.txt`; `api/v1.txt` retains immutable legacy
+API evidence. Adopt only after public v2 module artifacts are available.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations
 that previously relied on negative costs must migrate to `NewWithPolicy` and
@@ -128,11 +130,13 @@ explicitly set `AllowNegativeCosts`. Cash and automatic Money contexts must be
 recreated with one fixed default or custom context; the adapter never performs
 that conversion.
 
-Consumers of `objective/gomoney` migrate by changing only the import path to
-`objective/money` and using the package identifier `moneyobjective`. The
-constructors, methods, sentinel identities, error strings, score components,
-and solver behavior remain compatible. The legacy module remains supported as
-a compatibility module.
+Legacy v1 consumers can migrate from `objective/gomoney` to published
+`objective/money` v1 without changing packing type identities. Migration to
+this v2 adapter requires `/v2` imports for the adapter, Knapsack, and
+measurement. Exact monetary behavior, error strings, score components, and
+canonical persisted formats are unchanged; v1 and v2 Go types are distinct.
+The legacy facade retains its supported v1 dependencies and existing removal
+interval. A future facade major must wait for canonical v2 publication.
 
 ## FAQ
 
@@ -166,4 +170,4 @@ module resolution.
 
 ## Documentation
 
-See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/money/v1.0.0/README.md) for objective semantics, verification, and related packages.
+See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/README.md) for objective semantics, verification, and related packages.

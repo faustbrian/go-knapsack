@@ -102,7 +102,7 @@
       "module_directory": "objective/money",
       "directory": ".",
       "name": "moneyobjective",
-      "import_path": "github.com/faustbrian/go-knapsack/objective/money",
+      "import_path": "github.com/faustbrian/go-knapsack/objective/money/v2",
       "kind": "public",
       "production": true,
       "executable": true,

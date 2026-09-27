@@ -25,13 +25,14 @@ The v2 root module requires Go 1.27.0 and uses the bounded exact quantities
 from `github.com/faustbrian/go-measurement/v2`. Change root imports to
 `github.com/faustbrian/go-knapsack/v2` and construct physical inputs with
 measurement v2; v1 and v2 quantities have distinct Go type identities.
-Serialized request and plan schema v1 remains unchanged. Existing independently
-released objective adapters retain their v1 dependencies until migrated.
+Serialized request and plan schema v1 remains unchanged. The canonical money
+adapter source now accepts root v2; the released legacy facade retains v1 types.
 
-Exact container-cost optimization lives in the independently released
-[`objective/money`](objective/money/) module. Existing
-[`objective/gomoney`](objective/gomoney/) consumers remain supported through
-the compatibility path.
+Exact container-cost optimization lives in the independently versioned
+[`objective/money/v2`](objective/money/) adapter; adopt it after its own public
+major tag and module artifacts exist. Existing
+[`objective/gomoney`](objective/gomoney/) v1 consumers remain supported with
+the separately published canonical v1 dependency.
 
 ## Install
 

@@ -4,13 +4,15 @@
 container costs with the Knapsack solvers. Its target-oriented import path
 keeps the Money dependency outside the Knapsack core.
 
-The independently published v1.0.0 module is stable and requires Go 1.26.6.
-Current unreleased source requires Go 1.27.0.
+The current source prepares the stable v2 adapter for published Knapsack and
+measurement v2 types and requires Go 1.27.0. Installation below requires its
+public `objective/money/v2.0.0` tag and module artifacts. Until then, legacy
+consumers retain their published v1 adapter dependencies.
 
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-knapsack/objective/money@v1
+go get github.com/faustbrian/go-knapsack/objective/money/v2@v2.0.0
 ```
 
 ## Quick start
@@ -50,18 +52,19 @@ additional guarantees beyond the documented module boundary.
 
 - [Documentation index](docs/README.md)
 - [Complete technical guide](docs/reference.md)
-- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money)
-- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/objective/money/v1.0.0/docs/README.md)
+- [Go API reference](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v2)
+- [Parent package documentation](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/docs/README.md)
 - [Versioned Golib ecosystem index](https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/README.md)
 - [Domain utilities family guidance](https://github.com/faustbrian/go-library-tools/blob/v1.6.1/docs/ecosystem/design-language.md#package-families-and-selection)
 
 ## Compatibility and support
 
-This stable v1 module follows Semantic Versioning. Use the
-[parent support policy](https://github.com/faustbrian/go-knapsack/blob/objective/money/v1.0.0/SUPPORT.md) for adoption and defect reports, and
-report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/objective/money/v1.0.0/SECURITY.md).
-The released `objective/gomoney` module remains available as a compatibility
-path; new adoption should use this module.
+This stable v2 line follows Semantic Versioning. Use the
+[parent support policy](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/SUPPORT.md) for adoption and defect reports, and
+report vulnerabilities through the [parent security policy](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/SECURITY.md).
+The released `objective/gomoney` v1 facade remains supported with v1 packing
+types and its published canonical v1 dependency. It is not interchangeable with
+this v2 adapter. New v2 adoption should use this module once published.
 
 ## License
 

@@ -19,12 +19,12 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-international/currency"
-	"github.com/faustbrian/go-knapsack"
-	"github.com/faustbrian/go-knapsack/geometry"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money"
-	"github.com/faustbrian/go-knapsack/solver"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/geometry"
+	"github.com/faustbrian/go-knapsack/v2/solver"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-measurement"
+	"github.com/faustbrian/go-measurement/v2"
 	"github.com/faustbrian/go-money"
 )
 
@@ -125,7 +125,7 @@ func TestProductionDependencyBoundaryExcludesAmbientPolicy(t *testing.T) {
 	allowed := map[string]bool{
 		"context": true, "errors": true, "fmt": true, "math/big": true,
 		"slices": true, "strings": true,
-		"github.com/faustbrian/go-knapsack":     true,
+		"github.com/faustbrian/go-knapsack/v2":  true,
 		"github.com/faustbrian/go-math":         true,
 		"github.com/faustbrian/go-math/decimal": true,
 		"github.com/faustbrian/go-money":        true,
