@@ -18,6 +18,34 @@ func boundaryNormalizedSpec() knapsack.NormalizedSpec {
 	}
 }
 
+func TestPhysicalRequestAcceptsExplicitZeroTare(t *testing.T) {
+	t.Parallel()
+
+	item, err := knapsack.NewItem(itemSpec("aa"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	spec := boundaryContainerSpec()
+	tare := mass("0", measurement.Kilogram)
+	spec.TareWeight = &tare
+	container, err := knapsack.NewContainerType(spec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	resolution := knapsack.Resolution{Length: length("1", measurement.Centimetre), Mass: mass("1", measurement.Gram)}
+	request, err := knapsack.NewRequest([]knapsack.Item{item}, []knapsack.ContainerType{container}, resolution, knapsack.DefaultLimits())
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := knapsack.NormalizedContainer{
+		ID: "bb", Dimensions: geometry.Dimensions{X: 200, Y: 200, Z: 200},
+		MaxContentWeight: 2000, TareWeight: 0, Stock: knapsack.FiniteStock(1),
+	}
+	if got := request.Normalized().Containers(); !reflect.DeepEqual(got, []knapsack.NormalizedContainer{want}) {
+		t.Fatalf("normalized containers = %+v, want %+v", got, want)
+	}
+}
+
 func TestRequestCollectionAndIDLimitsAreInclusive(t *testing.T) {
 	for _, test := range []struct {
 		name   string
