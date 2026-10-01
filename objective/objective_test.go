@@ -25,20 +25,48 @@ func (*objectiveCallback) Valid() bool { return true }
 
 func (o *objectiveCallback) ComparePlans(context.Context, knapsack.NormalizedRequest, knapsack.Plan, knapsack.Plan) (int, error) {
 	if o.panicIn == "compare" {
-		panic("compare panic")
+		panic("application-private-marker")
 	}
 	return o.comparison, o.err
 }
 
 func (o *objectiveCallback) Components(context.Context, knapsack.NormalizedRequest, knapsack.Plan) ([]knapsack.ScoreComponent, error) {
 	if o.panicIn == "components" {
-		panic("components panic")
+		panic("application-private-marker")
 	}
 	return o.components, o.err
 }
 
 func testResolution() knapsack.Resolution {
 	return knapsack.Resolution{Length: measurement.MustNew(decimal.New(1), measurement.Metre), Mass: measurement.MustNew(decimal.New(1), measurement.Kilogram)}
+}
+
+func TestCallbackPanicDoesNotDiscloseApplicationValue(t *testing.T) {
+	for _, method := range []string{"compare", "components"} {
+		t.Run(method, func(t *testing.T) {
+			callback := &objectiveCallback{panicIn: method}
+			var err error
+			if method == "compare" {
+				var result int
+				result, err = objective.SafeCompare(context.Background(), callback, knapsack.NormalizedRequest{}, knapsack.Plan{}, knapsack.Plan{})
+				if result != 0 {
+					t.Fatal("panic returned comparison")
+				}
+			} else {
+				var result []knapsack.ScoreComponent
+				result, err = objective.SafeComponents(context.Background(), callback, knapsack.NormalizedRequest{}, knapsack.Plan{})
+				if result != nil {
+					t.Fatal("panic returned components")
+				}
+			}
+			if !errors.Is(err, objective.ErrCallbackPanic) {
+				t.Fatalf("error = %v", err)
+			}
+			if strings.Contains(err.Error(), "application-private-marker") {
+				t.Fatal("panic value disclosed")
+			}
+		})
+	}
 }
 
 func TestLexicographicPrecedence(t *testing.T) {

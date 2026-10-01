@@ -4,6 +4,13 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [2.0.1] - 2026-10-01
 
+### Fixed
+
+- Keep recovered callback values, JSON field/key/version details, and verifier
+  findings out of default rejection errors. Stable error categories and
+  cancellation remain available; explicit decoder cause inspection and
+  verifier findings remain application-owned diagnostics.
+
 ### Changed
 
 - Adopt Math v1.1.2 and Measurement v2.0.1 in the root and reference

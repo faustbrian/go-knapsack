@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
 	"reflect"
+	"strings"
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2"
@@ -14,6 +16,51 @@ import (
 	"github.com/faustbrian/go-math/decimal"
 	"github.com/faustbrian/go-measurement/v2"
 )
+
+func TestDecodeErrorsDoNotDiscloseInput(t *testing.T) {
+	for _, test := range []struct {
+		name, input string
+		target      error
+	}{
+		{"unknown field", `{"application-private-marker":true}`, packingjson.ErrInvalidEncoding},
+		{"duplicate key", `{"application-private-marker":true,"application-private-marker":false}`, packingjson.ErrDuplicateKey},
+		{"version", `{"version":"application-private-marker"}`, packingjson.ErrUnsupportedVersion},
+		{"type", `{"version":"v1","plan":{"status":{ "application-private-marker":true}}}`, packingjson.ErrInvalidEncoding},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			plan, err := packingjson.UnmarshalPlan([]byte(test.input), packingjson.DefaultLimits())
+			if !errors.Is(err, test.target) || !reflect.DeepEqual(plan, knapsack.Plan{}) {
+				t.Fatalf("plan=%+v error=%v", plan, err)
+			}
+			if strings.Contains(err.Error(), "application-private-marker") {
+				t.Error("plan input disclosed")
+			}
+			request, err := packingjson.UnmarshalRequest([]byte(test.input), packingjson.DefaultLimits())
+			if !errors.Is(err, test.target) || !reflect.DeepEqual(request, knapsack.NormalizedRequest{}) {
+				t.Fatalf("request=%+v error=%v", request, err)
+			}
+			if strings.Contains(err.Error(), "application-private-marker") {
+				t.Error("request input disclosed")
+			}
+		})
+	}
+}
+
+func TestDecodeRedactionPreservesCauseClassification(t *testing.T) {
+	_, err := packingjson.UnmarshalPlan(nil, packingjson.DefaultLimits())
+	if !errors.Is(err, packingjson.ErrInvalidEncoding) || !errors.Is(err, io.EOF) || err.Error() != packingjson.ErrInvalidEncoding.Error() {
+		t.Fatalf("empty input classification = %v", err)
+	}
+	_, err = packingjson.UnmarshalPlan([]byte(`{"version":"v1","plan":{"status":3}}`), packingjson.DefaultLimits())
+	var typeError *json.UnmarshalTypeError
+	if !errors.As(err, &typeError) || !errors.Is(err, packingjson.ErrInvalidEncoding) || err.Error() != packingjson.ErrInvalidEncoding.Error() {
+		t.Fatalf("type classification = %v", err)
+	}
+	_, err = packingjson.UnmarshalPlan([]byte(`{"version":"v1","plan":{"status":"invalid"}}`), packingjson.DefaultLimits())
+	if !errors.Is(err, knapsack.ErrInvalidRequest) || !errors.Is(err, packingjson.ErrInvalidEncoding) || err.Error() != packingjson.ErrInvalidEncoding.Error() {
+		t.Fatalf("semantic classification = %v", err)
+	}
+}
 
 func TestPlanCanonicalRoundTrip(t *testing.T) {
 	t.Parallel()

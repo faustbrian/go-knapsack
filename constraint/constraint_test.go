@@ -24,7 +24,7 @@ func (mutatingConstraint) Check(_ context.Context, view constraint.PlacementView
 type panicConstraint struct{}
 
 func (panicConstraint) Check(context.Context, constraint.PlacementView) constraint.Decision {
-	panic("boom")
+	panic("application-private-marker")
 }
 
 type pointerConstraint struct{}
@@ -138,9 +138,15 @@ func TestPlacementViewRejectsUnboundedInput(t *testing.T) {
 
 func TestConstraintPanicBecomesStableError(t *testing.T) {
 	t.Parallel()
-	_, err := constraint.Evaluate(context.Background(), panicConstraint{}, constraint.PlacementView{})
+	decision, err := constraint.Evaluate(context.Background(), panicConstraint{}, constraint.PlacementView{})
+	if decision != (constraint.Decision{}) {
+		t.Fatal("panic returned decision")
+	}
 	if !errors.Is(err, constraint.ErrCallbackPanic) {
 		t.Fatalf("error = %v", err)
+	}
+	if strings.Contains(err.Error(), "application-private-marker") {
+		t.Fatal("panic value disclosed")
 	}
 }
 

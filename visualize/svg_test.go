@@ -38,6 +38,28 @@ func TestSVGConsumesOnlyVerifiedPlansAndEscapesLabels(t *testing.T) {
 	}
 }
 
+func TestSVGRejectionDoesNotDiscloseVerifierDetails(t *testing.T) {
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items:      []knapsack.NormalizedItem{{ID: "application-private-marker", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}}},
+		Containers: []knapsack.NormalizedContainer{{ID: "box", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, MaxContentWeight: 1, Stock: knapsack.FiniteStock(1)}},
+		Resolution: knapsack.Resolution{Length: measurement.MustNew(decimal.New(1), measurement.Metre), Mass: measurement.MustNew(decimal.New(1), measurement.Kilogram)}, Limits: knapsack.DefaultLimits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := knapsack.NewPlan(knapsack.PlanSpec{Status: knapsack.StatusFeasible, Termination: knapsack.TerminationCompleted})
+	if err != nil {
+		t.Fatal(err)
+	}
+	output, err := visualize.SVG(request, plan, verify.RequireAll())
+	if output != "" || !errors.Is(err, visualize.ErrUnverifiedPlan) {
+		t.Fatalf("output=%q error=%v", output, err)
+	}
+	if strings.Contains(err.Error(), "application-private-marker") {
+		t.Fatal("verifier item disclosed")
+	}
+}
+
 func TestSVGRejectsSceneCoordinateBudget(t *testing.T) {
 	t.Parallel()
 	q := func(value int64, unit measurement.Unit) measurement.Quantity {
