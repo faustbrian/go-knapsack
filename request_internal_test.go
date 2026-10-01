@@ -3,6 +3,7 @@ package knapsack
 import (
 	"errors"
 	"math"
+	"reflect"
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2/geometry"
@@ -483,6 +484,12 @@ func TestNormalizationStillDefendsAgainstInvalidDomainValues(t *testing.T) {
 	invalidGross.spec.TareWeight, invalidGross.spec.MaxGrossWeight = &tare, &gross
 	if _, err := normalizeContainer(invalidGross, resolution); !errors.Is(err, ErrInvalidContainer) {
 		t.Fatalf("gross error = %v", err)
+	}
+	zeroGross := validContainer
+	zeroTare, zeroGrossWeight := internalQuantity("0", measurement.Kilogram), internalQuantity("0", measurement.Kilogram)
+	zeroGross.spec.TareWeight, zeroGross.spec.MaxGrossWeight = &zeroTare, &zeroGrossWeight
+	if got, err := normalizeContainer(zeroGross, resolution); !errors.Is(err, ErrInvalidContainer) || !reflect.DeepEqual(got, NormalizedContainer{}) {
+		t.Fatalf("zero gross container = %+v, error = %v", got, err)
 	}
 	if got := category(errors.New("other"), ErrInvalidItem); !errors.Is(got, ErrInvalidItem) {
 		t.Fatalf("fallback category = %v", got)
