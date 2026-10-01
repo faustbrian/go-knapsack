@@ -13,6 +13,15 @@ Visualization output must escape labels and may consume only verified plans.
 Treat callbacks as trusted application code. Panics become typed errors, but
 callbacks must still bound latency, honor cancellation, avoid shared mutation,
 and never be loaded from serialized input.
+Recovered panic values and rejected JSON field/key/version details are omitted
+from default errors. Generated-plan and rendering rejections also omit verifier
+findings. Decoder errors retain their classification chains for deliberate
+`errors.Is`/`errors.As` inspection; underlying decoder causes can contain input
+details. `verify.Result.Violations()` is an explicit diagnostic interface, and
+trusted callbacks may return their own errors or bounded decision messages.
+Applications own access control and redaction before logging or returning those
+explicit diagnostics. Review this boundary when adding a new error formatter,
+callback integration, or externally exposed diagnostic endpoint.
 Callback views reject more than 10,000 prior placements or a conservative
 16 MiB owned-copy estimate before cloning any collection.
 Solver and verifier options reject more than 32 callbacks before cloning or

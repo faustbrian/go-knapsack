@@ -6,7 +6,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io"
 	"unicode/utf8"
 
@@ -18,14 +17,26 @@ import (
 
 var (
 	// ErrInvalidEncoding identifies malformed or non-canonical JSON input.
+	// Default formatting omits input details; explicit cause inspection is
+	// reserved for application-owned diagnostics.
 	ErrInvalidEncoding = errors.New("knapsack encoding: invalid JSON")
-	// ErrDuplicateKey identifies an object containing the same key twice.
+	// ErrDuplicateKey identifies duplicate keys without disclosing the key.
 	ErrDuplicateKey = errors.New("knapsack encoding: duplicate object key")
 	// ErrEncodingLimit identifies input rejected by a decoding resource bound.
 	ErrEncodingLimit = errors.New("knapsack encoding: resource limit exceeded")
-	// ErrUnsupportedVersion identifies an unknown request or plan schema.
+	// ErrUnsupportedVersion identifies an unknown schema without disclosing it.
 	ErrUnsupportedVersion = errors.New("knapsack encoding: unsupported version")
 )
+
+// Keep the prior error classification chain available to deliberate inspection
+// without letting ordinary formatting print decoder input or field details.
+type invalidEncodingError struct{ cause error }
+
+// Error returns the stable category without formatting the underlying cause.
+func (invalidEncodingError) Error() string { return ErrInvalidEncoding.Error() }
+
+// Unwrap preserves classification and deliberate application-owned inspection.
+func (e invalidEncodingError) Unwrap() []error { return []error{ErrInvalidEncoding, e.cause} }
 
 // Version is the canonical request and plan schema emitted by this package.
 const Version = "v1"
@@ -139,10 +150,10 @@ func UnmarshalRequest(input []byte, limits Limits) (knapsack.NormalizedRequest, 
 	decoder := json.NewDecoder(bytes.NewReader(input))
 	decoder.DisallowUnknownFields()
 	if err := decoder.Decode(&envelope); err != nil {
-		return knapsack.NormalizedRequest{}, fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return knapsack.NormalizedRequest{}, invalidEncodingError{err}
 	}
 	if envelope.Version != Version {
-		return knapsack.NormalizedRequest{}, fmt.Errorf("%w: %q", ErrUnsupportedVersion, envelope.Version)
+		return knapsack.NormalizedRequest{}, ErrUnsupportedVersion
 	}
 	length, err := parseQuantity(envelope.Resolution.Length)
 	if err != nil {
@@ -165,7 +176,7 @@ func UnmarshalRequest(input []byte, limits Limits) (knapsack.NormalizedRequest, 
 		for _, reserved := range container.Reserved {
 			cuboid, cuboidErr := geometry.NewCuboid(reserved.Origin, reserved.Dimensions)
 			if cuboidErr != nil {
-				return knapsack.NormalizedRequest{}, fmt.Errorf("%w: %w", ErrInvalidEncoding, cuboidErr)
+				return knapsack.NormalizedRequest{}, invalidEncodingError{cuboidErr}
 			}
 			normalized.Reserved = append(normalized.Reserved, cuboid)
 		}
@@ -173,7 +184,7 @@ func UnmarshalRequest(input []byte, limits Limits) (knapsack.NormalizedRequest, 
 	}
 	request, err := knapsack.NewNormalizedRequest(spec)
 	if err != nil {
-		return knapsack.NormalizedRequest{}, fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return knapsack.NormalizedRequest{}, invalidEncodingError{err}
 	}
 	return request, nil
 }
@@ -184,11 +195,11 @@ func wireQuantity(quantity measurement.Quantity) quantityWire {
 func parseQuantity(wire quantityWire) (measurement.Quantity, error) {
 	amount, err := decimal.Parse(wire.Amount)
 	if err != nil {
-		return measurement.Quantity{}, fmt.Errorf("%w: quantity amount", ErrInvalidEncoding)
+		return measurement.Quantity{}, ErrInvalidEncoding
 	}
 	quantity, err := measurement.New(amount, measurement.Unit(wire.Unit))
 	if err != nil {
-		return measurement.Quantity{}, fmt.Errorf("%w: quantity unit", ErrInvalidEncoding)
+		return measurement.Quantity{}, ErrInvalidEncoding
 	}
 	return quantity, nil
 }
@@ -205,14 +216,14 @@ func UnmarshalPlan(input []byte, limits Limits) (knapsack.Plan, error) {
 	decoder := json.NewDecoder(bytes.NewReader(input))
 	decoder.DisallowUnknownFields()
 	if err := decoder.Decode(&envelope); err != nil {
-		return knapsack.Plan{}, fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return knapsack.Plan{}, invalidEncodingError{err}
 	}
 	if envelope.Version != Version {
-		return knapsack.Plan{}, fmt.Errorf("%w: %q", ErrUnsupportedVersion, envelope.Version)
+		return knapsack.Plan{}, ErrUnsupportedVersion
 	}
 	plan, err := knapsack.NewPlan(envelope.Plan)
 	if err != nil {
-		return knapsack.Plan{}, fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return knapsack.Plan{}, invalidEncodingError{err}
 	}
 	return plan, nil
 }
@@ -235,7 +246,7 @@ func validateStrict(input []byte, limits Limits) error {
 	decoder.UseNumber()
 	first, err := decoder.Token()
 	if err != nil {
-		return fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return invalidEncodingError{err}
 	}
 	if err := validateValue(decoder, first, limits, 1); err != nil {
 		return err
@@ -244,7 +255,7 @@ func validateStrict(input []byte, limits Limits) error {
 		if err == nil {
 			return ErrInvalidEncoding
 		}
-		return fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+		return invalidEncodingError{err}
 	}
 	return nil
 }
@@ -264,12 +275,12 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 		for decoder.More() {
 			keyToken, err := decoder.Token()
 			if err != nil {
-				return fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+				return invalidEncodingError{err}
 			}
 			// encoding/json guarantees object member tokens are strings.
 			key, _ := keyToken.(string)
 			if _, duplicate := seen[key]; duplicate {
-				return fmt.Errorf("%w: %s", ErrDuplicateKey, key)
+				return ErrDuplicateKey
 			}
 			seen[key] = struct{}{}
 			count++
@@ -278,7 +289,7 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 			}
 			value, err := decoder.Token()
 			if err != nil {
-				return fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+				return invalidEncodingError{err}
 			}
 			if err := validateValue(decoder, value, limits, depth+1); err != nil {
 				return err
@@ -297,7 +308,7 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 			}
 			value, err := decoder.Token()
 			if err != nil {
-				return fmt.Errorf("%w: %w", ErrInvalidEncoding, err)
+				return invalidEncodingError{err}
 			}
 			if err := validateValue(decoder, value, limits, depth+1); err != nil {
 				return err

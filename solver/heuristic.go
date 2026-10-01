@@ -811,7 +811,7 @@ func interruptedPlan(request knapsack.NormalizedRequest, bins []*bin, unpacked [
 	plan := buildPlan(bins, unique(unpacked), knapsack.StatusBudgetExhausted, termination, candidates, seed, nil)
 	if len(plan.Placements()) > 0 {
 		if result := verify.Plan(request, plan, verify.AllowUnpacked()); !result.Valid() {
-			return knapsack.Plan{}, fmt.Errorf("%w: %v", knapsack.ErrInternalInvariant, result.Violations())
+			return knapsack.Plan{}, knapsack.ErrInternalInvariant
 		}
 	}
 	return plan, cause
@@ -859,7 +859,7 @@ func verifySolverPlan(request knapsack.NormalizedRequest, plan knapsack.Plan, op
 		return err
 	}
 	if !result.Valid() {
-		return fmt.Errorf("%w: %v", knapsack.ErrInternalInvariant, result.Violations())
+		return knapsack.ErrInternalInvariant
 	}
 	return nil
 }

@@ -13,7 +13,8 @@ import (
 )
 
 var (
-	// ErrUnverifiedPlan identifies rendering input rejected by the verifier.
+	// ErrUnverifiedPlan identifies rejected rendering input without disclosing
+	// verifier findings. Use verify.Plan explicitly for application-owned diagnostics.
 	ErrUnverifiedPlan = errors.New("visualize: plan failed verification")
 	// ErrRenderLimit identifies coordinates or output geometry beyond the
 	// bounded SVG profile.
@@ -28,7 +29,7 @@ const (
 func SVG(request knapsack.NormalizedRequest, plan knapsack.Plan, options verify.Options) (string, error) {
 	result := verify.Plan(request, plan, options)
 	if !result.Valid() {
-		return "", fmt.Errorf("%w: %v", ErrUnverifiedPlan, result.Violations())
+		return "", ErrUnverifiedPlan
 	}
 	placements := plan.Placements()
 	types := make(map[string]knapsack.NormalizedContainer)

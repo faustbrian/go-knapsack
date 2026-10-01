@@ -5,7 +5,6 @@ package constraint
 import (
 	"context"
 	"errors"
-	"fmt"
 	"maps"
 	"reflect"
 	"slices"
@@ -18,7 +17,7 @@ var (
 	ErrInvalidConstraint = errors.New("constraint: invalid callback")
 	// ErrInvalidDecision identifies malformed callback output.
 	ErrInvalidDecision = errors.New("constraint: invalid decision")
-	// ErrCallbackPanic wraps a panic raised by application callback code.
+	// ErrCallbackPanic identifies a callback panic without disclosing its value.
 	ErrCallbackPanic = errors.New("constraint: callback panic")
 	// ErrViewLimit identifies callback input that exceeds safe copy bounds.
 	ErrViewLimit = errors.New("constraint: placement view limit exceeded")
@@ -114,7 +113,7 @@ func Evaluate(ctx context.Context, callback Placement, view PlacementView) (deci
 	defer func() {
 		if recovered := recover(); recovered != nil {
 			decision = Decision{}
-			err = fmt.Errorf("%w: %v", ErrCallbackPanic, recovered)
+			err = ErrCallbackPanic
 		}
 	}()
 	return ValidateDecision(callback.Check(ctx, view))

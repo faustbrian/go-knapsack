@@ -735,8 +735,11 @@ func TestInterruptedPlanVerifiesRetainedPlacements(t *testing.T) {
 		t.Fatalf("plan=%s error=%v", plan.CanonicalString(), err)
 	}
 	target.placements[0].Origin.X = 2
+	target.placements[0].ItemID = "application-private-marker"
 	if _, err = interruptedPlan(request, []*bin{target}, nil, 1, 0, context.Canceled); !errors.Is(err, knapsack.ErrInternalInvariant) {
 		t.Fatalf("invalid retained plan error = %v", err)
+	} else if strings.Contains(err.Error(), "application-private-marker") {
+		t.Fatal("retained plan details disclosed")
 	}
 }
 
@@ -1065,8 +1068,16 @@ func TestSolverVerificationRejectsInvalidGeneratedState(t *testing.T) {
 	t.Parallel()
 	request := internalRequest(t)
 	plan, _ := knapsack.NewPlan(knapsack.PlanSpec{Status: knapsack.StatusFeasible, Termination: knapsack.TerminationCompleted})
+	spec := knapsack.NormalizedSpec{Items: request.Items(), Containers: request.Containers(), Resolution: request.Resolution(), Limits: request.Limits()}
+	spec.Items[0].ID = "application-private-marker"
+	request, err := knapsack.NewNormalizedRequest(spec)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if err := verifySolverPlan(request, plan, verify.RequireAll()); !errors.Is(err, knapsack.ErrInternalInvariant) {
 		t.Fatalf("error = %v", err)
+	} else if strings.Contains(err.Error(), "application-private-marker") {
+		t.Fatal("verifier item disclosed")
 	}
 }
 

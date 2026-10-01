@@ -4,7 +4,6 @@ package objective
 import (
 	"context"
 	"errors"
-	"fmt"
 	"math"
 	"reflect"
 	"slices"
@@ -18,7 +17,7 @@ var (
 	// ErrInvalidObjective identifies an empty, contradictory, or malformed
 	// built-in or custom objective.
 	ErrInvalidObjective = errors.New("objective: invalid definition or score")
-	// ErrCallbackPanic wraps a panic raised by a custom plan objective.
+	// ErrCallbackPanic identifies a callback panic without disclosing its value.
 	ErrCallbackPanic = errors.New("objective: callback panic")
 )
 
@@ -156,7 +155,7 @@ func SafeCompare(ctx context.Context, objective PlanObjective, request knapsack.
 	defer func() {
 		if recovered := recover(); recovered != nil {
 			comparison = 0
-			err = fmt.Errorf("%w: %v", ErrCallbackPanic, recovered)
+			err = ErrCallbackPanic
 		}
 	}()
 	comparison, err = objective.ComparePlans(ctx, request, left, right)
@@ -177,7 +176,7 @@ func SafeComponents(ctx context.Context, objective PlanObjective, request knapsa
 	defer func() {
 		if recovered := recover(); recovered != nil {
 			components = nil
-			err = fmt.Errorf("%w: %v", ErrCallbackPanic, recovered)
+			err = ErrCallbackPanic
 		}
 	}()
 	components, err = objective.Components(ctx, request, plan)
