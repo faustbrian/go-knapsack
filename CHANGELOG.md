@@ -2,6 +2,16 @@
 
 All notable changes follow Keep a Changelog and Semantic Versioning.
 
+## Unreleased
+
+### Changed
+
+- Adopt Math v1.1.2 and Measurement v2.0.1 in the root and reference
+  integration modules while preserving exact integer-lattice conversion,
+  physical quantities, solver accounting, and canonical request and plan
+  representations. The independently versioned Money objectives retain their
+  current Money v1 contracts.
+
 ## [2.0.0] - 2026-09-27
 
 This entry describes the root v2.0.0 release source; its date does not establish
