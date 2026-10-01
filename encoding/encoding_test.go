@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"reflect"
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2"
@@ -183,7 +184,9 @@ func TestStrictDecoderRejectsMalformedResourceAndSemanticInputs(t *testing.T) {
 		{"malformed object key", `{"`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"missing object value", `{"a":`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"missing object close", `{"a":1`, defaultLimits, packingjson.ErrInvalidEncoding},
+		{"wrong object close", `{]`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"missing array close", `[1`, defaultLimits, packingjson.ErrInvalidEncoding},
+		{"wrong array close", `[}`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"malformed array value", `["`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"nested missing close", `{"a":[1`, defaultLimits, packingjson.ErrInvalidEncoding},
 		{"trailing", `{"version":"v1","plan":{"status":"feasible","termination":"completed"}} {}`, defaultLimits, packingjson.ErrInvalidEncoding},
@@ -196,8 +199,12 @@ func TestStrictDecoderRejectsMalformedResourceAndSemanticInputs(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
-			if _, err := packingjson.UnmarshalPlan([]byte(test.input), test.limits); !errors.Is(err, test.target) {
+			plan, err := packingjson.UnmarshalPlan([]byte(test.input), test.limits)
+			if !errors.Is(err, test.target) {
 				t.Fatalf("error = %v", err)
+			}
+			if !reflect.DeepEqual(plan, knapsack.Plan{}) {
+				t.Fatal("rejected input returned a nonempty plan")
 			}
 		})
 	}
