@@ -292,6 +292,9 @@ func NewRequest(items []Item, containers []ContainerType, resolution Resolution,
 		if len(item.ID()) > int(limits.MaxIDBytes) {
 			return Request{}, &FieldError{Category: ErrInvalidItem, ID: item.ID(), Field: "id", Reason: "too long"}
 		}
+		if len(item.spec.Orientations) > int(limits.MaxOrientations) {
+			return Request{}, ErrInvalidItem
+		}
 		n, err := normalizeItem(item, resolution)
 		if err != nil {
 			return Request{}, err

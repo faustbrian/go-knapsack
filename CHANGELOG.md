@@ -6,6 +6,10 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Fixed
 
+- Enforce the documented per-item orientation cap during physical request
+  construction, matching normalized request admission. Exact limits remain
+  inclusive; over-limit requests return `ErrInvalidItem` without partial input.
+
 - Keep recovered callback values, JSON field/key/version details, and verifier
   findings out of default rejection errors. Stable error categories and
   cancellation remain available; explicit decoder cause inspection and
