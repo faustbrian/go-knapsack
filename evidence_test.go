@@ -287,6 +287,7 @@ func TestHistoricalEvidenceManifestRetainsIntegrity(t *testing.T) {
 	}
 	validateConcurrencyEvidence(t, manifest.Concurrency)
 	validateSerializationEvidence(t, manifest.Serialization, manifest.Generated, knownTests)
+	// Workflow pins describe current automation, not the dated run environment.
 	validateWorkflowEvidence(t, manifest.WorkflowSupplyChain, knownTests)
 	referencedFuzz := make(map[string]bool)
 	for _, entries := range [][]proofEntry{manifest.FeasibilityInvariants, manifest.FuzzTargets} {
