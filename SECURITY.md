@@ -1,9 +1,18 @@
 # Security policy
 
-Report vulnerabilities through GitHub private vulnerability reporting. Include
+Report vulnerabilities through [GitHub private vulnerability
+reporting][private-report]. Include
 the affected commit, a minimized non-sensitive input, the configured limits,
 and whether the issue causes invalid feasibility, panic, hang, leak, race, or
 unbounded resource use. Do not publish exploits before coordinated disclosure.
+
+The shared [vulnerability-management process][reporting-process] defines
+severity, acknowledgement targets, remediation, embargo, and coordinated
+advisory publication. Reporting an issue does not establish that a version
+is supported or that the issue has been verified.
+
+[private-report]: https://github.com/faustbrian/go-knapsack/security/advisories/new
+[reporting-process]: https://github.com/faustbrian/go-library-tools/blob/main/docs/ecosystem/security/vulnerability-management.md
 
 All serialized requests and plans, identifiers, metadata, and visualization
 labels are untrusted. Configure explicit conservative limits before accepting
