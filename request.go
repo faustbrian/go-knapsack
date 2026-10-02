@@ -162,7 +162,13 @@ func NewNormalizedRequest(spec NormalizedSpec) (NormalizedRequest, error) {
 	}
 	lengthDimension, lengthErr := spec.Resolution.Length.Dimension()
 	massDimension, massErr := spec.Resolution.Mass.Dimension()
-	if lengthErr != nil || massErr != nil || lengthDimension != measurement.LengthDimension || massDimension != measurement.MassDimension {
+	if lengthErr != nil {
+		return NormalizedRequest{}, ErrInvalidRequest
+	}
+	if massErr != nil {
+		return NormalizedRequest{}, ErrInvalidRequest
+	}
+	if lengthDimension != measurement.LengthDimension || massDimension != measurement.MassDimension {
 		return NormalizedRequest{}, ErrInvalidRequest
 	}
 	if err := positiveResolution(spec.Resolution.Length); err != nil {
