@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Security
+
+- Select go-math v1.1.2 so standalone users retain its checked-exponent
+  and allocation-budget protections.
+
 ## 2.0.0 - 2026-09-27
 
 ### Changed
