@@ -296,7 +296,10 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 			}
 		}
 		closing, err := decoder.Token()
-		if err != nil || closing != json.Delim('}') {
+		if err != nil {
+			return ErrInvalidEncoding
+		}
+		if closing != json.Delim('}') {
 			return ErrInvalidEncoding
 		}
 	case '[':
@@ -315,7 +318,10 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 			}
 		}
 		closing, err := decoder.Token()
-		if err != nil || closing != json.Delim(']') {
+		if err != nil {
+			return ErrInvalidEncoding
+		}
+		if closing != json.Delim(']') {
 			return ErrInvalidEncoding
 		}
 	}
