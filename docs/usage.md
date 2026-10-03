@@ -55,7 +55,9 @@ code; isolate any third-party implementation in a separately sandboxed
 process before invoking the library.
 
 Monetary container costs are additive through the nested
-published `github.com/faustbrian/go-knapsack/objective/money/v2` v2.0.0 module. Its natural package identifier is `moneyobjective`.
+`github.com/faustbrian/go-knapsack/objective/money/v3` source, preparing Money
+v2 adoption and awaiting its own v3.0.0 publication. Its natural package
+identifier is `moneyobjective`. Published canonical v2.0.0 retains Money v1.
 The released `objective/gomoney` v1 module remains supported with v1 packing
 types, not as an interchangeable root v2 adapter. Current deprecated
 `objective/gomoney/v2` source targets v2 packing types; adopt it only after

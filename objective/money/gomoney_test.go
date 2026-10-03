@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-international/currency"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v3"
 	"github.com/faustbrian/go-knapsack/v2"
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 	"github.com/faustbrian/go-knapsack/v2/solver"
@@ -16,7 +16,7 @@ import (
 	gomath "github.com/faustbrian/go-math"
 	"github.com/faustbrian/go-math/decimal"
 	"github.com/faustbrian/go-measurement/v2"
-	"github.com/faustbrian/go-money"
+	"github.com/faustbrian/go-money/v2"
 )
 
 func TestNewRejectsMoreThanDefaultCostTypes(t *testing.T) {

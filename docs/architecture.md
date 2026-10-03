@@ -21,9 +21,10 @@ invariants and replays extension contracts through their immutable views; it
 never calls solver predicates. `encoding`, `visualize`, and `knapsacktest` are
 leaf consumers.
 
-Monetary comparison is isolated in the canonical nested `objective/money/v2`
-module, published as v2.0.0. Current deprecated `objective/gomoney/v2` source
-targets that module and awaits its own public artifacts; published facade v1
+Monetary comparison is isolated in the canonical nested `objective/money/v3`
+source, preparing Money v2 adoption and awaiting v3.0.0 publication. Current
+deprecated `objective/gomoney/v2` source retains published canonical v2.0.0
+and Money v1 and awaits its own public artifacts; published facade v1
 remains a compatibility path for legacy packing types. Differential
 dependencies stay in `integration/references`. Built-in geometry and
 physical rules remain direct solver/verifier code rather than a slower generic

@@ -118,11 +118,12 @@ environment, locale, registry, or exchange-rate access.
 
 ## Compatibility and migration
 
-The stable v2 line uses module/import path
-`github.com/faustbrian/go-knapsack/objective/money/v2`, with tags such as
-`objective/money/v2.0.0`, while source stays in `objective/money` on main.
-Its API is checked against `api/v2.txt`; `api/v1.txt` retains immutable legacy
-API evidence. Adopt only after public v2 module artifacts are available.
+The v3 line uses module/import path
+`github.com/faustbrian/go-knapsack/objective/money/v3`, with tags such as
+`objective/money/v3.0.0`, while source stays in `objective/money` on main.
+Its API is checked against `api/v3.txt`; `api/v1.txt` and `api/v2.txt` retain
+immutable historical API evidence. This v3 adapter is not yet published;
+adopt only after its public tag and module artifacts are available.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations
 that previously relied on negative costs must migrate to `NewWithPolicy` and
@@ -130,13 +131,18 @@ explicitly set `AllowNegativeCosts`. Cash and automatic Money contexts must be
 recreated with one fixed default or custom context; the adapter never performs
 that conversion.
 
-Legacy v1 consumers can migrate from `objective/gomoney` to published
-`objective/money` v1 without changing packing type identities. Migration to
-this v2 adapter requires `/v2` imports for the adapter, Knapsack, and
-measurement. Exact monetary behavior, error strings, score components, and
-canonical persisted formats are unchanged; v1 and v2 Go types are distinct.
-The legacy facade retains its supported v1 dependencies and existing removal
-interval. A future facade major must wait for canonical v2 publication.
+Migration from canonical v2 requires changing the adapter import to `/v3`
+and Money imports to `github.com/faustbrian/go-money/v2` v2.0.0. Constructor
+maps and `Entry.Cost` now accept Money v2 values, and `Costs.Total` returns
+Money v2 values. Knapsack and measurement remain `/v2`; currency and math
+owners are unchanged. Exact monetary behavior, error strings, score components,
+and canonical persisted formats are unchanged; Money v1 and v2 Go types are
+distinct and are not interchangeable.
+
+Legacy v1 consumers can still use their published canonical v1 adapter. The
+deprecated `objective/gomoney/v2` facade retains canonical `/v2` v2.0.0 and
+Money v1, with no new facade major or change to its removal interval. This
+canonical migration does not publish, migrate, or remove either facade line.
 
 ## FAQ
 

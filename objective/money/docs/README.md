@@ -7,7 +7,7 @@
 
 ## API reference
 
-- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v2)
+- [Go package documentation](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v3)
 
 ## Security and compatibility
 

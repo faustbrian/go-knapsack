@@ -1,4 +1,4 @@
-module github.com/faustbrian/go-knapsack/objective/money/v2
+module github.com/faustbrian/go-knapsack/objective/money/v3
 
 go 1.27.0
 
@@ -7,7 +7,7 @@ require (
 	github.com/faustbrian/go-knapsack/v2 v2.0.0
 	github.com/faustbrian/go-math v1.1.2
 	github.com/faustbrian/go-measurement/v2 v2.0.0
-	github.com/faustbrian/go-money v1.0.0
+	github.com/faustbrian/go-money/v2 v2.0.0
 )
 
 require golang.org/x/text v0.40.0 // indirect

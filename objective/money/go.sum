@@ -14,8 +14,8 @@ github.com/faustbrian/go-math v1.1.2 h1:cH0VSYu/u6Xwc/NGDwbEUQEKpvIjNFOH/suiFIBL
 github.com/faustbrian/go-math v1.1.2/go.mod h1:e7fzSBNkWWq+1EsCSjpvjIAc//nJAS/iRU4Qc87TfTU=
 github.com/faustbrian/go-measurement/v2 v2.0.0 h1:EMCcWBSz2DEJ5bYDYCQc7QjA4V1OzvogDWx5PqoXB10=
 github.com/faustbrian/go-measurement/v2 v2.0.0/go.mod h1:93uslDTMPha2s6nH0dTAc3OKqnfRUQjPyyfL+2Txw6U=
-github.com/faustbrian/go-money v1.0.0 h1:HrT/a/ZAqmEKme9H3FcBTcL7uM1OA2rzqKM1KSdtwHk=
-github.com/faustbrian/go-money v1.0.0/go.mod h1:8IhDm0f6IYjtITpyOgXYMmKVeQTlplZaiVySM5VEY2o=
+github.com/faustbrian/go-money/v2 v2.0.0 h1:m9b+mRAR0uUUL5KTnP2r+J6Wz4/1Nq8kBkmQIV7dikM=
+github.com/faustbrian/go-money/v2 v2.0.0/go.mod h1:jaKcstdXBz4uaTKhJEedMmFwhTsdx7pVRA/o9JxzQe4=
 github.com/faustbrian/go-validation v1.1.0 h1:nGpU161/dzIkp5L/tAGJSHpCOa81hqcPM6lxt8aCJ9k=
 github.com/faustbrian/go-validation v1.1.0/go.mod h1:oSoKEITwgaCzWpdgdxrV+Q6QPpteJJvRldAeOZL9Plg=
 github.com/faustbrian/go-wire v1.0.0 h1:vVniAQ0+dtWPlYvLzJc4xM74oyZ4ZGo5IvQKBTO6UyM=

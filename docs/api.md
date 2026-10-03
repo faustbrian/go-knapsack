@@ -5,8 +5,9 @@ plans, statuses, typed errors, and resource limits. `geometry` owns checked
 integer cuboids and physical-axis rotations. `solver` exposes heuristic and
 exact pack-all and fixed-container operations. `verify` validates supplied
 plans independently. `constraint` owns immutable callback views. `objective`
-defines exact lexicographic comparisons; the nested `objective/money/v2` module
-adds `money` costs without burdening root consumers. The released
+defines exact lexicographic comparisons; the nested `objective/money/v3` source
+prepares Money v2 costs without burdening root consumers and awaits its own
+v3.0.0 publication. The released
 `objective/gomoney` v1 path remains supported with legacy packing types;
 current `objective/gomoney/v2` facade source targets canonical v2 and awaits
 its own public artifacts. `encoding` owns

@@ -13,7 +13,7 @@ import (
 	"github.com/faustbrian/go-knapsack/v2"
 	gomath "github.com/faustbrian/go-math"
 	"github.com/faustbrian/go-math/decimal"
-	"github.com/faustbrian/go-money"
+	"github.com/faustbrian/go-money/v2"
 )
 
 var (
