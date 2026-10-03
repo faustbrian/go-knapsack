@@ -10,4 +10,5 @@ docs:
 	test -s LICENSE
 	test -s api/v1.txt
 	test -s api/v2.txt
+	test -s api/v3.txt
 	$(GO) test ./... -run '^Example' -count=1

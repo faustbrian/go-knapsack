@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-international/currency"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
-	"github.com/faustbrian/go-money"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v3"
+	"github.com/faustbrian/go-money/v2"
 )
 
 func TestCostsRejectNegativeValuesUnlessPolicyAllowsThem(t *testing.T) {
@@ -218,7 +218,8 @@ func TestEmptyPlanHasExactZeroTotal(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	total, err := costs.Total(mustPlan(t))
+	var total money.Money
+	total, err = costs.Total(mustPlan(t))
 	if err != nil {
 		t.Fatalf("Total(empty) error = %v", err)
 	}

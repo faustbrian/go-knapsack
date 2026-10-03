@@ -29,7 +29,7 @@ api:
       path: objective/gomoney/api/v2.txt
     - module: objective/money
       mode: apidiff
-      path: objective/money/api/v2.txt
+      path: objective/money/api/v3.txt
 
 operations:
   - module: .

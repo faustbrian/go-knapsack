@@ -9,7 +9,7 @@ import (
 	"github.com/faustbrian/go-international/currency"
 	"github.com/faustbrian/go-knapsack/v2"
 	"github.com/faustbrian/go-knapsack/v2/objective"
-	"github.com/faustbrian/go-money"
+	"github.com/faustbrian/go-money/v2"
 )
 
 var _ objective.PlanObjective = Costs{}
@@ -30,7 +30,7 @@ func TestPublicIdentityAndStableErrors(t *testing.T) {
 		}
 	}
 
-	const packagePath = "github.com/faustbrian/go-knapsack/objective/money/v2"
+	const packagePath = "github.com/faustbrian/go-knapsack/objective/money/v3"
 	for _, value := range []any{Limits{}, Policy{}, Entry{}, Costs{}} {
 		typeOf := reflect.TypeOf(value)
 		if typeOf.PkgPath() != packagePath {

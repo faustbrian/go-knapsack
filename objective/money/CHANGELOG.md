@@ -4,6 +4,13 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Prepare canonical adapter `/v3` for published Money `/v2` v2.0.0 values,
+  retaining Knapsack v2 and measurement v2 identities, exact costs, errors,
+  ownership, and persisted formats. Adopt only after `objective/money/v3.0.0`
+  is published; the deprecated facade retains canonical v2 and Money v1.
+
 ## 2.0.1 - 2026-10-02
 
 ### Security

@@ -19,13 +19,13 @@ import (
 	"time"
 
 	"github.com/faustbrian/go-international/currency"
-	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v2"
+	moneyobjective "github.com/faustbrian/go-knapsack/objective/money/v3"
 	"github.com/faustbrian/go-knapsack/v2"
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 	"github.com/faustbrian/go-knapsack/v2/solver"
 	"github.com/faustbrian/go-math/decimal"
 	"github.com/faustbrian/go-measurement/v2"
-	"github.com/faustbrian/go-money"
+	"github.com/faustbrian/go-money/v2"
 )
 
 const deterministicRankingHelper = "GOMONEY_DETERMINISTIC_RANKING_HELPER"
@@ -128,7 +128,7 @@ func TestProductionDependencyBoundaryExcludesAmbientPolicy(t *testing.T) {
 		"github.com/faustbrian/go-knapsack/v2":  true,
 		"github.com/faustbrian/go-math":         true,
 		"github.com/faustbrian/go-math/decimal": true,
-		"github.com/faustbrian/go-money":        true,
+		"github.com/faustbrian/go-money/v2":     true,
 	}
 	inspected := 0
 	for _, productionFile := range productionFiles {

@@ -30,7 +30,9 @@ adapter accepts root v2; current deprecated facade source also prepares v2 types
 while published legacy v1 releases retain their original types.
 
 Exact container-cost optimization lives in the independently versioned
-[`objective/money/v2`](objective/money/) adapter, available as v2.0.0. Existing
+[`objective/money/v3`](objective/money/) adapter source, which adopts Money v2
+and awaits its own v3.0.0 publication. Published canonical v2.0.0 remains
+available for Money v1. Existing
 [`objective/gomoney`](objective/gomoney/) v1 consumers remain supported with
 the separately published canonical v1 dependency. Current `objective/gomoney/v2`
 source adopts canonical v2; use it after its own public artifacts exist.

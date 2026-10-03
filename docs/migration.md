@@ -14,10 +14,17 @@ Root v2.0.0 and measurement v2.0.0 are published dependencies of the current
 an independently released public adapter. The comparison schema and shared
 packing subset are unchanged.
 
-The current canonical adapter source uses
-`github.com/faustbrian/go-knapsack/objective/money/v2` for root v2 packing types.
-The canonical adapter's public `objective/money/v2.0.0` module is available.
-Current deprecated facade source adopts it through `objective/gomoney/v2`;
+The current canonical adapter source prepares
+`github.com/faustbrian/go-knapsack/objective/money/v3` for published Money
+`github.com/faustbrian/go-money/v2` v2.0.0, retaining root and Measurement v2
+packing types. Canonical v3 is not yet published; adopt it only after its own
+`objective/money/v3.0.0` tag and public artifacts exist. Change constructor and
+`Entry.Cost` inputs and `Costs.Total` outputs to Money v2 together; their Go
+identities differ from Money v1 without changing exact totals or formats.
+
+The canonical adapter's public `objective/money/v2.0.0` module remains available
+with Money v1. Current deprecated facade source retains that selection through
+`objective/gomoney/v2`, not canonical v3;
 adopt that facade only after its own `objective/gomoney/v2.0.0` tag and public
 module artifacts exist. Update root and Measurement imports to `/v2` together. Retain supported v1 adapter releases
 and the facade's existing removal interval; root publication alone neither
