@@ -193,10 +193,8 @@ func (c Cuboid) SupportArea(other Cuboid) (int64, bool) {
 
 func overlap(a0, a1, b0, b1 int64) int64 {
 	lo, hi := max(a0, b0), min(a1, b1)
-	if hi <= lo {
-		return 0
-	}
-	return hi - lo
+	// Validated cuboid endpoints are nonnegative, so subtraction cannot overflow.
+	return max(0, hi-lo)
 }
 
 func checkedAdd(a, b int64) (int64, bool) {
