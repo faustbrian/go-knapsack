@@ -2,6 +2,7 @@
 package objective
 
 import (
+	"cmp"
 	"context"
 	"errors"
 	"math"
@@ -238,31 +239,34 @@ func (o Objective) ScorePlan(request knapsack.NormalizedRequest, plan knapsack.P
 			return Score{}, nil, ErrInvalidObjective
 		}
 		height := placement.Origin.Z + placement.Dimensions.Z
-		if height > maximumHeight {
-			maximumHeight = height
-		}
+		maximumHeight = max(maximumHeight, height)
 		priority, known := priorities[placement.ItemID]
-		if !known || priority > 0 && packedPriority > math.MaxInt64-priority || priority < 0 && packedPriority < math.MinInt64-priority {
+		if !known {
 			return Score{}, nil, ErrInvalidObjective
 		}
-		packedPriority += priority
+		var representable bool
+		packedPriority, representable = checkedAdd(packedPriority, priority)
+		if !representable {
+			return Score{}, nil, ErrInvalidObjective
+		}
 	}
 	var minimumWeight, maximumWeight int64
-	first := true
-	for _, container := range plan.Containers() {
-		weight := weights[container.ID]
-		if first || weight < minimumWeight {
-			minimumWeight = weight
+	containers := plan.Containers()
+	if len(containers) > 0 {
+		minimumWeight = weights[containers[0].ID]
+		maximumWeight = minimumWeight
+		for _, container := range containers[1:] {
+			weight := weights[container.ID]
+			minimumWeight = min(minimumWeight, weight)
+			maximumWeight = max(maximumWeight, weight)
 		}
-		if first || weight > maximumWeight {
-			maximumWeight = weight
-		}
-		first = false
-	}
-	if minimumWeight < 0 && maximumWeight > math.MaxInt64+minimumWeight {
-		return Score{}, nil, ErrInvalidObjective
 	}
 	imbalance := maximumWeight - minimumWeight
+	// Signed subtraction overflows only when different-sign operands produce
+	// a result with a different sign from the minuend.
+	if (maximumWeight^minimumWeight)&(maximumWeight^imbalance) < 0 {
+		return Score{}, nil, ErrInvalidObjective
+	}
 	score := Score{Values: make([]int64, len(o.criteria)), TieBreak: plan.CanonicalString()}
 	components := make([]knapsack.ScoreComponent, len(o.criteria))
 	for index, criterion := range o.criteria {
@@ -295,12 +299,19 @@ func (o Objective) ScorePlan(request knapsack.NormalizedRequest, plan knapsack.P
 }
 
 func checkedAddMap(values map[string]int64, key string, value int64) bool {
-	current := values[key]
-	if value > 0 && current > math.MaxInt64-value || value < 0 && current < math.MinInt64-value {
+	sum, representable := checkedAdd(values[key], value)
+	if !representable {
 		return false
 	}
-	values[key] = current + value
+	values[key] = sum
 	return true
+}
+
+func checkedAdd(left, right int64) (int64, bool) {
+	sum := left + right
+	// Signed addition overflows only when both operands have a different sign
+	// from the result. Zero operands therefore need no special branch.
+	return sum, (left^sum)&(right^sum) >= 0
 }
 
 // Compare returns negative when left is preferred, positive when right is
@@ -310,12 +321,9 @@ func (o Objective) Compare(left, right Score) (int, error) {
 		return 0, ErrInvalidObjective
 	}
 	for index, criterion := range o.criteria {
-		if left.Values[index] == right.Values[index] {
+		comparison := cmp.Compare(left.Values[index], right.Values[index])
+		if comparison == 0 {
 			continue
-		}
-		comparison := -1
-		if left.Values[index] > right.Values[index] {
-			comparison = 1
 		}
 		if criterion.Direction == Max {
 			comparison = -comparison
