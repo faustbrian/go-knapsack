@@ -260,6 +260,7 @@ func validateStrict(input []byte, limits Limits) error {
 	return nil
 }
 
+// Token enforces matching delimiters; this traversal adds resource bounds.
 func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth int) error {
 	if depth > limits.MaxDepth {
 		return ErrEncodingLimit
@@ -295,11 +296,8 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 				return err
 			}
 		}
-		closing, err := decoder.Token()
+		_, err := decoder.Token()
 		if err != nil {
-			return ErrInvalidEncoding
-		}
-		if closing != json.Delim('}') {
 			return ErrInvalidEncoding
 		}
 	case '[':
@@ -317,11 +315,8 @@ func validateValue(decoder *json.Decoder, token json.Token, limits Limits, depth
 				return err
 			}
 		}
-		closing, err := decoder.Token()
+		_, err := decoder.Token()
 		if err != nil {
-			return ErrInvalidEncoding
-		}
-		if closing != json.Delim(']') {
 			return ErrInvalidEncoding
 		}
 	}
