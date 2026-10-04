@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "packages": [
+    {
+      "module_directory": ".",
+      "package_directory": ".",
+      "source_digest": "2afdbcfaa0ff13caab52fb57d267739b87f400b7b394e32b93af131d8f96a39b",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "c28707fd4ce35dd228260de564107c1fb7726e42d4e9ea2bf9e988083e1f3b5b",
+      "mutations": [
+        {
+          "file_name": "request.go",
+          "type": "INVERT_LOGICAL",
+          "line": 165,
+          "column": 22,
+          "contract_domain": "NewNormalizedRequest validation with the pinned go-measurement/v2 v2.0.1 Quantity.Dimension contract",
+          "reason": "Replacing the first error OR with AND cannot admit a request: Quantity.Dimension delegates to Unit.Dimension, which returns Dimensionless on every error in the pinned dependency. LengthDimension and MassDimension are distinct from Dimensionless, so either individual error still triggers its unchanged dimension-mismatch predicate and returns ErrInvalidRequest before subsequent processing. Successful dimensions are unchanged."
+        },
+        {
+          "file_name": "request.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 333,
+          "column": 10,
+          "contract_domain": "Request construction memory accounting through the supported raw and normalized memory-estimate callers",
+          "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported callers of memoryEstimate.add: addString always supplies size 1, and both raw and normalized accounting supply only the positive constant sizes 16, 64 and 256. The two predicates therefore evaluate identically for every reachable call, preserving the overflow guard, retained-byte estimate and budget-exhaustion result. No zero-size helper contract is claimed."
+        }
+      ]
+    }
+  ]
+}
