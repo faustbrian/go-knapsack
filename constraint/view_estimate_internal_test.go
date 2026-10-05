@@ -35,6 +35,22 @@ func TestViewEstimateRefusalDoesNotConsumeBudget(t *testing.T) {
 	}
 }
 
+func TestViewEstimateRefusesChargeLargerThanRemainingCapacity(t *testing.T) {
+	estimate := viewEstimate{}
+	if !estimate.add(maxViewBytes-1, 1) {
+		t.Fatal("scalar prefill was refused")
+	}
+	if estimate.add(1, 16) {
+		t.Fatal("sixteen-byte charge was admitted with only one byte remaining")
+	}
+	if !estimate.add(1, 1) {
+		t.Fatal("refused charge consumed the remaining byte")
+	}
+	if estimate.add(1, 1) {
+		t.Fatal("exactly filled budget retained extra capacity")
+	}
+}
+
 func TestPlacementEstimateChargesDiagnosticCollection(t *testing.T) {
 	estimate := viewEstimate{}
 	if !estimate.add(maxViewBytes-64-2, 1) {
