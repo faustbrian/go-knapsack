@@ -3818,6 +3818,10 @@
       ".github/workflows/ci.yml"
     ],
     "actions": {
+      "actions/checkout": "3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1",
+      "actions/setup-go": "b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0",
+      "actions/setup-node": "820762786026740c76f36085b0efc47a31fe5020 # v7.0.0",
+      "actions/upload-artifact": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1",
       "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "be0fd7d09b02c9dff29e6b00a5245ceac3cdfdfb # v1.8.5"
     }
   },
