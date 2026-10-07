@@ -42,6 +42,31 @@
           "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported viewEstimate.add callers: addString supplies size 1, while placement and collection accounting supplies only the positive constant sizes 16, 64 and 256. Both predicates therefore evaluate identically for every reachable call, preserving overflow rejection and retained-byte accounting. No zero-size helper contract is claimed."
         }
       ]
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "encoding",
+      "source_digest": "08d37c53db0f5cc12e25b8244ca594c6d5e41756fdf4d35eccc65ac8aeb2183b",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "encoding.go",
+          "type": "INVERT_LOGICAL",
+          "line": 299,
+          "column": 17,
+          "contract_domain": "Object closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token",
+          "reason": "Replacing error OR mismatched closing token with AND is equivalent under supported validateStrict and recursive validateValue calls. The decoder tracks the object delimiter: Token returns the matching closing brace with nil error, or a nil token with a nonnil error. Both predicates therefore agree in either reachable case. Fabricated internal tokens or mismatched decoder state are not supported inputs."
+        },
+        {
+          "file_name": "encoding.go",
+          "type": "INVERT_LOGICAL",
+          "line": 318,
+          "column": 17,
+          "contract_domain": "Array closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token",
+          "reason": "Replacing error OR mismatched closing token with AND is equivalent under supported validateStrict and recursive validateValue calls. The decoder tracks the array delimiter: Token returns the matching closing bracket with nil error, or a nil token with a nonnil error. Both predicates therefore agree in either reachable case. Fabricated internal tokens or mismatched decoder state are not supported inputs."
+        }
+      ]
     }
   ]
 }
