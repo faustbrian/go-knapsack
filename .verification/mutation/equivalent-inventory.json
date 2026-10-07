@@ -3,6 +3,60 @@
   "packages": [
     {
       "module_directory": ".",
+      "package_directory": "objective",
+      "source_digest": "5ebf13afce9ff4e9d242e856fdfcadc62784e509b59d2635b33b195f8fc22f14",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 241, "column": 13,
+          "contract_domain": "Public ScorePlan maximum-height accumulation",
+          "reason": "Replacing height > maximumHeight with >= changes only equality, where the additional assignment stores the identical existing value without a side effect. Every resulting height score and component is unchanged."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 254, "column": 22,
+          "contract_domain": "Public ScorePlan minimum container-weight accumulation",
+          "reason": "Replacing weight < minimumWeight with <= adds only an equality assignment of the already stored value. The first-container branch and all other paths are unchanged, preserving imbalance scores."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 257, "column": 22,
+          "contract_domain": "Public ScorePlan maximum container-weight accumulation",
+          "reason": "Replacing weight > maximumWeight with >= adds only an equality assignment of the already stored value. The first-container branch and all other paths are unchanged, preserving imbalance scores."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 245, "column": 25,
+          "contract_domain": "Public ScorePlan signed priority overflow admission",
+          "reason": "Replacing priority > 0 with >= adds only priority zero. Its remaining overflow predicate then requires packedPriority > MaxInt64, impossible for an int64 accumulator. Every rejection and exact sum is unchanged."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 245, "column": 84,
+          "contract_domain": "Public ScorePlan signed priority underflow admission",
+          "reason": "Replacing priority < 0 with <= adds only priority zero. Its remaining underflow predicate then requires packedPriority < MinInt64, impossible for an int64 accumulator. Every rejection and exact sum is unchanged."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 299, "column": 11,
+          "contract_domain": "Public ScorePlan checked per-container signed weight accumulation",
+          "reason": "Replacing value > 0 with >= adds only zero weight. Its remaining predicate requires current > MaxInt64, impossible for the int64 map accumulator; adding zero preserves the stored weight."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 299, "column": 57,
+          "contract_domain": "Public ScorePlan checked per-container signed weight accumulation",
+          "reason": "Replacing value < 0 with <= adds only zero weight. Its remaining predicate requires current < MinInt64, impossible for the int64 map accumulator; adding zero preserves the stored weight."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 262, "column": 19,
+          "contract_domain": "Public ScorePlan signed container-weight imbalance admission",
+          "reason": "Replacing minimumWeight < 0 with <= adds only a zero minimum. The other predicate then requires maximumWeight > MaxInt64, impossible for int64. Every admitted difference and overflow rejection is unchanged."
+        },
+        {
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 317, "column": 25,
+          "contract_domain": "Public Objective.Compare lexicographic criterion ordering",
+          "reason": "Replacing left > right with >= changes only equality, which already takes the unconditional continue at lines313-314 before this comparison. That additional arm is unreachable, and ordering remains unchanged."
+        }
+      ]
+    },
+    {
+      "module_directory": ".",
       "package_directory": "geometry",
       "source_digest": "9b7ac07e395665032269cea9495816dc033c9afe922315e30c383289701a0084",
       "gremlins_version": "v0.6.0",
