@@ -2,6 +2,15 @@
 
 All notable changes follow Keep a Changelog and Semantic Versioning.
 
+## [Unreleased]
+
+### Fixed
+
+- Apply supported-weight limits to proportional transitive loads rather than
+  charging the full item weight to every supporter. Both packing strategies
+  now admit valid shared-support placements while retaining fragile-top,
+  support-area, load-bearing and stack-depth constraints.
+
 ## [2.0.1] - 2026-10-01
 
 ### Fixed

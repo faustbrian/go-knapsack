@@ -652,7 +652,7 @@ func physicalPlacementAllowed(item knapsack.NormalizedItem, target *bin, box geo
 			return false
 		}
 		if slices.Contains(supporters, existing.ItemID) {
-			if existingItem.FragileTop || existingItem.MaxSupportedWeight != nil && item.Weight > *existingItem.MaxSupportedWeight {
+			if existingItem.FragileTop {
 				return false
 			}
 			existingBox, _ := geometry.NewCuboid(existing.Origin, existing.Dimensions)
@@ -665,6 +665,8 @@ func physicalPlacementAllowed(item knapsack.NormalizedItem, target *bin, box geo
 			return false
 		}
 	}
+	// Load limits apply to the rational transitive shares across the complete
+	// support graph, not the full item weight at each individual support face.
 	return stackAllowed(item, target, box)
 }
 
