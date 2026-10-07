@@ -25,6 +25,23 @@
           "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported callers of memoryEstimate.add: addString always supplies size 1, and both raw and normalized accounting supply only the positive constant sizes 16, 64 and 256. The two predicates therefore evaluate identically for every reachable call, preserving the overflow guard, retained-byte estimate and budget-exhaustion result. No zero-size helper contract is claimed."
         }
       ]
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "constraint",
+      "source_digest": "fcb44529348bd869db74b00b8c77e11a2f684957de0510afebbb782b9ce14e15",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "constraint.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 149,
+          "column": 10,
+          "contract_domain": "Placement-view memory accounting through supported collection and string estimators",
+          "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported viewEstimate.add callers: addString supplies size 1, while placement and collection accounting supplies only the positive constant sizes 16, 64 and 256. Both predicates therefore evaluate identically for every reachable call, preserving overflow rejection and retained-byte accounting. No zero-size helper contract is claimed."
+        }
+      ]
     }
   ]
 }
