@@ -3,6 +3,65 @@
   "packages": [
     {
       "module_directory": ".",
+      "package_directory": "solver",
+      "source_digest": "63ef6a6946e4e500c3e9cdb5fc0a0e9d641801272902b289197de0cbb7108b82",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 67, "column": 27,
+          "contract_domain": "Public Heuristic.PackFixed request-memory admission",
+          "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus positive per-item/bin overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 223, "column": 27,
+          "contract_domain": "Public Heuristic.PackAll request-memory admission",
+          "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus positive per-item/bin overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 66, "column": 27,
+          "contract_domain": "Public Exact.PackAll request-memory admission",
+          "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus per-item/bin and exact-search overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 308, "column": 27,
+          "contract_domain": "Public Exact.PackFixed request-memory admission",
+          "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus per-item/bin and exact-search overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 74, "column": 21,
+          "contract_domain": "Public Heuristic.PackFixed normalized request collection admission",
+          "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. The independent empty-instances predicate is unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 230, "column": 21,
+          "contract_domain": "Public Heuristic.PackAll normalized request collection admission",
+          "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. No supported producer can create exactly one empty collection."
+        },
+        {
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 73, "column": 21,
+          "contract_domain": "Public Exact.PackAll normalized request collection admission",
+          "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. No supported producer can create exactly one empty collection."
+        },
+        {
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 316, "column": 21,
+          "contract_domain": "Public Exact.PackFixed normalized request collection admission",
+          "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. The independent empty-instances predicate is unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 179, "column": 46,
+          "contract_domain": "Public Heuristic.PackAll improvement-pass admission after successful primary packing",
+          "reason": "Replacing used >= maximum candidates with > changes only equality. The primary packAllPass returns ErrBudgetExhausted whenever it uses the inclusive candidate limit; PackAll returns that error and primary result before this guard. A successful primary result therefore uses strictly fewer candidates, and the changed equality arm cannot alter improvement admission or results."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 198, "column": 22,
+          "contract_domain": "Public Exact.PackAll variable configuration branch-budget classification",
+          "reason": "Replacing configurations > maximum branches with >= changes only equality. At equality the original remaining disjunct compares unsigned work.Branches >= maximum-configurations, which is >= zero and always true, yielding the identical BranchLimit. Above the limit both forms short-circuit before unsigned subtraction; below it both forms and every other classification are unchanged."
+        }
+      ]
+    },
+    {
+      "module_directory": ".",
       "package_directory": "objective",
       "source_digest": "5ebf13afce9ff4e9d242e856fdfcadc62784e509b59d2635b33b195f8fc22f14",
       "gremlins_version": "v0.6.0",
