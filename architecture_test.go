@@ -56,6 +56,10 @@ func TestProductionContainsNoGoroutineLaunches(t *testing.T) {
 		if walkErr != nil {
 			return walkErr
 		}
+		// Source bootstrap borrows a separate repository, not owned production.
+		if entry.IsDir() && path == ".golib-tooling" {
+			return filepath.SkipDir
+		}
 		if entry.IsDir() && (entry.Name() == "vendor" || entry.Name() == "testdata") {
 			return filepath.SkipDir
 		}

@@ -3818,7 +3818,7 @@
       ".github/workflows/ci.yml"
     ],
     "actions": {
-      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "be0fd7d09b02c9dff29e6b00a5245ceac3cdfdfb # v1.8.5"
+      "faustbrian/go-library-tools/.github/workflows/library-ci.yml": "aa730a67fb33b378889bda98497e406ed02c793a # qualified source tooling"
     }
   },
   "supply_chain": {
