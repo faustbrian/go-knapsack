@@ -3,6 +3,23 @@
   "packages": [
     {
       "module_directory": ".",
+      "package_directory": "geometry",
+      "source_digest": "9b7ac07e395665032269cea9495816dc033c9afe922315e30c383289701a0084",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "geometry.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 196,
+          "column": 8,
+          "contract_domain": "Exact half-open interval overlap for supported cuboid adjacency and support-area consumers",
+          "reason": "Replacing hi <= lo with hi < lo changes only equality. The original equality branch returns zero, while the changed equality path returns hi-lo, also exactly zero without overflow. All other comparisons and subtraction paths are unchanged, preserving every caller-visible overlap, adjacency and support-area result."
+        }
+      ]
+    },
+    {
+      "module_directory": ".",
       "package_directory": ".",
       "source_digest": "2afdbcfaa0ff13caab52fb57d267739b87f400b7b394e32b93af131d8f96a39b",
       "gremlins_version": "v0.6.0",
