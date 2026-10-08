@@ -152,6 +152,61 @@
           "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 459, "column": 113,
           "contract_domain": "Public Exact.PackFixed finite normalized requests with trusted ordinary collaborators and stable finite side-effect-free error classification",
           "reason": "Independent reviewer /root/knapsack_stack_equivalence_review; reviewed 2026-10-08; expires 2026-11-07 or any relevant verifier, classification/error contract, terminal-field consumer, rollback/stopping or public-return change. Changing the second OR to AND only chooses the private terminal field receiving the identical verification error object. The leaf returns immediately; identical recursive rollback and stopped checks precede context or further callbacks. Both fields return the same zero public plan and error. Verification uses Background, not the owner's cancellation context. Admitted errors are sentinels, standard wrapping/join, or deterministic side-effect-free Is/Unwrap. Predicate invocation order/count differs; observable, panicking, blocking or stateful classification and identical work/allocation profiles are not claimed. Native37760395893 remains FAILED with this coordinate LIVED; no other survivor is accepted."
+        },
+        {
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 634, "column": 9,
+          "contract_domain": "Exact lattice admission for constructor-valid positive dimensions with representable volume",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing the first OR to AND is masked: normalized volume makes product overflow unreachable, and coordinate-byte overflow necessarily also causes point-byte overflow rejected by the unchanged guard. Arbitrary invalid scalar dimensions are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 635, "column": 19,
+          "contract_domain": "Exact lattice admission for constructor-valid positive dimensions",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing coordinateBytes>memoryLimit to >= adds equality only; equality leaves zero remaining storage and positive point bytes independently refuse it. Inclusive combined-storage admission is unchanged. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 707, "column": 43,
+          "contract_domain": "Exact placement support for constructor-valid items and owned nonoverlapping bins",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing positive required support to nonnegative adds only the zero requirement, whose ratio check succeeds for nonnegative support area. Positive support is independently enforced by physicalPlacementAllowed. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_NEGATION", "line": 707, "column": 43,
+          "contract_domain": "Exact placement support for constructor-valid items and owned nonoverlapping bins",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Negating the positive required-support gate skips only a redundant ratio check: physicalPlacementAllowed independently enforces positive support, and the extra zero-requirement check always succeeds for nonnegative support area. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 774, "column": 20,
+          "contract_domain": "Exact objective preference with trusted bounded collaborators through SafeCompare",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing comparison<0 to <= adds equality only. Successful SafeCompare equality means complete canonical plan-byte identity, so retaining either copy publishes the same plan. Error paths discard the preference boolean. Callback invocation counts and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 285, "column": 4,
+          "contract_domain": "Heuristic bounded diagnostic construction after the configured diagnostic cap",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Replacing break with continue only scans remaining bounded unpacked IDs after the diagnostic cap. Every iteration takes the same cap guard and appends nothing; output, work counters and callbacks are unchanged. Identical traversal cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 444, "column": 6,
+          "contract_domain": "Heuristic overlap screening of owned bins and generated placement candidates",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Replacing break with continue scans later placements after sticky local blocked becomes true. It cannot clear blocked, and the rejected candidate and private supporter metadata are discarded before callback or publication. Identical scan cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 478, "column": 133,
+          "contract_domain": "Heuristic placement selection through the actual deterministic placement comparators",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing comparator<0 to <= adds ties only. Actual comparators distinguish origin, dimensions and orientation; tied candidates for the same item and container therefore have identical placements and supporter sets. Arbitrary fabricated comparators and callback-count equivalence are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 690, "column": 50,
+          "contract_domain": "Shared physical support checks for constructor-valid items and owned nonoverlapping bins",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing required support>0 to >= adds only zero requirement. The extra ratio check succeeds for nonnegative support area; positive support enforcement, placement acceptance and output are unchanged. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 738, "column": 16,
+          "contract_domain": "Shared support-load propagation over valid nonoverlapping positive-height geometry",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing positive support total to nonnegative enters the zero case only. Every support edge has positive area and their sum is bounded by the footprint, so zero means no edges and the additional loop is empty. No load, callback or public result changes. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 837, "column": 25,
+          "contract_domain": "Final supporter metadata for admitted placements with nonnegative origins and positive heights",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing origin.Z>0 to >= adds ground placements only. A supporter would need a top face at zero, impossible with positive height and nonnegative origin. Extra bounded scans retain the same empty supporter metadata. Identical scan cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         }
       ]
     },
