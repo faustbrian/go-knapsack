@@ -6,7 +6,7 @@ require (
 	github.com/faustbrian/go-international v1.1.0
 	github.com/faustbrian/go-knapsack/v2 v2.0.0
 	github.com/faustbrian/go-math v1.1.3
-	github.com/faustbrian/go-measurement/v2 v2.0.1
+	github.com/faustbrian/go-measurement/v2 v2.0.2
 	github.com/faustbrian/go-money/v2 v2.0.0
 )
 
