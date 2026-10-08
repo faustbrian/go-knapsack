@@ -137,6 +137,11 @@
           "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 929, "column": 10,
           "contract_domain": "Point ordering for all geometry.Point values, including signed extremes, through sorting, compaction, placement tie-breaks and rollback reconstruction",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed 2026-10-08; expires 2026-11-07 or any owning comparator, dominating guard, caller-domain or verifier change. Changing a.Y<b.Y to <= differs only on equality, excluded by the dominating a.Y!=b.Y guard. Value arguments and comparison results remain identical for every point pair, preserving sorting, candidate order, tie-breaks and reconstruction. Native37715219180 remains FAILED with this coordinate LIVED; no other survivor is accepted."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 743, "column": 61,
+          "contract_domain": "Shared heuristic and exact support-stack depth for every finite support graph admitted by normalized public packing requests",
+          "reason": "Independent reviewer /root/knapsack_stack_equivalence_review; reviewed 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, scalar-type or verifier change. Changing depth>maximum to >= adds only equality, assigning the identical private uint32 maximum. Recursive calls, arithmetic, graph traversal and caller MaxStackCount comparison execute identically; no callback, context boundary, allocation or charged work changes. Public plan, support acceptance and errors are unchanged. Native37744677605 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         }
       ]
     },
