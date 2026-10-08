@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math"
 	"math/big"
 	"slices"
 	"strconv"
@@ -141,7 +142,11 @@ func (Heuristic) PackFixed(ctx context.Context, request knapsack.NormalizedReque
 	if len(unpacked) > 0 {
 		status, termination = knapsack.StatusBestKnown, knapsack.TerminationNoPlacement
 	}
-	plan, err := withObjective(ctx, request, buildPlan(bins, unpacked, status, termination, candidates, options.Seed, nil), goal)
+	plan, err := buildPlan(bins, unpacked, status, termination, candidates, options.Seed, nil)
+	if err != nil {
+		return knapsack.Plan{}, err
+	}
+	plan, err = withObjective(ctx, request, plan, goal)
 	if err != nil {
 		return knapsack.Plan{}, err
 	}
@@ -289,7 +294,11 @@ func (Heuristic) packAllPass(ctx context.Context, request knapsack.NormalizedReq
 	if len(unpacked) > 0 {
 		status, termination = knapsack.StatusBestKnown, knapsack.TerminationNoPlacement
 	}
-	plan, err := withObjective(ctx, request, buildPlan(bins, unpacked, status, termination, candidates, options.Seed, diagnostics), goal)
+	plan, err := buildPlan(bins, unpacked, status, termination, candidates, options.Seed, diagnostics)
+	if err != nil {
+		return knapsack.Plan{}, err
+	}
+	plan, err = withObjective(ctx, request, plan, goal)
 	if err != nil {
 		return knapsack.Plan{}, err
 	}
@@ -309,6 +318,7 @@ func chooseHeuristicPlacement(ctx context.Context, request knapsack.NormalizedRe
 	var bestBins []*bin
 	var bestPlan *knapsack.Plan
 	bestNewType := ""
+	var arithmeticErr error
 	for index, target := range bins {
 		if groupStarted && !slices.ContainsFunc(target.items, func(existing knapsack.NormalizedItem) bool { return existing.Group == item.Group }) {
 			continue
@@ -321,7 +331,14 @@ func chooseHeuristicPlacement(ctx context.Context, request knapsack.NormalizedRe
 		if !accepted {
 			continue
 		}
-		plan := buildPlan(trial, nil, knapsack.StatusBestKnown, knapsack.TerminationCompleted, *candidates, options.Seed, nil)
+		plan, err := buildPlan(trial, nil, knapsack.StatusBestKnown, knapsack.TerminationCompleted, *candidates, options.Seed, nil)
+		if err != nil {
+			if errors.Is(err, knapsack.ErrOverflow) {
+				arithmeticErr = err
+				continue
+			}
+			return nil, "", false, err
+		}
 		preferred, err := objectivePrefers(ctx, goal, request, plan, bestPlan)
 		if err != nil {
 			return nil, "", false, err
@@ -347,7 +364,14 @@ func chooseHeuristicPlacement(ctx context.Context, request knapsack.NormalizedRe
 				continue
 			}
 			trial = append(trial, target)
-			plan := buildPlan(trial, nil, knapsack.StatusBestKnown, knapsack.TerminationCompleted, *candidates, options.Seed, nil)
+			plan, err := buildPlan(trial, nil, knapsack.StatusBestKnown, knapsack.TerminationCompleted, *candidates, options.Seed, nil)
+			if err != nil {
+				if errors.Is(err, knapsack.ErrOverflow) {
+					arithmeticErr = err
+					continue
+				}
+				return nil, "", false, err
+			}
 			preferred, err := objectivePrefers(ctx, goal, request, plan, bestPlan)
 			if err != nil {
 				return nil, "", false, err
@@ -359,6 +383,9 @@ func chooseHeuristicPlacement(ctx context.Context, request knapsack.NormalizedRe
 		}
 	}
 	if bestPlan == nil {
+		if arithmeticErr != nil {
+			return nil, "", false, arithmeticErr
+		}
 		return bins, "", false, nil
 	}
 	return bestBins, bestNewType, true, nil
@@ -756,19 +783,33 @@ func compareInt64(left, right int64) int {
 	return 0
 }
 
-func buildPlan(bins []*bin, unpacked []string, status knapsack.Status, termination knapsack.TerminationReason, candidates, seed uint64, diagnostics []knapsack.Diagnostic) knapsack.Plan {
+func buildPlan(bins []*bin, unpacked []string, status knapsack.Status, termination knapsack.TerminationReason, candidates, seed uint64, diagnostics []knapsack.Diagnostic) (knapsack.Plan, error) {
 	spec := knapsack.PlanSpec{Status: status, Termination: termination, UnpackedItemIDs: slices.Clone(unpacked), Diagnostics: diagnostics, Work: knapsack.Work{Solver: "heuristic", Strategy: "deterministic_extreme_point", Seed: seed, CandidatePlacements: candidates}}
 	for _, target := range bins {
 		spec.Containers = append(spec.Containers, target.instance)
 		spec.Placements = append(spec.Placements, placementsWithFinalSupport(target.placements)...)
-		volume, _ := target.info.Dimensions.Volume()
-		spec.Statistics.ContainerVolume += volume
-		spec.Statistics.RemainingWeight += target.info.MaxContentWeight - target.weight
+		volume, err := target.info.Dimensions.Volume()
+		if err != nil {
+			return knapsack.Plan{}, knapsack.ErrOverflow
+		}
+		if err := addPlanTotal(&spec.Statistics.ContainerVolume, volume); err != nil {
+			return knapsack.Plan{}, err
+		}
+		if err := addPlanTotal(&spec.Statistics.RemainingWeight, target.info.MaxContentWeight-target.weight); err != nil {
+			return knapsack.Plan{}, err
+		}
 	}
 	for _, placement := range spec.Placements {
-		volume, _ := placement.Dimensions.Volume()
-		spec.Statistics.ItemVolume += volume
-		spec.Statistics.ItemWeight += placement.Weight
+		volume, err := placement.Dimensions.Volume()
+		if err != nil {
+			return knapsack.Plan{}, knapsack.ErrOverflow
+		}
+		if err := addPlanTotal(&spec.Statistics.ItemVolume, volume); err != nil {
+			return knapsack.Plan{}, err
+		}
+		if err := addPlanTotal(&spec.Statistics.ItemWeight, placement.Weight); err != nil {
+			return knapsack.Plan{}, err
+		}
 	}
 	// #nosec G115 -- normalized request limits cap both counts at uint32.
 	spec.Statistics.PackedItems = uint32(len(spec.Placements))
@@ -776,8 +817,17 @@ func buildPlan(bins []*bin, unpacked []string, status knapsack.Status, terminati
 	spec.Statistics.ContainerCount = uint32(len(spec.Containers))
 	spec.Statistics.RemainingVolume = spec.Statistics.ContainerVolume - spec.Statistics.ItemVolume
 	spec.Objective = []knapsack.ScoreComponent{{Name: "container_count", Direction: "min", Unit: "count", Value: strconv.Itoa(len(spec.Containers))}, {Name: "unused_volume", Direction: "min", Unit: "lattice^3", Value: strconv.FormatInt(spec.Statistics.RemainingVolume, 10)}}
-	plan, _ := knapsack.NewPlan(spec)
-	return plan
+	return knapsack.NewPlan(spec)
+}
+
+// Plan aggregates are nonnegative lattice counts. Refuse before addition so
+// neither an objective nor an error/partial result can observe wrapped totals.
+func addPlanTotal(total *int64, value int64) error {
+	if *total < 0 || value < 0 || *total > math.MaxInt64-value {
+		return knapsack.ErrOverflow
+	}
+	*total += value
+	return nil
 }
 
 func placementsWithFinalSupport(placements []knapsack.Placement) []knapsack.Placement {
@@ -810,7 +860,10 @@ func interruptedPlan(request knapsack.NormalizedRequest, bins []*bin, unpacked [
 	var unbalanced []string
 	bins, unbalanced = discardUnbalancedBins(bins, true)
 	unpacked = append(unpacked, unbalanced...)
-	plan := buildPlan(bins, unique(unpacked), knapsack.StatusBudgetExhausted, termination, candidates, seed, nil)
+	plan, err := buildPlan(bins, unique(unpacked), knapsack.StatusBudgetExhausted, termination, candidates, seed, nil)
+	if err != nil {
+		return knapsack.Plan{}, err
+	}
 	if len(plan.Placements()) > 0 {
 		if result := verify.Plan(request, plan, verify.AllowUnpacked()); !result.Valid() {
 			return knapsack.Plan{}, knapsack.ErrInternalInvariant

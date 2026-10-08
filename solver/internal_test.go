@@ -766,7 +766,10 @@ func TestInterruptedHeuristicPlanRejectsUnscoredAndUnverifiedResults(t *testing.
 func TestInterruptedBestPlanClassifiesEveryCause(t *testing.T) {
 	t.Parallel()
 
-	best := buildPlan(nil, []string{"item"}, knapsack.StatusBestKnown, knapsack.TerminationNoPlacement, 1, 0, nil)
+	best, err := buildPlan(nil, []string{"item"}, knapsack.StatusBestKnown, knapsack.TerminationNoPlacement, 1, 0, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 	for _, test := range []struct {
 		cause error
 		want  knapsack.TerminationReason
@@ -1268,7 +1271,10 @@ func TestBuildPlanRecomputesFinalSupportRelationships(t *testing.T) {
 		{ItemID: "top", ContainerID: target.instance.ID, Origin: geometry.Point{Z: 1}, Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, SupporterIDs: []string{"stale"}},
 		{ItemID: "base", ContainerID: target.instance.ID, Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}},
 	}
-	plan := buildPlan([]*bin{target}, nil, knapsack.StatusFeasible, knapsack.TerminationCompleted, 0, 0, nil)
+	plan, err := buildPlan([]*bin{target}, nil, knapsack.StatusFeasible, knapsack.TerminationCompleted, 0, 0, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
 	placements := plan.Placements()
 	if !slices.Equal(placements[0].SupporterIDs, []string{"base"}) {
 		t.Fatalf("supporters = %v, want final geometric supporters", placements[0].SupporterIDs)

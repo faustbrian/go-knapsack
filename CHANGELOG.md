@@ -6,6 +6,10 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Fixed
 
+- Refuse unrepresentable selected-plan volume and weight totals with
+  `ErrOverflow` before scoring or publishing a complete, infeasible or
+  interrupted result. Overflow returns no plan instead of wrapped statistics.
+
 - Apply supported-weight limits to proportional transitive loads rather than
   charging the full item weight to every supporter. Both packing strategies
   now admit valid shared-support placements while retaining fragile-top,
