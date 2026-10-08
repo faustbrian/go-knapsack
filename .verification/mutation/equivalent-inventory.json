@@ -57,6 +57,46 @@
           "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 198, "column": 22,
           "contract_domain": "Public Exact.PackAll variable configuration branch-budget classification",
           "reason": "Replacing configurations > maximum branches with >= changes only equality. At equality the original remaining disjunct compares unsigned work.Branches >= maximum-configurations, which is >= zero and always true, yielding the identical BranchLimit. Above the limit both forms short-circuit before unsigned subtraction; below it both forms and every other classification are unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 149, "column": 44,
+          "contract_domain": "Public Heuristic.PackFixed final item-conservation verification",
+          "reason": "Replacing len(unpacked) > 0 with >= changes policy only when AllowUnpacked is false and the constructed plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. All other findings, truncation, callback execution, cancellation checks and errors are unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 209, "column": 62,
+          "contract_domain": "Public Heuristic.PackAll selected improvement-plan item-conservation verification",
+          "reason": "Replacing len(selected.UnpackedItemIDs()) > 0 with >= changes policy only when AllowUnpacked is false and the selected plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. The accessor executes identically, and all other findings, truncation, callback execution, cancellation checks and errors are unchanged."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 297, "column": 44,
+          "contract_domain": "Public Heuristic.PackAll primary and alternate pass item-conservation verification",
+          "reason": "Replacing len(unpacked) > 0 with >= changes policy only when AllowUnpacked is false and the constructed plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. All other findings, truncation, callback execution, cancellation checks and errors are unchanged."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 251, "column": 13,
+          "contract_domain": "Public Exact.PackAll maximum container-volume lower bound",
+          "reason": "Replacing volume > maximumVolume with >= changes only equality, assigning the identical int64 scalar. It adds no callbacks, allocations or loop extensions, and preserves the lower bound, enumeration, search work and cancellation behavior."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 255, "column": 80,
+          "contract_domain": "Public Exact.PackAll effective gross-capacity lower bound",
+          "reason": "Replacing gross minus tare < weight with <= changes only equality, assigning the identical existing capacity. Public normalization validates nonnegative tare and gross at least tare, so the repeated subtraction cannot overflow. Lower bounds, enumeration, work and cancellation remain unchanged."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 258, "column": 13,
+          "contract_domain": "Public Exact.PackAll maximum effective container-weight lower bound",
+          "reason": "Replacing weight > maximumWeight with >= adds only assignment of the identical scalar at equality, including effective zero gross capacity. Lower bounds, enumeration, search work and cancellation behavior are unchanged."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 264, "column": 17,
+          "contract_domain": "Public Exact.PackAll volume-versus-weight lower-bound selection",
+          "reason": "Replacing volumeBound > weightBound with >= changes only equality, returning volumeBound instead of the identical weightBound. The same starting container count preserves enumeration, callbacks, search work and cancellation boundaries."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 279, "column": 45,
+          "contract_domain": "Public Exact.PackAll platform-sized aggregate lower-bound admission",
+          "reason": "Replacing quotient.Int64() > platform maximum int with >= changes only equality. The added branch returns platform maximum, while the original conversion returns that same representable int. The preceding non-int64 short circuit is unchanged on both 32-bit and 64-bit targets. Lower-bound and search behavior remain identical."
         }
       ]
     },
