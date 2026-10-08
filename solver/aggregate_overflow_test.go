@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"math"
+	"strings"
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2"
@@ -124,6 +125,43 @@ func TestExactPackAllPreservesRepresentableAlternatives(t *testing.T) {
 type aggregateErrorObjective struct {
 	calls   *int
 	failure error
+}
+
+func TestExactPackAllRefusesWhenEveryConfigurationOverflows(t *testing.T) {
+	base := exactRequest(t, 2, 1)
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items: []knapsack.NormalizedItem{
+			{ID: "first", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}},
+			{ID: "second", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}},
+		},
+		Containers: []knapsack.NormalizedContainer{{ID: "large", Dimensions: geometry.Dimensions{X: math.MaxInt64, Y: 1, Z: 1}, MaxContentWeight: 1, Stock: knapsack.FiniteStock(2)}},
+		Resolution: base.Resolution(), Limits: base.Limits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (solver.Exact{}).PackAll(t.Context(), request, solver.Options{})
+	if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || len(plan.Containers()) != 0 {
+		t.Fatalf("all-refused search falsely published plan=%+v error=%v", plan.Spec(), err)
+	}
+}
+
+func TestHeuristicTerminalPublicationPropagatesPlanAdmissionFailure(t *testing.T) {
+	base := exactRequest(t, 1, 1)
+	limits := base.Limits()
+	limits.MaxIDBytes = knapsack.DefaultPlanLimits().MaxIDBytes + 1
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items:      []knapsack.NormalizedItem{{ID: strings.Repeat("x", int(limits.MaxIDBytes)), Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}}},
+		Containers: []knapsack.NormalizedContainer{{ID: "box", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, MaxContentWeight: 1, Stock: knapsack.FiniteStock(1), AllowedClasses: []string{"other"}}},
+		Resolution: base.Resolution(), Limits: limits,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (solver.Heuristic{}).PackAll(t.Context(), request, solver.Options{})
+	if !errors.Is(err, knapsack.ErrBudgetExhausted) || plan.Status() != "" || len(plan.UnpackedItemIDs()) != 0 {
+		t.Fatalf("oversized unpacked ID published plan=%+v error=%v", plan.Spec(), err)
+	}
 }
 
 func (aggregateErrorObjective) Valid() bool { return true }
