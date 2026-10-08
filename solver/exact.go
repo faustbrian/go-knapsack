@@ -530,25 +530,13 @@ func (s *exactSearch) stopped() bool {
 func exactPoints(target *bin, memoryLimit uint64) ([]geometry.Point, bool) {
 	xs, ys, zs := []int64{0}, []int64{0}, []int64{0}
 	if target.info.CenterOfGravity != nil {
-		xLength := new(big.Int).SetInt64(target.info.Dimensions.X).Uint64()
-		yLength := new(big.Int).SetInt64(target.info.Dimensions.Y).Uint64()
-		zLength := new(big.Int).SetInt64(target.info.Dimensions.Z).Uint64()
-		count, ok := checkedProduct(
-			xLength,
-			yLength,
-			zLength,
-		)
-		// Validated volume bounds prove the positive-axis sum fits uint64.
-		coordinates := xLength + yLength + zLength
-		coordinateBytes, coordinatesOK := checkedProduct(coordinates, 8)
-		pointBytes, pointsOK := checkedProduct(count, 24)
-		if !ok || !coordinatesOK || !pointsOK || count > uint64(^uint(0)>>1) ||
-			coordinateBytes > memoryLimit || pointBytes > memoryLimit-coordinateBytes {
+		lengths, ok := exactLatticeLengths(target.info.Dimensions, memoryLimit)
+		if !ok {
 			return nil, false
 		}
-		xs = latticeCoordinates(target.info.Dimensions.X)
-		ys = latticeCoordinates(target.info.Dimensions.Y)
-		zs = latticeCoordinates(target.info.Dimensions.Z)
+		xs = latticeCoordinates(lengths[0])
+		ys = latticeCoordinates(lengths[1])
+		zs = latticeCoordinates(lengths[2])
 	}
 	for _, placement := range target.placements {
 		xs = append(xs, placement.Origin.X+placement.Dimensions.X)
@@ -567,11 +555,11 @@ func exactPoints(target *bin, memoryLimit uint64) ([]geometry.Point, bool) {
 	ys = slices.Compact(ys)
 	slices.Sort(zs)
 	zs = slices.Compact(zs)
-	count, ok := checkedProduct(uint64(len(xs)), uint64(len(ys)), uint64(len(zs)))
-	if !ok || count > uint64(^uint(0)>>1) || count > memoryLimit/24 {
+	capacity, ok := exactPointCapacity(uint64(len(xs)), uint64(len(ys)), uint64(len(zs)), memoryLimit)
+	if !ok {
 		return nil, false
 	}
-	points := make([]geometry.Point, 0, int(count))
+	points := make([]geometry.Point, 0, capacity)
 	for _, z := range zs {
 		for _, y := range ys {
 			for _, x := range xs {
@@ -580,6 +568,34 @@ func exactPoints(target *bin, memoryLimit uint64) ([]geometry.Point, bool) {
 		}
 	}
 	return points, true
+}
+
+// exactLatticeLengths admits peak coordinate and point storage without
+// allocating either. Dimensions come from constructor-validated containers.
+func exactLatticeLengths(dimensions geometry.Dimensions, memoryLimit uint64) ([3]int64, bool) {
+	xLength := new(big.Int).SetInt64(dimensions.X).Uint64()
+	yLength := new(big.Int).SetInt64(dimensions.Y).Uint64()
+	zLength := new(big.Int).SetInt64(dimensions.Z).Uint64()
+	count, ok := checkedProduct(xLength, yLength, zLength)
+	// Validated volume bounds prove the positive-axis sum fits uint64.
+	coordinates := xLength + yLength + zLength
+	coordinateBytes, coordinatesOK := checkedProduct(coordinates, 8)
+	pointBytes, pointsOK := checkedProduct(count, 24)
+	if !ok || !coordinatesOK || !pointsOK || count > uint64(^uint(0)>>1) ||
+		coordinateBytes > memoryLimit || pointBytes > memoryLimit-coordinateBytes {
+		return [3]int64{}, false
+	}
+	return [3]int64{dimensions.X, dimensions.Y, dimensions.Z}, true
+}
+
+// exactPointCapacity checks Cartesian storage before conversion to an allocation
+// capacity. Scalar admission does not promise physical memory availability.
+func exactPointCapacity(xLength, yLength, zLength, memoryLimit uint64) (int, bool) {
+	count, ok := checkedProduct(xLength, yLength, zLength)
+	if !ok || count > uint64(^uint(0)>>1) || count > memoryLimit/24 {
+		return 0, false
+	}
+	return int(count), true
 }
 
 func latticeCoordinates(length int64) []int64 {

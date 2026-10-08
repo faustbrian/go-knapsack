@@ -33,14 +33,43 @@ jobs:
       release_dry_run: ${{ inputs.release_dry_run || false }}
       release_module: ${{ inputs.release_module || '' }}
 
+  allocation-admission-386:
+    name: Scalar allocation admission (386)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: .go-version
+          cache: false
+      - name: Execute finite 32-bit allocation admission
+        run: |
+          set -euo pipefail
+          task="$(mktemp -d "${RUNNER_TEMP}/knapsack-scalar-386.XXXXXX")"
+          trap 'chmod -R u+w "${task}"; find "${task}" -depth -delete; test ! -e "${task}"' EXIT
+          mkdir -p "${task}/cache" "${task}/mod" "${task}/tmp"
+          GOCACHE="${task}/cache" GOMODCACHE="${task}/mod" GOTMPDIR="${task}/tmp" \
+            GOARCH=386 CGO_ENABLED=0 GOMAXPROCS=2 GOWORK=off \
+            go test -p=1 ./solver \
+              -run '^TestExact(LatticeScalarAdmission|CartesianScalarAdmission)$' \
+              -count=1 -timeout=30s
+
   required:
     name: Required
     if: always()
-    needs: ci
+    needs: [ci, allocation-admission-386]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: Require shared workflow
         env:
           CI_RESULT: ${{ needs.ci.result }}
-        run: test "${CI_RESULT}" = success
+          ALLOCATION_RESULT: ${{ needs.allocation-admission-386.result }}
+        run: |
+          test "${CI_RESULT}" = success
+          test "${ALLOCATION_RESULT}" = success
