@@ -107,3 +107,54 @@ func TestHeuristicContinuesAfterNonFittingOrientation(t *testing.T) {
 		})
 	}
 }
+
+func TestHeuristicContinuesAfterReservedOrientation(t *testing.T) {
+	baseline := exactRequest(t, 2, 1)
+	limits := baseline.Limits()
+	limits.MaxImprovementRounds = 0
+	reserved, err := geometry.NewCuboid(geometry.Point{X: 1}, geometry.Dimensions{X: 1, Y: 2, Z: 1})
+	if err != nil {
+		t.Fatal(err)
+	}
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items: []knapsack.NormalizedItem{{
+			ID: "item", Dimensions: geometry.Dimensions{X: 2, Y: 1, Z: 1}, Weight: 1,
+			Orientations: []geometry.Orientation{geometry.OrientationXYZ, geometry.OrientationYXZ},
+		}},
+		Containers: []knapsack.NormalizedContainer{{
+			ID: "box", Dimensions: geometry.Dimensions{X: 2, Y: 2, Z: 1}, Reserved: []geometry.Cuboid{reserved},
+			MaxContentWeight: 1, Stock: knapsack.FiniteStock(1),
+		}},
+		Resolution: baseline.Resolution(), Limits: limits,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	for name, pack := range map[string]func() (knapsack.Plan, error){
+		"fixed": func() (knapsack.Plan, error) {
+			return (solver.Heuristic{}).PackFixed(t.Context(), request,
+				[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}}, solver.Options{})
+		},
+		"variable": func() (knapsack.Plan, error) {
+			return (solver.Heuristic{}).PackAll(t.Context(), request, solver.Options{})
+		},
+	} {
+		t.Run(name, func(t *testing.T) {
+			plan, err := pack()
+			placements := plan.Placements()
+			if err != nil || len(placements) != 1 || len(plan.UnpackedItemIDs()) != 0 {
+				t.Fatalf("later unreserved orientation: placements=%d unpacked=%d error=%v", len(placements), len(plan.UnpackedItemIDs()), err)
+			}
+			placement := placements[0]
+			if placement.ItemID != "item" || placement.ContainerID == "" ||
+				placement.Origin != (geometry.Point{}) || placement.Orientation != geometry.OrientationYXZ ||
+				placement.Dimensions != (geometry.Dimensions{X: 1, Y: 2, Z: 1}) ||
+				name == "fixed" && placement.ContainerID != "box#1" {
+				t.Fatalf("incorrect unreserved alternative: %+v", placement)
+			}
+			if result := verify.Plan(request, plan, verify.RequireAll()); !result.Valid() {
+				t.Fatalf("unreserved alternative violates packing geometry: %+v", result.Violations())
+			}
+		})
+	}
+}
