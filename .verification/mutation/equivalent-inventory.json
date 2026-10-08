@@ -97,6 +97,26 @@
           "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 279, "column": 45,
           "contract_domain": "Public Exact.PackAll platform-sized aggregate lower-bound admission",
           "reason": "Replacing quotient.Int64() > platform maximum int with >= changes only equality. The added branch returns platform maximum, while the original conversion returns that same representable int. The preceding non-int64 short circuit is unchanged on both 32-bit and 64-bit targets. Lower-bound and search behavior remain identical."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 891, "column": 9,
+          "contract_domain": "Public heuristic and exact fixed-search descending item-volume ordering",
+          "reason": "Replacing av > bv with >= changes only equality, but the comparison is evaluated solely inside the explicit av != bv guard. Equal volumes never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 897, "column": 15,
+          "contract_domain": "Public heuristic and exact fixed-search descending item-weight ordering",
+          "reason": "Replacing a.Weight > b.Weight with >= changes only equality, but the comparison is evaluated solely inside the explicit a.Weight != b.Weight guard. Equal weights never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 906, "column": 17,
+          "contract_domain": "Public heuristic and exact variable-search ascending container-priority ordering",
+          "reason": "Replacing a.Priority < b.Priority with <= changes only equality, but the comparison is evaluated solely inside the explicit a.Priority != b.Priority guard. Equal priorities never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 914, "column": 9,
+          "contract_domain": "Public heuristic and exact variable-search ascending container-volume ordering",
+          "reason": "Replacing av < bv with <= changes only equality, but the comparison is evaluated solely inside the explicit av != bv guard. Equal volumes never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
         }
       ]
     },
