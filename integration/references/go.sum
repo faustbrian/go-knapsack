@@ -4,10 +4,10 @@ github.com/faustbrian/go-knapsack/v2 v2.0.0 h1:6/tqyHhCv4RmgRT0BXB0D9O79HOhEhGXJ
 github.com/faustbrian/go-knapsack/v2 v2.0.0/go.mod h1:fh0Eo1Vlu+4eICz6AXQ1J9w1/cbSqYEqNUyDHZJUqKk=
 github.com/faustbrian/go-math v1.1.3 h1:BM+SdohFAirzfk+qVeER0F6TYC8/sniQFtc1bS8Y+BM=
 github.com/faustbrian/go-math v1.1.3/go.mod h1:e7fzSBNkWWq+1EsCSjpvjIAc//nJAS/iRU4Qc87TfTU=
-github.com/faustbrian/go-measurement/v2 v2.0.1 h1:E1EiJKXtOIITw+E9ppq49BPNJehCV4lK8rBTfQwqZLQ=
-github.com/faustbrian/go-measurement/v2 v2.0.1/go.mod h1:KBM0yghnRL8VUWtaxwkT/cxyV6eblOoKnmZzEgGjm3I=
-github.com/faustbrian/go-wire v1.0.0 h1:vVniAQ0+dtWPlYvLzJc4xM74oyZ4ZGo5IvQKBTO6UyM=
-github.com/faustbrian/go-wire v1.0.0/go.mod h1:wcQnBeNpF6pw7vFhnBd0W9+qS7zlATxn2zuUae8aLyU=
+github.com/faustbrian/go-measurement/v2 v2.0.2 h1:5UXaCzetgjDCq6vfz4C77XZl2dP+7rJ1RNfgprYc6pI=
+github.com/faustbrian/go-measurement/v2 v2.0.2/go.mod h1:AcfkkrkMaI3I52ojEiGKp8HyX8/XTYSPp4alqLD93gA=
+github.com/faustbrian/go-wire v1.0.1 h1:ohJu+Hp+i5HIhoDxqBmd0L3uL71XuvE90/oRzP+zd8Q=
+github.com/faustbrian/go-wire v1.0.1/go.mod h1:2XRDGdmRO4lYwnzGTuF5rxwUqyui0ml9ZuBB6cqLde0=
 github.com/gedex/bp3d v0.0.0-20170208095317-0ba3dcda7ab3 h1:iSUfjJPrXZAxE5QG+q3D6Q5rJalT0o7knhJhl6+hwoQ=
 github.com/gedex/bp3d v0.0.0-20170208095317-0ba3dcda7ab3/go.mod h1:A7bfE87oI+f9t3T+4UkW5j012rvVfAbHhbOvDwQ514E=
 github.com/jcoruiz/gopackx v0.2.2 h1:8QTKZf4gSu4sKUMVYWQs48md/z5v24KGn2xLobKk2TU=
