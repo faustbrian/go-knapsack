@@ -77,3 +77,50 @@ func TestSignedHeightComparisonPreservesStrictThreeWayOrder(t *testing.T) {
 		}
 	}
 }
+
+func TestPlacementHonorsItemCountAndContentCapacity(t *testing.T) {
+	t.Parallel()
+	for _, countLimit := range []uint32{0, 1, 2} {
+		for _, weightLimit := range []int64{2, 3, 4} {
+			for _, exact := range []bool{false, true} {
+				target := baseInternalBin()
+				target.info.MaxItemCount, target.info.MaxContentWeight = countLimit, weightLimit
+				base := baseInternalItem()
+				base.ID = "base"
+				target.items, target.weight = []knapsack.NormalizedItem{base}, 1
+				target.placements = []knapsack.Placement{{ItemID: base.ID, ContainerID: target.instance.ID,
+					Dimensions: base.Dimensions, Orientation: geometry.OrientationXYZ, Weight: 1}}
+				target.points = []geometry.Point{{X: 1}}
+				item := baseInternalItem()
+				item.ID, item.Weight = "next", 2
+				want := countLimit != 1 && weightLimit >= 3
+				var accepted bool
+				if exact {
+					placement, ok := exactPlacement(item, target, geometry.Point{X: 1}, geometry.OrientationXYZ)
+					accepted = ok
+					if ok && (placement.ItemID != item.ID || placement.Weight != item.Weight) {
+						t.Fatalf("incorrect exact placement: %+v", placement)
+					}
+				} else {
+					var candidates uint64
+					var err error
+					accepted, err = tryPlace(context.Background(), item, target, &candidates, 10, nil)
+					if err != nil {
+						t.Fatal(err)
+					}
+				}
+				if accepted != want {
+					t.Fatalf("exact=%v count=%d weight=%d: accepted=%v, want %v", exact, countLimit, weightLimit, accepted, want)
+				}
+				wantCount, wantWeight := 1, int64(1)
+				if accepted && !exact {
+					wantCount, wantWeight = 2, 3
+				}
+				if len(target.items) != wantCount || len(target.placements) != wantCount || target.weight != wantWeight {
+					t.Fatalf("exact=%v accepted=%v: bin count=%d/%d weight=%d, want %d/%d", exact, accepted,
+						len(target.items), len(target.placements), target.weight, wantCount, wantWeight)
+				}
+			}
+		}
+	}
+}
