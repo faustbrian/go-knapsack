@@ -79,7 +79,7 @@ func TestHeuristicContinuesAfterUnsupportedOrientation(t *testing.T) {
 	})
 }
 
-func TestHeuristicWithoutCallbacksDoesNotApplyCallbackViewLimit(t *testing.T) {
+func TestPackersWithoutCallbacksDoNotApplyCallbackViewLimit(t *testing.T) {
 	baseline := exactRequest(t, 1, 1)
 	limits := baseline.Limits()
 	limits.MaxImprovementRounds = 0
@@ -101,6 +101,17 @@ func TestHeuristicWithoutCallbacksDoesNotApplyCallbackViewLimit(t *testing.T) {
 				"item": {Orientation: geometry.OrientationXYZ, Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}},
 			})
 		})
+		t.Run("exact/"+name, func(t *testing.T) {
+			plan, err := (solver.Exact{}).PackFixed(t.Context(), request,
+				[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}}, solver.Options{Constraints: callbacks})
+			placements := plan.Placements()
+			if err != nil || len(placements) != 1 || len(plan.UnpackedItemIDs()) != 0 {
+				t.Fatalf("exact admission without callbacks: placements=%d unpacked=%d error=%v", len(placements), len(plan.UnpackedItemIDs()), err)
+			}
+			if result := verify.Plan(request, plan, verify.RequireAll()); !result.Valid() {
+				t.Fatalf("exact admission violates packing geometry: %+v", result.Violations())
+			}
+		})
 	}
 	for name, pack := range heuristicAdmissionPackers(request, solver.Options{Constraints: []constraint.Placement{acceptAnyPlacement{}}}) {
 		t.Run("callback/"+name, func(t *testing.T) {
@@ -108,6 +119,27 @@ func TestHeuristicWithoutCallbacksDoesNotApplyCallbackViewLimit(t *testing.T) {
 				t.Fatalf("explicit callback view limit: error=%v", err)
 			}
 		})
+	}
+	t.Run("callback/exact", func(t *testing.T) {
+		_, err := (solver.Exact{}).PackFixed(t.Context(), request,
+			[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}}, solver.Options{Constraints: []constraint.Placement{acceptAnyPlacement{}}})
+		if !errors.Is(err, constraint.ErrViewLimit) {
+			t.Fatalf("explicit exact callback view limit: error=%v", err)
+		}
+	})
+}
+
+func TestExactStopsCallbacksAfterPlacementRejection(t *testing.T) {
+	request := exactRequest(t, 4, 1)
+	plan, err := (solver.Exact{}).PackFixed(t.Context(), request,
+		[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}},
+		solver.Options{Constraints: []constraint.Placement{rejectAll{}, panicOnPlacement{}}})
+	if !errors.Is(err, knapsack.ErrProvenInfeasible) || plan.Status() != knapsack.StatusInfeasible ||
+		len(plan.Placements()) != 0 || len(plan.UnpackedItemIDs()) != len(request.Items()) {
+		t.Fatalf("rejected placement must preserve infeasibility: status=%s packed=%d unpacked=%d error=%v", plan.Status(), len(plan.Placements()), len(plan.UnpackedItemIDs()), err)
+	}
+	if result := verify.Plan(request, plan, verify.Options{}); !result.Valid() {
+		t.Fatalf("rejected placement lost item identities: %+v", result.Violations())
 	}
 }
 
