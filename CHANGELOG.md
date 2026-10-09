@@ -4,6 +4,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+## [2.0.1] - 2026-10-09
+
 ### Fixed
 
 - Refuse unrepresentable selected-plan volume and weight totals with
@@ -14,10 +16,6 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   charging the full item weight to every supporter. Both packing strategies
   now admit valid shared-support placements while retaining fragile-top,
   support-area, load-bearing and stack-depth constraints.
-
-## [2.0.1] - 2026-10-01
-
-### Fixed
 
 - Enforce the documented per-item orientation cap during physical request
   construction, matching normalized request admission. Exact limits remain
@@ -33,8 +31,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Adopt Math v1.1.3 and Measurement v2.0.2 in the root and reference
   integration modules while preserving exact integer-lattice conversion,
   physical quantities, solver accounting, and canonical request and plan
-  representations. The independently versioned Money objectives retain their
-  current Money v1 contracts.
+  representations. The independently versioned `objective/gomoney/v2`
+  compatibility facade retains Money v1; `objective/money/v3` uses Money v2.
 
 ## [2.0.0] - 2026-09-27
 
