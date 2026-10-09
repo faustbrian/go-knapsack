@@ -115,7 +115,7 @@ func TestExactPackAllPreservesRepresentableAlternatives(t *testing.T) {
 				calls := 0
 				failure := fmt.Errorf("objective collaborator: %w", knapsack.ErrOverflow)
 				failed, err := (solver.Exact{}).PackAll(t.Context(), request, solver.Options{PlanObjective: aggregateErrorObjective{calls: &calls, failure: failure}})
-				if err != failure || failed.Status() != "" || calls != 1 {
+				if !errors.Is(err, failure) || failed.Status() != "" || calls != 1 {
 					t.Fatalf("collaborator refusal swallowed: status=%s error=%v calls=%d", failed.Status(), err, calls)
 				}
 			}
@@ -222,7 +222,7 @@ func TestHeuristicPreservesConstraintFailureAfterOverflowingTrial(t *testing.T) 
 	plan, err := (solver.Heuristic{}).PackFixed(t.Context(), request,
 		[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}, {ID: "box#2", TypeID: "box"}},
 		solver.Options{Constraints: []constraint.Placement{refuseSecondInstanceDecision{}}})
-	if err != constraint.ErrInvalidDecision || plan.Status() != "" || len(plan.Placements()) != 0 {
+	if !errors.Is(err, constraint.ErrInvalidDecision) || plan.Status() != "" || len(plan.Placements()) != 0 {
 		t.Fatalf("earlier overflow hid constraint failure: plan=%+v error=%v", plan.Spec(), err)
 	}
 }

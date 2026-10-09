@@ -117,7 +117,8 @@ func TestHeuristicContinuesPastExhaustedType(t *testing.T) {
 
 func TestHeuristicFailedGroupPreservesDiagnosticCapAndLaterRecovery(t *testing.T) {
 	t.Parallel()
-	items := []knapsack.Item{groupTransitionItem(t, "e", "", "", 2)}
+	items := make([]knapsack.Item, 0, 5)
+	items = append(items, groupTransitionItem(t, "e", "", "", 2))
 	for _, id := range []string{"a", "b", "c"} {
 		items = append(items, groupTransitionItem(t, id, "linked", "", 1))
 	}
