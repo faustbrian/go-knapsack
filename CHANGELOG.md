@@ -30,7 +30,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Changed
 
-- Adopt Math v1.1.2 and Measurement v2.0.1 in the root and reference
+- Adopt Math v1.1.3 and Measurement v2.0.2 in the root and reference
   integration modules while preserving exact integer-lattice conversion,
   physical quantities, solver accounting, and canonical request and plan
   representations. The independently versioned Money objectives retain their
