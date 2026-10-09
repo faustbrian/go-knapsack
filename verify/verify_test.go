@@ -369,6 +369,61 @@ func countCode(result verify.Result, code verify.Code) int {
 	return count
 }
 
+func TestVerifyMalformedPrefixDoesNotSuppressLaterFindings(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name   string
+		prefix knapsack.Placement
+	}{
+		{"unknown item", knapsack.Placement{ItemID: "unknown", ContainerID: "box#000001"}},
+		{"unknown container", knapsack.Placement{ItemID: "a", ContainerID: "unknown"}},
+		{"forbidden orientation", knapsack.Placement{ItemID: "a", ContainerID: "box#000001", Orientation: geometry.OrientationZYX}},
+		{"invalid origin", knapsack.Placement{ItemID: "a", ContainerID: "box#000001", Orientation: geometry.OrientationXYZ, Origin: geometry.Point{X: -1}}},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			spec := validPlan(t).Spec()
+			spec.Placements[1].Weight++
+			spec.Placements = append([]knapsack.Placement{test.prefix}, spec.Placements...)
+			plan, err := knapsack.NewPlan(spec)
+			if err != nil {
+				t.Fatal(err)
+			}
+			result := verify.Plan(request(t), plan, verify.RequireAll())
+			found := false
+			for _, violation := range result.Violations() {
+				if violation.Code == verify.CodeAlteredItem && violation.ItemID == "b" {
+					found = true
+				}
+			}
+			if !found {
+				t.Fatalf("later altered item was not reported: %+v", result.Violations())
+			}
+		})
+	}
+}
+
+func TestVerifyUnknownContainerDoesNotSuppressKnownContainerChecks(t *testing.T) {
+	t.Parallel()
+	base := request(t)
+	containers := base.Containers()
+	containers[0].MaxContentWeight = 3
+	custom, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: base.Items(), Containers: containers, Resolution: base.Resolution(), Limits: base.Limits()})
+	if err != nil {
+		t.Fatal(err)
+	}
+	spec := validPlan(t).Spec()
+	spec.Containers = append([]knapsack.ContainerInstance{{ID: "unknown", TypeID: "unknown"}}, spec.Containers...)
+	plan, err := knapsack.NewPlan(spec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	result := verify.Plan(custom, plan, verify.RequireAll())
+	if !result.Has(verify.CodeUnknownContainer) || !result.Has(verify.CodeOverweight) {
+		t.Fatalf("known-container weight finding suppressed: %+v", result.Violations())
+	}
+}
+
 func TestVerifyDetectsAccountingOverflow(t *testing.T) {
 	t.Parallel()
 	base := request(t)
@@ -388,5 +443,146 @@ func TestVerifyDetectsAccountingOverflow(t *testing.T) {
 	})
 	if result := verify.Plan(custom, plan, verify.AllowUnpacked()); !result.Has(verify.CodeOverflow) {
 		t.Fatalf("violations = %+v", result.Violations())
+	}
+}
+
+func TestVerifyContentAndGrossWeightBoundaries(t *testing.T) {
+	t.Parallel()
+	for _, test := range []struct {
+		name                         string
+		weight, content, gross, tare int64
+		overweight                   bool
+	}{
+		{"content alone exceeded", 3, 2, 10, 0, true},
+		{"gross inclusive equality", 2, 10, 3, 1, false},
+		{"gross alone exceeded", 3, 10, 3, 1, true},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			base := request(t)
+			items := base.Items()[:1]
+			items[0].Weight = test.weight
+			containers := base.Containers()
+			containers[0].MaxContentWeight = test.content
+			containers[0].HasGrossWeight = true
+			containers[0].MaxGrossWeight, containers[0].TareWeight = test.gross, test.tare
+			containers[0].MaxItemCount = 1
+			custom, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: items, Containers: containers, Resolution: base.Resolution(), Limits: base.Limits()})
+			if err != nil {
+				t.Fatal(err)
+			}
+			spec := validPlan(t).Spec()
+			spec.Placements = spec.Placements[:1]
+			spec.Placements[0].Weight = test.weight
+			spec.Statistics = knapsack.Statistics{PackedItems: 1, ContainerCount: 1, ItemWeight: test.weight, ItemVolume: 8, ContainerVolume: 16, RemainingWeight: test.content - test.weight, RemainingVolume: 8}
+			plan, err := knapsack.NewPlan(spec)
+			if err != nil {
+				t.Fatal(err)
+			}
+			result := verify.Plan(custom, plan, verify.RequireAll())
+			if result.Has(verify.CodeOverweight) != test.overweight || result.Has(verify.CodeStock) {
+				t.Fatalf("weight/count boundary findings = %+v", result.Violations())
+			}
+			if !test.overweight && !result.Valid() {
+				t.Fatalf("inclusive boundary rejected: %+v", result.Violations())
+			}
+		})
+	}
+}
+
+func TestVerifyIsolatedAccountingFields(t *testing.T) {
+	t.Parallel()
+	for _, field := range []string{"packed items", "item weight"} {
+		t.Run(field, func(t *testing.T) {
+			spec := validPlan(t).Spec()
+			if field == "packed items" {
+				spec.Statistics.PackedItems--
+			} else {
+				spec.Statistics.ItemWeight--
+			}
+			plan, err := knapsack.NewPlan(spec)
+			if err != nil {
+				t.Fatal(err)
+			}
+			result := verify.Plan(request(t), plan, verify.RequireAll())
+			if len(result.Violations()) != 1 || !result.Has(verify.CodeAccounting) {
+				t.Fatalf("isolated accounting drift = %+v", result.Violations())
+			}
+		})
+	}
+}
+
+func TestVerifyRejectsIncompleteProofContents(t *testing.T) {
+	t.Parallel()
+	for _, test := range []struct {
+		name   string
+		mutate func(*knapsack.PlanSpec)
+	}{
+		{"best known without unpacked", func(spec *knapsack.PlanSpec) {
+			spec.Status = knapsack.StatusBestKnown
+			spec.Termination = knapsack.TerminationNoPlacement
+		}},
+		{"optimal interrupted", func(spec *knapsack.PlanSpec) {
+			spec.Status = knapsack.StatusOptimal
+			spec.Termination = knapsack.TerminationCancelled
+			spec.Work.Solver = "exact"
+		}},
+		{"infeasible interrupted", func(spec *knapsack.PlanSpec) {
+			spec.Status = knapsack.StatusInfeasible
+			spec.Termination = knapsack.TerminationCancelled
+			spec.Work.Solver = "exact"
+			spec.Placements = nil
+			spec.UnpackedItemIDs = []string{"a", "b"}
+		}},
+		{"infeasible incomplete partition", func(spec *knapsack.PlanSpec) {
+			spec.Status = knapsack.StatusInfeasible
+			spec.Work.Solver = "exact"
+			spec.Placements = nil
+			spec.UnpackedItemIDs = []string{"a"}
+		}},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			spec := validPlan(t).Spec()
+			test.mutate(&spec)
+			plan, err := knapsack.NewPlan(spec)
+			if err != nil {
+				t.Fatal(err)
+			}
+			result := verify.Plan(request(t), plan, verify.AllowUnpacked())
+			if !result.Has(verify.CodeProofStatus) {
+				t.Fatalf("incoherent proof accepted: %+v", result.Violations())
+			}
+		})
+	}
+}
+
+func TestVerifyUngroupedPrefixDoesNotSuppressSplitGroup(t *testing.T) {
+	t.Parallel()
+	base := request(t)
+	items := base.Items()
+	items[0].ID = "a-ungrouped"
+	items[1].ID, items[1].Group = "b-linked", "together"
+	third := items[1]
+	third.ID = "c-linked"
+	items = append(items, third)
+	containers := base.Containers()
+	containers[0].Stock = knapsack.FiniteStock(2)
+	custom, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: items, Containers: containers, Resolution: base.Resolution(), Limits: base.Limits()})
+	if err != nil {
+		t.Fatal(err)
+	}
+	spec := validPlan(t).Spec()
+	spec.Containers = append(spec.Containers, knapsack.ContainerInstance{ID: "box#000002", TypeID: "box"})
+	spec.Placements[0].ItemID, spec.Placements[1].ItemID = items[0].ID, items[1].ID
+	placement := spec.Placements[0]
+	placement.ItemID, placement.ContainerID = third.ID, "box#000002"
+	spec.Placements = append(spec.Placements, placement)
+	spec.Statistics = knapsack.Statistics{PackedItems: 3, ContainerCount: 2, ItemWeight: 6, ItemVolume: 24, ContainerVolume: 32, RemainingWeight: 2, RemainingVolume: 8}
+	plan, err := knapsack.NewPlan(spec)
+	if err != nil {
+		t.Fatal(err)
+	}
+	result := verify.Plan(custom, plan, verify.RequireAll())
+	if len(result.Violations()) != 1 || !result.Has(verify.CodeGrouping) {
+		t.Fatalf("split linked group not isolated: %+v", result.Violations())
 	}
 }

@@ -362,6 +362,79 @@
           "reason": "Replacing error OR mismatched closing token with AND is equivalent under supported validateStrict and recursive validateValue calls. The decoder tracks the array delimiter: Token returns the matching closing bracket with nil error, or a nil token with a nonnil error. Both predicates therefore agree in either reachable case. Fabricated internal tokens or mismatched decoder state are not supported inputs."
         }
       ]
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "verify",
+      "source_digest": "eae67ee56d33deebd052ad565151c5988615e289e2ccece0d47328094ae359da",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 495,
+          "column": 38,
+          "contract_domain": "Verifier support threshold under constructor-valid normalized requests and bounded public plans",
+          "reason": "At zero required support, changing > to >= only adds a union calculation. Its nonnegative big.Int area cannot be less than the zero threshold. Findings and errors remain identical. Identical traversal/allocation cost and cancellation-race timing are excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 532,
+          "column": 23,
+          "contract_domain": "Verifier proportional load propagation through geometric support edges",
+          "reason": "Every support edge has strictly positive geometric area. A zero big.Int total therefore means there are no edges; the newly entered propagation loop is empty. Positive totals, including overlapping malformed public plans with oversized sums, follow the identical branch. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "ARITHMETIC_BASE",
+          "line": 571,
+          "column": 40,
+          "contract_domain": "Support union area with default PlanLimits or support-rectangle count no greater than platform MaxInt/2",
+          "reason": "Replacing initial endpoint-slice capacity len(rectangles)*2 with len(rectangles)/2 changes capacity only when the original multiplication is representable. Default PlanLimits cap placements at 10000; otherwise this disposition requires len(rectangles)<=platform MaxInt/2. Unchanged append operations produce the same complete endpoints and exact area. Larger caller-selected PlanLimits, arbitrary oversized private slices, allocation/peak-memory parity and timing are excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 599,
+          "column": 19,
+          "contract_domain": "Exact union area of geometric support rectangles",
+          "reason": "At a touching Y endpoint, merging adjacent intervals or summing them separately yields identical exact big.Int covered length. Non-touching cases and X-sweep bounds are unchanged. Execution-cost parity is excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 606,
+          "column": 21,
+          "contract_domain": "Support union area including empty sweep intervals",
+          "reason": "Changing len(intervals)>0 to >=0 adds an operation only for no intervals. Initialized start and end are both zero, so the added contribution is exactly zero; returned big.Int area is unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 689,
+          "column": 14,
+          "contract_domain": "Verifier recursive stack depth including checked cycles",
+          "reason": "Changing depth+1>maximum to >= changes only equality, assigning the identical uint32 maximum. Existing cycle/sentinel handling precedes the expression, and recursion, context checks and returned depth remain unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 708,
+          "column": 11,
+          "contract_domain": "Signed checked aggregation over all int64 totals and contributions",
+          "reason": "Changing value>0 to >=0 changes only zero contribution. For zero, the unchanged total>MaxInt64-value predicate is impossible for an int64 total. Acceptance and resulting total remain identical. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        },
+        {
+          "file_name": "verify.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 708,
+          "column": 56,
+          "contract_domain": "Signed checked aggregation over all int64 totals and contributions",
+          "reason": "Changing value<0 to <=0 changes only zero contribution. For zero, the unchanged total<MinInt64-value predicate is impossible for an int64 total. Acceptance and resulting total remain identical. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
+        }
+      ]
     }
   ]
 }

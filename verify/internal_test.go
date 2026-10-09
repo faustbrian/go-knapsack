@@ -46,6 +46,31 @@ func TestCheckedAccountingAndCycleDefenses(t *testing.T) {
 	}
 }
 
+func TestCheckedAccountingInclusiveLimitsAndRejectedState(t *testing.T) {
+	t.Parallel()
+	tests := []struct {
+		name                 string
+		initial, value, want int64
+		accepted             bool
+	}{
+		{"positive equality", math.MaxInt64 - 1, 1, math.MaxInt64, true},
+		{"negative equality", math.MinInt64 + 1, -1, math.MinInt64, true},
+		{"zero at positive limit", math.MaxInt64, 0, math.MaxInt64, true},
+		{"zero at negative limit", math.MinInt64, 0, math.MinInt64, true},
+		{"positive refusal preserves total", math.MaxInt64, 1, math.MaxInt64, false},
+		{"negative refusal preserves total", math.MinInt64, -1, math.MinInt64, false},
+		{"ordinary subtraction", 3, -2, 1, true},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			total := test.initial
+			if accepted := addChecked(&total, test.value); accepted != test.accepted || total != test.want {
+				t.Fatalf("addChecked(%d, %d) = (%d, %v), want (%d, %v)", test.initial, test.value, total, accepted, test.want, test.accepted)
+			}
+		})
+	}
+}
+
 func TestStackDepthHonorsCancellation(t *testing.T) {
 	t.Parallel()
 
@@ -117,5 +142,24 @@ func TestSupportUnionAreaMergesAndSeparatesIntervals(t *testing.T) {
 	}
 	if got := supportUnionArea(nil); got.Sign() != 0 {
 		t.Fatalf("empty union area = %s", got)
+	}
+}
+
+func TestSupportUnionAreaNestedAndOffsetIntervals(t *testing.T) {
+	t.Parallel()
+	for _, test := range []struct {
+		name       string
+		rectangles []supportRectangle
+		want       int64
+	}{
+		{"nested", []supportRectangle{{0, 1, 0, 3}, {0, 1, 1, 2}}, 3},
+		{"offset disjoint", []supportRectangle{{0, 1, 2, 3}, {0, 1, 5, 6}}, 2},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			got := supportUnionArea(test.rectangles)
+			if !got.IsInt64() || got.Int64() != test.want {
+				t.Fatalf("union area = %s, want %d", got, test.want)
+			}
+		})
 	}
 }
