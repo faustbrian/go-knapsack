@@ -1,12 +1,14 @@
 package solver
 
 import (
+	"context"
 	"errors"
 	"math"
 	"strings"
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 	"github.com/faustbrian/go-knapsack/v2/objective"
 )
@@ -83,5 +85,27 @@ func TestHeuristicTrialPropagatesPlanAdmissionFailure(t *testing.T) {
 				t.Fatalf("plan admission failure lost: placed=%v selected=%v error=%v", placed, selected, err)
 			}
 		})
+	}
+}
+
+func TestExactFixedExecutionRetainsCancellationWhenPartialTotalsOverflow(t *testing.T) {
+	base := internalRequest(t)
+	container := base.Containers()[0]
+	container.Dimensions = geometry.Dimensions{X: math.MaxInt64, Y: 1, Z: 1}
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items: base.Items(), Containers: []knapsack.NormalizedContainer{container}, Resolution: base.Resolution(), Limits: base.Limits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	execution := exactFixedExecution{}
+	ctx, cancel := context.WithCancel(t.Context())
+	defer cancel()
+	plan, err := packExactFixed(ctx, request,
+		[]knapsack.ContainerInstance{{ID: "box#1", TypeID: container.ID}, {ID: "box#2", TypeID: container.ID}},
+		Options{Constraints: []constraint.Placement{internalCancel{cancel: cancel}}}, &execution)
+	if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || !execution.aggregateRefusal ||
+		!errors.Is(execution.interruption, context.Canceled) || execution.termination != knapsack.TerminationCancelled {
+		t.Fatalf("partial refusal erased cancellation: plan=%+v execution=%+v error=%v", plan.Spec(), execution, err)
 	}
 }

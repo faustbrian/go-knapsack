@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/faustbrian/go-knapsack/v2"
+	"github.com/faustbrian/go-knapsack/v2/constraint"
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 	"github.com/faustbrian/go-knapsack/v2/solver"
 	"github.com/faustbrian/go-knapsack/v2/verify"
@@ -161,6 +162,68 @@ func TestHeuristicTerminalPublicationPropagatesPlanAdmissionFailure(t *testing.T
 	plan, err := (solver.Heuristic{}).PackAll(t.Context(), request, solver.Options{})
 	if !errors.Is(err, knapsack.ErrBudgetExhausted) || plan.Status() != "" || len(plan.UnpackedItemIDs()) != 0 {
 		t.Fatalf("oversized unpacked ID published plan=%+v error=%v", plan.Spec(), err)
+	}
+}
+
+func TestHeuristicPackAllContinuesPastOverflowingContainerTrial(t *testing.T) {
+	base := exactRequest(t, 2, 1)
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items: []knapsack.NormalizedItem{
+			{ID: "first", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}, Attributes: map[string]string{"class": "large_only"}},
+			{ID: "second", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}, Attributes: map[string]string{"class": "either"}},
+		},
+		Containers: []knapsack.NormalizedContainer{
+			{ID: "large", Priority: -1, Dimensions: geometry.Dimensions{X: math.MaxInt64 - 1, Y: 1, Z: 1}, MaxContentWeight: 1, Stock: knapsack.FiniteStock(2), AllowedClasses: []string{"large_only", "either"}},
+			{ID: "small", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, MaxContentWeight: 1, Stock: knapsack.FiniteStock(1), AllowedClasses: []string{"either"}},
+		},
+		Resolution: base.Resolution(), Limits: base.Limits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (solver.Heuristic{}).PackAll(t.Context(), request, solver.Options{})
+	if err != nil || len(plan.Placements()) != 2 || plan.Statistics().ContainerVolume != math.MaxInt64 {
+		t.Fatalf("overflow trial hid a representable alternative: plan=%+v error=%v", plan.Spec(), err)
+	}
+	if result := verify.Plan(request, plan, verify.RequireAll()); !result.Valid() {
+		t.Fatalf("alternative failed independent verification: %+v", result)
+	}
+	request, err = knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items: request.Items(), Containers: request.Containers()[:1], Resolution: request.Resolution(), Limits: request.Limits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err = (solver.Heuristic{}).PackAll(t.Context(), request, solver.Options{})
+	if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || len(plan.Placements()) != 0 {
+		t.Fatalf("arithmetic refusal became partial success: plan=%+v error=%v", plan.Spec(), err)
+	}
+}
+
+type refuseSecondInstanceDecision struct{}
+
+func (refuseSecondInstanceDecision) Check(_ context.Context, view constraint.PlacementView) constraint.Decision {
+	if view.Candidate().ContainerID == "box#2" {
+		return constraint.Decision{}
+	}
+	return constraint.Accept()
+}
+
+func TestHeuristicPreservesConstraintFailureAfterOverflowingTrial(t *testing.T) {
+	base := exactRequest(t, 2, 1)
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+		Items:      []knapsack.NormalizedItem{{ID: "item", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, Weight: 1, Orientations: []geometry.Orientation{geometry.OrientationXYZ}}},
+		Containers: []knapsack.NormalizedContainer{{ID: "box", Dimensions: geometry.Dimensions{X: 1, Y: 1, Z: 1}, MaxContentWeight: math.MaxInt64, Stock: knapsack.FiniteStock(2)}},
+		Resolution: base.Resolution(), Limits: base.Limits(),
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	plan, err := (solver.Heuristic{}).PackFixed(t.Context(), request,
+		[]knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}, {ID: "box#2", TypeID: "box"}},
+		solver.Options{Constraints: []constraint.Placement{refuseSecondInstanceDecision{}}})
+	if err != constraint.ErrInvalidDecision || plan.Status() != "" || len(plan.Placements()) != 0 {
+		t.Fatalf("earlier overflow hid constraint failure: plan=%+v error=%v", plan.Spec(), err)
 	}
 }
 

@@ -207,6 +207,21 @@
           "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 837, "column": 25,
           "contract_domain": "Final supporter metadata for admitted placements with nonnegative origins and positive heights",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing origin.Z>0 to >= adds ground placements only. A supporter would need a top face at zero, impossible with positive height and nonnegative origin. Extra bounded scans retain the same empty supporter metadata. Identical scan cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 634, "column": 49,
+          "contract_domain": "Linux/amd64 Go 1.27 native mutation campaign only; excludes 386 and all changed runtime/platform campaigns",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any runtime, platform, owning helper, source or verifier change. Replacing count>MaxInt with >= adds equality only. On amd64 count==MaxInt64 necessarily overflows the unchanged checked point-byte product count*24, so !pointsOK already refuses the same zero lengths. On 386 MaxInt32 equality is representable and this mutant is viable, explicitly not equivalent. Campaign fingerprints bind GOARCH, and reviewed identities killed or absent from a report are rejected; the prose platform restriction is not mechanically interpreted and a changed-platform campaign requires renewed review. The separate successful finite386 test is not mutant-kill evidence. Native37862076264 remains FAILED; no native pass is claimed."
+        },
+        {
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 645, "column": 18,
+          "contract_domain": "Linux/amd64 Go 1.27 native mutation campaign only; excludes 386 and all changed runtime/platform campaigns",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any runtime, platform, owning helper, source or verifier change. Replacing count>MaxInt with >= adds equality only. On amd64 count==MaxInt64 exceeds even MaxUint64/24, so the unchanged count>memoryLimit/24 independently refuses the same zero capacity. On 386 MaxInt32 equality is representable and this mutant is viable, explicitly not equivalent. Campaign fingerprints bind GOARCH, and reviewed identities killed or absent from a report are rejected; the prose platform restriction is not mechanically interpreted and a changed-platform campaign requires renewed review. The separate successful finite386 test is not mutant-kill evidence. Native37862076264 remains FAILED; no native pass is claimed."
+        },
+        {
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 867, "column": 28,
+          "contract_domain": "Interrupted heuristic publication with constructor-valid requests, owned bins and a complete unpacked partition",
+          "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any owning helper, request domain, verifier or cancellation contract change. Replacing placement count>0 with >= adds verification only for zero-placement partial plans. Supported producers retain all request items in the unpacked partition, valid selected instances and zero packed totals, so AllowUnpacked verification accepts those grounded empty results. Public interruptedHeuristicPlan additionally verifies afterward. Fabricated malformed private states, identical allocation/traversal costs and cancellation-race timing are excluded. Native37862076264 remains FAILED with this coordinate LIVED; no native pass is claimed."
         }
       ]
     },
