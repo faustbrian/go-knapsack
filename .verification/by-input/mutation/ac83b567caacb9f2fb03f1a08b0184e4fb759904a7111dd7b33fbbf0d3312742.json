@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "repository": "github.com/faustbrian/go-knapsack",
+  "module": ".",
+  "package": "constraint",
+  "gate": "mutation",
+  "input_digest": "sha256:ac83b567caacb9f2fb03f1a08b0184e4fb759904a7111dd7b33fbbf0d3312742",
+  "verifier_digest": "sha256:390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+  "result": "passed",
+  "report_digest": "sha256:01d1735c4a3e8da1104fb760354cb8a29ecc6a33940ef9d620776fe93595e8da",
+  "environment": {
+    "CGO_ENABLED": "1",
+    "GOARCH": "amd64",
+    "GOOS": "linux",
+    "GOVERSION": "go1.27.0",
+    "gremlins_binary_sha256": "sha256:8bd3fe89d0c732672e63d3eb6bafd824eeb8151832e0909c1ffdd015c4bac99e"
+  },
+  "completed_at": "2026-10-09T02:02:05.559678162Z"
+}

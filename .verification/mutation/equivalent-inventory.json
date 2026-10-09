@@ -435,6 +435,31 @@
           "reason": "Changing value<0 to <=0 changes only zero contribution. For zero, the unchanged total<MinInt64-value predicate is impossible for an int64 total. Acceptance and resulting total remain identical. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
         }
       ]
+    },
+    {
+      "module_directory": ".",
+      "package_directory": "visualize",
+      "source_digest": "fec65f8c3e84bd3c612207a2df19a6e40bc6109f68f56852b32c7731f4fbaabc",
+      "gremlins_version": "v0.6.0",
+      "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
+      "mutations": [
+        {
+          "file_name": "svg.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 42,
+          "column": 19,
+          "contract_domain": "SVG output for constructor-valid normalized requests and independently verified immutable plans",
+          "reason": "Changing X>1000000 to >= differs only at equality. Width starts at 10 and increases by admitted positive X plus 10. At X=1000000 the unchanged cumulative guard requires width>-10 and necessarily refuses the same empty output and ErrRenderLimit before rendering. Other inputs and all subsequent predicates are unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. Historical run37871606162 remains failed; no native pass is inferred."
+        },
+        {
+          "file_name": "svg.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 46,
+          "column": 19,
+          "contract_domain": "SVG maximum scene height for independently verified admitted containers",
+          "reason": "Changing Y>height to >= changes only equality, assigning the existing height its identical value. There are no callbacks, charged work or cancellation checks in this assignment. Subsequent predicates, SVG bytes and errors are unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. Historical run37871606162 remains failed; no native pass is inferred."
+        }
+      ]
     }
   ]
 }
