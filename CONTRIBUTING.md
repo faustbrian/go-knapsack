@@ -81,6 +81,34 @@ release boundary, not every commit. Report unavailable, skipped and failed
 boundaries honestly; a local pass is not hosted-CI, performance, optimality or
 public-release proof.
 
+## Selected Monthly Assurance
+
+[`assurance.yml`](.github/workflows/assurance.yml) runs on main at 07:11 UTC on
+the 21st day of each month. It selects one of the 15 declared root-module fuzz
+targets using the shared UTC-week selector; it does not run every target or
+promise a complete monthly rotation. Explicit main-only dispatch accepts one
+exact declared selector, for example `^FuzzCancellationAndBudgets$`.
+
+The selected risks span request/plan decoding, geometry, objective comparison,
+packing validity and bounded solver cancellation. Existing targets include
+canonical replay, independent plan verification and tiny exact-solver agreement.
+This is not general optimality, performance, leak or BoxPacker interoperability
+proof; retain the solver race, 32-bit admission check, reference harness and
+separate objective-adapter module contracts.
+
+The immutable shared runner bounds active fuzzing to 30 seconds, two workers
+and two CPUs, with a five-minute combined native session, 2 GiB memory and
+1 MiB output limits inside a ten-minute job. It installs the declared public
+CLI without a source build, uses private disposable caches and keeps failures,
+timeouts and exhausted budgets visible. Ordinary deterministic tests still run
+seeds/corpus; ordinary CI and its Required contract are unchanged. Full/manual
+operations and their original budgets remain in `.golib.yaml`.
+
+Treat findings as owner-attributed diagnostics: promptly repair viable defects
+with focused regressions; retain reviewed narrow equivalent/invalid dispositions
+rather than weakening tests. Review cadence against useful findings and actual
+cost; do not interpret a selected pass as full or release qualification.
+
 ## Adding A Module
 
 Follow [repository structure policy](AGENTS.md#repository-structure). New modules
