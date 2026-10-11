@@ -3,7 +3,7 @@
 [![CI](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml)
 [![CodeQL](https://img.shields.io/badge/CodeQL-required-blue)](https://github.com/faustbrian/go-knapsack/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-100%25_required-blue)](CONTRIBUTING.md#verification)
-[![Mutation](https://img.shields.io/badge/mutation-100%25_required-blue)](CONTRIBUTING.md#verification)
+[![Mutation](https://img.shields.io/badge/mutation-local_and_scheduled-blue)](CONTRIBUTING.md#verification)
 [![Documentation](https://img.shields.io/badge/docs-checked_in_CI-blue)](docs/)
 [![Go Reference](https://pkg.go.dev/badge/github.com/faustbrian/go-knapsack/v2.svg)](https://pkg.go.dev/github.com/faustbrian/go-knapsack/v2)
 [![Release](https://img.shields.io/github/v/release/faustbrian/go-knapsack?sort=semver)](https://github.com/faustbrian/go-knapsack/releases)
@@ -116,12 +116,13 @@ See [usage](docs/usage.md), [API](docs/api.md), [model](docs/model.md),
 
 ## Development
 
-Go 1.27.0 is the minimum toolchain. Install the exact `go-library-tools`
-release pinned in `.golib.yaml`; `make check` then runs the same complete module
-contract as pull-request CI. Run `golib release dry-run` before publishing to
-prove the release archive and clean-consumer path in addition to the full
-quality contract. No benchmark or optimality claim is valid without the
-checked-in evidence identified by those gates.
+Go 1.27.0 remains the module minimum; repository verification uses Go 1.27.2.
+Start isolated root changes with `GOWORK=off go test ./...`. With the public
+verifier pinned in `.golib.yaml`, `make check` and `make ci` select bounded local
+verification; `make check-full` retains explicit full assurance. See
+[contributor verification](CONTRIBUTING.md#verification) for nested modules,
+focused 2s fuzzing, optional mutation, cancellation and release boundaries.
+No benchmark or optimality claim is valid without its applicable evidence.
 
 Licensed under Apache-2.0.
 

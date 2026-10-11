@@ -1,8 +1,10 @@
 # Release and compatibility policy
 
-The minimum language and toolchain is Go 1.27.0, controlled by the
-repository-wide version files. Public types, typed errors, canonical encoding,
-objective semantics, coordinates, and proof statuses are contracts.
+The module language minimum remains Go 1.27.0. Repository verification and CI
+use the patched Go 1.27.2 producer selected by `.go-version`, the top-level
+catalog and `go.work`; module minima and nested-module dependencies are unchanged.
+Public types, typed errors, canonical encoding, objective semantics, coordinates,
+and proof statuses are contracts.
 
 The root v2.0.0 release uses a `v2.0.0` tag from main and the `/v2` module
 path, without a version-specific source directory. Eligibility and a dated
@@ -18,6 +20,12 @@ at publication. Run race, fuzz, mutation and performance gates when they
 exercise an affected material risk or the applicable release claim, not solely
 because a dated historical receipt is present. Required selected checks fail
 closed; NilAway remains advisory.
+
+Ordinary `make check` and `make ci` select bounded local verification, not
+release qualification. `make check-full` retains the full manifest operations;
+`golib release dry-run` preserves the explicit archive and clean-consumer
+boundary. See [contributor verification](../CONTRIBUTING.md#verification) for
+isolated root/nested-module commands and focused fuzzing.
 
 The v1 mutation and benchmark receipts retain their original source and
 dependency identities. They are historical records, not v2 execution evidence;

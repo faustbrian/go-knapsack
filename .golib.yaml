@@ -1,6 +1,6 @@
 schema_version: 1
-tool_version: v1.6.1
-tool_checksums_sha256: 9a93685df9ad17819a9f96d0cc62e64750ea2b02e808a045d45ca6cf1e908a21
+tool_version: v2.1.0
+tool_checksums_sha256: 5517b5ec9872ad51546409de37b2932a90f230c673570998f8696416b149e5c6
 
 manifest:
   modules: modules.json
@@ -32,6 +32,16 @@ api:
       path: objective/money/api/v3.txt
 
 operations:
+  # Cancellation must return from both solvers without retaining work.
+  - module: .
+    gate: local-test
+    steps:
+      - type: go-test
+        packages: [./solver]
+        run: '^TestSolversStopAfterRepeatedCancellation$'
+        race: true
+        count: 1
+        timeout: 2m
   - module: .
     gate: test
     steps:

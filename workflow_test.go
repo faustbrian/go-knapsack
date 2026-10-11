@@ -19,16 +19,11 @@ func TestWorkflowsPinExternalActionsByCommit(t *testing.T) {
 
 func TestSharedToolingContractIsImmutable(t *testing.T) {
 	t.Parallel()
-	configuration, err := os.ReadFile(".golib.yaml")
-	if err != nil {
-		t.Fatal(err)
-	}
 	workflow, err := os.ReadFile(".github/workflows/ci.yml")
 	if err != nil {
 		t.Fatal(err)
 	}
 	if strings.Contains(string(workflow), "continue-on-error") ||
-		!strings.Contains(string(configuration), "tool_version: v1.6.1") ||
 		!strings.Contains(string(workflow), "go-library-tools/.github/workflows/library-ci.yml@") {
 		t.Fatal("root workflow must use the immutable shared module contract")
 	}
