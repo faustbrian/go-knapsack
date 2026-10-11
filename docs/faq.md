@@ -25,12 +25,11 @@ why the requested search or proof did not finish.
 
 ## How is monetary cost represented?
 
-Use `objective/money/v3` for Money v2 with root v2 after the adapter's own
-v3.0.0 publication; current v3 source is not yet published. Published canonical
-v2.0.0 accepts Money v1. Neither adds Money to the root module.
-`objective/gomoney` v1 remains supported for existing v1 consumers; current
-`objective/gomoney/v2` source targets v2 and awaits its own public artifacts. Container count
-and cost remain separate lexicographic criteria.
+Use published `objective/money/v3` v3.0.0 for Money v2 with root v2.
+Published canonical v2.0.0 accepts Money v1. Neither adds Money to the root
+module. The deprecated `objective/gomoney/v2` v2.0.1 facade retains Money v1
+with v2 packing types; `objective/gomoney` v1 remains supported for existing
+v1 consumers. Container count and cost remain separate lexicographic criteria.
 
 ## How do I debug an external plan?
 

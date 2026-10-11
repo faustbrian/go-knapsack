@@ -378,7 +378,7 @@
           "github.com/faustbrian/go-knapsack/objective/gomoney/v2"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-knapsack/objective/gomoney/v2": "Deprecated facade retaining canonical objective/money/v2 and Money v1; new Money v2 code uses objective/money/v3 after publication."
+          "github.com/faustbrian/go-knapsack/objective/gomoney/v2": "Deprecated facade retaining canonical objective/money/v2 and Money v1; new Money v2 code uses published objective/money/v3 v3.0.0."
         },
         "lifecycle_status": "deprecated",
         "maturity": "stable",
@@ -507,7 +507,7 @@
           "github.com/faustbrian/go-knapsack/objective/money/v3"
         ],
         "package_selection": {
-          "github.com/faustbrian/go-knapsack/objective/money/v3": "Use after publication when Knapsack container costs already exist as exact go-money/v2 values in one fixed currency context."
+          "github.com/faustbrian/go-knapsack/objective/money/v3": "Use published v3.0.0 when Knapsack container costs already exist as exact go-money/v2 values in one fixed currency context."
         },
         "lifecycle_status": "active",
         "maturity": "stable",

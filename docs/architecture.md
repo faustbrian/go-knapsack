@@ -22,9 +22,9 @@ never calls solver predicates. `encoding`, `visualize`, and `knapsacktest` are
 leaf consumers.
 
 Monetary comparison is isolated in the canonical nested `objective/money/v3`
-source, preparing Money v2 adoption and awaiting v3.0.0 publication. Current
-deprecated `objective/gomoney/v2` source retains published canonical v2.0.0
-and Money v1 and awaits its own public artifacts; published facade v1
+adapter, published as v3.0.0 for Money v2. The published deprecated
+`objective/gomoney/v2` v2.0.1 facade retains canonical v2.0.0 and Money v1;
+published facade v1
 remains a compatibility path for legacy packing types. Differential
 dependencies stay in `integration/references`. Built-in geometry and
 physical rules remain direct solver/verifier code rather than a slower generic

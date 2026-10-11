@@ -9,24 +9,22 @@ No numeric conversion or canonical schema migration is required: exact lattice
 normalization and request/plan schema v1 are retained. Reject errors from
 measurement quantity construction before constructing packing inputs.
 
-Root v2.0.0 and measurement v2.0.0 are published dependencies of the current
+Root v2.0.0 and measurement v2.0.2 are published dependencies of the current
 `integration/references` harness. Its module remains an internal harness, not
 an independently released public adapter. The comparison schema and shared
 packing subset are unchanged.
 
-The current canonical adapter source prepares
-`github.com/faustbrian/go-knapsack/objective/money/v3` for published Money
+The published canonical adapter
+`github.com/faustbrian/go-knapsack/objective/money/v3` v3.0.0 accepts Money
 `github.com/faustbrian/go-money/v2` v2.0.0, retaining root and Measurement v2
-packing types. Canonical v3 is not yet published; adopt it only after its own
-`objective/money/v3.0.0` tag and public artifacts exist. Change constructor and
+packing types. Change constructor and
 `Entry.Cost` inputs and `Costs.Total` outputs to Money v2 together; their Go
 identities differ from Money v1 without changing exact totals or formats.
 
 The canonical adapter's public `objective/money/v2.0.0` module remains available
-with Money v1. Current deprecated facade source retains that selection through
-`objective/gomoney/v2`, not canonical v3;
-adopt that facade only after its own `objective/gomoney/v2.0.0` tag and public
-module artifacts exist. Update root and Measurement imports to `/v2` together. Retain supported v1 adapter releases
+with Money v1. The published deprecated facade `objective/gomoney/v2`
+v2.0.1 retains that selection, not canonical v3. Update root and Measurement
+imports to `/v2` together. Retain supported v1 adapter releases
 and the facade's existing removal interval; root publication alone neither
 migrates nor removes them. No storage or canonical schema migration is implied.
 

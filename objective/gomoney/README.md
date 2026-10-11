@@ -6,17 +6,15 @@ to the canonical
 [`objective/money/v2`](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v2)
 module.
 
-Current source prepares the deprecated `/v2` facade for Knapsack v2 and
-Measurement v2 and requires Go 1.27.0. Adopt it once its own public tag and
-module artifacts exist. Published v1 releases remain supported with their
-legacy packing types. New code should use `objective/money/v2`.
+The deprecated `/v2` facade is published as v2.0.1 for Knapsack v2 and
+Measurement v2 with Money v1 and requires Go 1.27.0. Published v1 releases
+remain supported with their legacy packing types. New code should use
+`objective/money/v2` for Money v1 or `objective/money/v3` for Money v2.
 
 ## Install
 
-After facade v2 publication:
-
 ```sh
-go get github.com/faustbrian/go-knapsack/objective/gomoney/v2@v2.0.0
+go get github.com/faustbrian/go-knapsack/objective/gomoney/v2@v2.0.1
 ```
 
 ## Quick start
@@ -61,7 +59,8 @@ additional guarantees beyond the documented module boundary.
 
 The facade retains its own defined types and directly shares canonical error
 sentinels. The v2 facade uses v2 packing types; published v1 remains supported
-throughout v1. Migrate new code by changing the module and import path to
+throughout v1. Within the v2 packing and Money v1 cohort, migrate by
+changing the module and import path to
 `objective/money/v2` and using its `moneyobjective` package identifier. The
 constructors, methods, sentinel identities, errors, score components, and
 solver behavior remain compatible. The facade will remain available for the
