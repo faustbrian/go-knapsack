@@ -287,7 +287,8 @@ func TestHistoricalEvidenceManifestRetainsIntegrity(t *testing.T) {
 	}
 	validateConcurrencyEvidence(t, manifest.Concurrency)
 	validateSerializationEvidence(t, manifest.Serialization, manifest.Generated, knownTests)
-	// Workflow pins describe current automation, not the dated run environment.
+	// Recorded pins belong to the dated receipt. workflow_test.go independently
+	// checks the current automation's immutable references and required contract.
 	validateWorkflowEvidence(t, manifest.WorkflowSupplyChain, knownTests)
 	referencedFuzz := make(map[string]bool)
 	for _, entries := range [][]proofEntry{manifest.FeasibilityInvariants, manifest.FuzzTargets} {
@@ -392,8 +393,15 @@ func validateWorkflowEvidence(t *testing.T, proof workflowProof, knownTests map[
 		!knownTests[proof.DependencyTest] || proof.NilAwayJob != "module contract" ||
 		!knownTests[proof.PublicationTest] ||
 		!knownTests[proof.NilAwayTest] || !slices.Equal(proof.Workflows, wantWorkflows) ||
-		!mapsEqual(proof.Actions, pinnedWorkflowActions(t)) {
-		t.Fatalf("workflow supply-chain evidence is stale: %+v", proof)
+		len(proof.Actions) == 0 {
+		t.Fatalf("historical workflow supply-chain evidence is incomplete: %+v", proof)
+	}
+	for action, pin := range proof.Actions {
+		commit, description, documented := strings.Cut(pin, " # ")
+		if strings.TrimSpace(action) == "" || !actionCommit.MatchString(commit) ||
+			!documented || strings.TrimSpace(description) == "" {
+			t.Fatalf("historical workflow action %q has an invalid recorded pin", action)
+		}
 	}
 }
 
@@ -659,18 +667,6 @@ func generatedEvidenceForTree(t *testing.T) generatedEvidence {
 		},
 		Fixtures: fixtures,
 	}
-}
-
-func mapsEqual(left, right map[string]string) bool {
-	if len(left) != len(right) {
-		return false
-	}
-	for key, value := range left {
-		if right[key] != value {
-			return false
-		}
-	}
-	return true
 }
 
 func evidenceSourceFiles(t *testing.T) []string {
