@@ -5,7 +5,7 @@ public package or supported application dependency. It compares Knapsack with
 `gopackx` and `bp3d` only across their shared integral-cuboid, unrestricted
 rotation, weight-capacity, and pack-all behavior.
 
-The harness consumes published Knapsack v2.0.0 and measurement v2.0.0 without
+The harness consumes published Knapsack v2.0.0 and measurement v2.0.2 without
 local replacements. Its adapter schema remains v2; the implementation field
 now identifies `github.com/faustbrian/go-knapsack/v2`. This module migration
 does not change the common-subset packing or feasibility contract.

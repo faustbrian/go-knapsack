@@ -4,6 +4,12 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Fixed
+
+- Correct adoption guidance for the published v3.0.0 adapter. Publication now
+  satisfies the condition in the earlier preparation note below; Money v2
+  callers can adopt v3 while Money v1 callers retain canonical v2.
+
 ### Changed
 
 - Prepare canonical adapter `/v3` for published Money `/v2` v2.0.0 values,

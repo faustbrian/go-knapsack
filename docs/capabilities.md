@@ -9,7 +9,7 @@
 | Exact small-instance oracle | Implemented | Bounded exhaustive compact search |
 | Custom constraints | Trusted only | Immutable synchronous callback view; untrusted code requires process isolation |
 | Content center of gravity | Implemented | Exact inclusive X/Y/Z PPM bounds |
-| Monetary cost | Implemented | Canonical `objective/money/v3` source adopts Money v2 and awaits publication; published canonical v2 retains Money v1; deprecated `objective/gomoney/v2` retains canonical v2; supported legacy v1 facade |
+| Monetary cost | Implemented | Published `objective/money/v3` v3.0.0 accepts Money v2; canonical v2.0.0 and deprecated `objective/gomoney/v2` v2.0.1 retain Money v1 with v2 packing types; supported legacy v1 facade |
 | Subset selection | Deferred | Not advertised before pack-all stabilizes |
 | Irregular geometry and cylinders | Out of scope | Caller must not treat bounding cuboids as exact geometry |
 | Pallets, axle loads, robots, regulation | Out of scope | Separate domain-specific packages required |

@@ -4,11 +4,10 @@
 container costs with the Knapsack solvers. Its target-oriented import path
 keeps the Money dependency outside the Knapsack core.
 
-The current source prepares the v3 adapter for published Money v2.0.0 values,
-retaining Knapsack and measurement v2 types, and requires Go 1.27.0. This v3
-adapter is not yet published. Installation below requires its public
-`objective/money/v3.0.0` tag and module artifacts. Until then, consumers retain
-their published canonical v2 or legacy v1 adapter dependencies.
+The published v3.0.0 adapter accepts Money v2.0.0 values, retains Knapsack
+and measurement v2 types, and requires Go 1.27.0. Consumers using Money v1
+can retain the published canonical v2 adapter; supported legacy v1 adapters
+retain their original packing types.
 
 ## Install
 
@@ -67,7 +66,7 @@ The released `objective/gomoney` v1 facade remains supported with v1 packing
 types and its published canonical v1 dependency. It is not interchangeable with
 this adapter. The deprecated `objective/gomoney/v2` facade retains canonical
 `objective/money/v2` v2.0.0 and Money v1 values; it does not adopt or alias v3.
-New Money v2 adoption should use this module once published.
+New Money v2 adoption should use this published v3 module.
 
 ## License
 

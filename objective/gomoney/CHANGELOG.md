@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Fixed
+
+- Correct installation guidance for the published v2.0.1 facade and distinguish
+  canonical Money v1 and v2 adoption paths without changing facade support.
+
 ## 2.0.1 - 2026-10-02
 
 ### Security

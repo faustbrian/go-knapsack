@@ -26,28 +26,27 @@ from `github.com/faustbrian/go-measurement/v2`. Change root imports to
 `github.com/faustbrian/go-knapsack/v2` and construct physical inputs with
 measurement v2; v1 and v2 quantities have distinct Go type identities.
 Serialized request and plan schema v1 remains unchanged. The canonical money
-adapter accepts root v2; current deprecated facade source also prepares v2 types,
-while published legacy v1 releases retain their original types.
+adapters accept root v2, as does the published deprecated v2 facade;
+legacy v1 releases retain their original types.
 
 Exact container-cost optimization lives in the independently versioned
-[`objective/money/v3`](objective/money/) adapter source, which adopts Money v2
-and awaits its own v3.0.0 publication. Published canonical v2.0.0 remains
-available for Money v1. Existing
-[`objective/gomoney`](objective/gomoney/) v1 consumers remain supported with
-the separately published canonical v1 dependency. Current `objective/gomoney/v2`
-source adopts canonical v2; use it after its own public artifacts exist.
+[`objective/money/v3`](objective/money/) adapter, published as v3.0.0 for
+Money v2. Published canonical v2.0.0 remains available for Money v1. The
+deprecated [`objective/gomoney/v2`](objective/gomoney/) facade is published
+as v2.0.1 and retains canonical v2 and Money v1. Existing facade v1 consumers
+remain supported with legacy packing types and the canonical v1 dependency.
 
 ## Install
 
-Install root v2.0.0 once its public tag and module artifacts are available:
+Install the published root v2.0.1:
 
 ```sh
-go get github.com/faustbrian/go-knapsack/v2@v2.0.0
+go get github.com/faustbrian/go-knapsack/v2@v2.0.1
 ```
 
-Before publication, existing consumers can retain their released v1 root and
-objective module versions. Do not bypass publication with local replacements
-or pseudo-versions. Follow [migration](docs/migration.md) when adopting v2.
+Existing consumers can retain their supported v1 root and objective module
+versions. Use published module versions rather than local replacements or
+pseudo-versions. Follow [migration](docs/migration.md) when adopting v2.
 
 ## Quick start
 

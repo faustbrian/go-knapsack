@@ -122,8 +122,8 @@ The v3 line uses module/import path
 `github.com/faustbrian/go-knapsack/objective/money/v3`, with tags such as
 `objective/money/v3.0.0`, while source stays in `objective/money` on main.
 Its API is checked against `api/v3.txt`; `api/v1.txt` and `api/v2.txt` retain
-immutable historical API evidence. This v3 adapter is not yet published;
-adopt only after its public tag and module artifacts are available.
+immutable historical API evidence. The v3.0.0 tag and public module
+artifacts are published and available for adoption.
 
 Existing map callers can continue using `New` or `NewWithLimits`. Configurations
 that previously relied on negative costs must migrate to `NewWithPolicy` and

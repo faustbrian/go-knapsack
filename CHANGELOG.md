@@ -4,6 +4,12 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Fixed
+
+- Correct installation and adapter guidance to reflect published root v2.0.1,
+  canonical money v3.0.0 and facade v2.0.1 while distinguishing Money v1 and
+  v2 inputs and preserving supported legacy packing types.
+
 ## [2.0.1] - 2026-10-09
 
 ### Fixed
