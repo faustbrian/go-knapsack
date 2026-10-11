@@ -4,6 +4,14 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## [2.0.2] - 2026-10-11
+
+### Changed
+
+- Select Math v1.1.3 and Measurement v2.0.2 for standalone consumers while
+  retaining the Money v1 cohort, canonical objective v2 delegation, facade-owned
+  types, shared sentinels, and the existing deprecation support interval.
+
 ### Fixed
 
 - Correct installation guidance for the published v2.0.1 facade and distinguish
