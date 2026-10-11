@@ -4,6 +4,15 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## [3.0.1] - 2026-10-11
+
+### Changed
+
+- Select Math v1.1.3 and Measurement v2.0.2 for standalone consumers while
+  retaining Money v2 and Knapsack v2 type identities and exact objectives.
+- The earlier v3.0.0 preparation note below describes the already-published
+  major migration, not a new migration required by this patch.
+
 ### Fixed
 
 - Correct adoption guidance for the published v3.0.0 adapter. Publication now
