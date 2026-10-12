@@ -6,6 +6,8 @@ import (
 	"github.com/faustbrian/go-knapsack/v2/objective"
 )
 
+// FuzzObjectiveComparison bounds tie strings and checks signed lexicographic
+// precedence and antisymmetry.
 func FuzzObjectiveComparison(f *testing.F) {
 	f.Add(int64(1), int64(10), int64(2), int64(0), "a", "b")
 	f.Fuzz(func(t *testing.T, leftPrimary, leftSecondary, rightPrimary, rightSecondary int64, leftTie, rightTie string) {

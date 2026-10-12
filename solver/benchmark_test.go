@@ -137,6 +137,9 @@ func BenchmarkCancellationLatency(b *testing.B) {
 	}
 }
 
+// benchmarkSolver excludes request setup and its separate final verification.
+// Timed solver calls still include their own internal verifier and objective work;
+// results apply only to each declared fixture/options profile.
 func benchmarkSolver(b *testing.B, request knapsack.NormalizedRequest, solve func() (knapsack.Plan, error)) {
 	b.Helper()
 	var plan knapsack.Plan
@@ -163,6 +166,9 @@ func benchmarkSolver(b *testing.B, request knapsack.NormalizedRequest, solve fun
 	b.ReportMetric(100*float64(statistics.ItemVolume)/float64(statistics.ContainerVolume), "util_pct")
 }
 
+// benchmarkPartialSolver measures the selected bounded partial-result solve,
+// excluding setup and the helper's final verification; internal solver checks remain
+// timed.
 func benchmarkPartialSolver(b *testing.B, request knapsack.NormalizedRequest, solve func() (knapsack.Plan, error)) {
 	b.Helper()
 	var plan knapsack.Plan

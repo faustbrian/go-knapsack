@@ -74,7 +74,8 @@ configured currency and context.
 ## Solver composition
 
 Pass `Costs` as `solver.Options.PlanObjective`. The exact and heuristic solvers
-invoke it only for complete candidate plans. Compose monetary preference with
+can invoke it for partial whole-plan candidates during heuristic selection.
+Compose monetary preference with
 other plan criteria at the application boundary when multiple objectives are
 needed; the adapter itself owns only total packaging cost.
 

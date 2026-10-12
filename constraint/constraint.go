@@ -1,5 +1,7 @@
 // Package constraint defines a small immutable callback boundary for
-// application-specific placement feasibility.
+// application-specific placement feasibility. NewPlacementView owns copied
+// input; Evaluate converts Check panics and validates bounded decisions. Callbacks
+// are trusted synchronous work, not preempted tasks or serialized plugins.
 package constraint
 
 import (
@@ -66,7 +68,9 @@ func ValidateDecision(decision Decision) (Decision, error) {
 // Placement is the narrow synchronous custom feasibility extension point.
 // Implementations must be deterministic, bounded, and honor context.
 type Placement interface {
-	// Check decides whether the immutable candidate view is acceptable.
+	// Check decides whether the copied candidate view is acceptable. It must be
+	// deterministic for the same view, bound work and honor cancellation; solvers
+	// and verification replay callbacks on partial placement prefixes.
 	Check(context.Context, PlacementView) Decision
 }
 
@@ -99,7 +103,9 @@ func (v PlacementView) Candidate() knapsack.Placement { return clonePlacement(v.
 // Placements returns defensive copies of placements already in the container.
 func (v PlacementView) Placements() []knapsack.Placement { return clonePlacements(v.placements) }
 
-// Evaluate invokes a callback with panic conversion and decision validation.
+// Evaluate checks context before a synchronous callback, converts Check panics
+// and validates the returned decision. It cannot interrupt a callback that blocks
+// or ignores context; Code and Message are not sanitized by length admission.
 func Evaluate(ctx context.Context, callback Placement, view PlacementView) (decision Decision, err error) {
 	if ctx == nil {
 		return Decision{}, ErrInvalidConstraint

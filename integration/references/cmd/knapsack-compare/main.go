@@ -1,3 +1,8 @@
+// Command knapsack-compare emits the fixed common-integral packing fixture as
+// adapter-schema v2 JSON for the reference harness. It uses published root /v2
+// dependencies, not a sibling checkout. The solve timer includes PackAll's
+// internal checks but excludes setup and the separate harness verification.
+// COMPARE_DELAY_MS is a bounded pre-solve test seam, not solver latency evidence.
 package main
 
 import (

@@ -13,6 +13,8 @@ import (
 	"github.com/faustbrian/go-money"
 )
 
+// FuzzCostTypeIdentifiers bounds identifier work and checks inclusive configured ID
+// admission.
 func FuzzCostTypeIdentifiers(f *testing.F) {
 	f.Add("box")
 	f.Add(" ")
@@ -57,6 +59,8 @@ func FuzzCostTypeIdentifiers(f *testing.F) {
 	})
 }
 
+// FuzzCostMappings bounds two-entry mappings and checks deterministic
+// currency/context/policy admission.
 func FuzzCostMappings(f *testing.F) {
 	f.Add("box", "crate", int64(125), uint8(2), uint16(16), false)
 	f.Add("duplicate", "duplicate", int64(1), uint8(0), uint16(16), false)
@@ -108,6 +112,8 @@ func FuzzCostMappings(f *testing.F) {
 	})
 }
 
+// FuzzSolverCostObjective uses bounded integral cost/packing cases to check objective
+// composition and verified output.
 func FuzzSolverCostObjective(f *testing.F) {
 	f.Add(int64(60), int64(150), uint8(2), false, false)
 	f.Add(int64(-60), int64(-150), uint8(3), true, false)

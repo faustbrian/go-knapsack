@@ -10,6 +10,9 @@ import (
 	"github.com/faustbrian/go-money/v2"
 )
 
+// BenchmarkTotalSixtyFourContainers times pricing 64 stored instances; B.Loop
+// excludes currency/context/cost-map/plan setup. It is not solver or exchange-rate
+// work.
 func BenchmarkTotalSixtyFourContainers(b *testing.B) {
 	euro, err := currency.Parse("EUR")
 	if err != nil {
@@ -56,6 +59,9 @@ func BenchmarkTotalSixtyFourContainers(b *testing.B) {
 	}
 }
 
+// BenchmarkComparisonOverhead compares fixed prebuilt plans against direct Money
+// arithmetic. Setup is outside each subbenchmark; no cross-version speed claim
+// follows.
 func BenchmarkComparisonOverhead(b *testing.B) {
 	euro, err := currency.Parse("EUR")
 	if err != nil {
@@ -113,6 +119,8 @@ func BenchmarkComparisonOverhead(b *testing.B) {
 	})
 }
 
+// BenchmarkLookupOverhead isolates the declared lookup fixture from constructor
+// sorting/setup; compare only equivalent mappings and workloads.
 func BenchmarkLookupOverhead(b *testing.B) {
 	one := mustEuro(b, "1.25")
 	zero, err := one.Sub(one)

@@ -10,6 +10,8 @@ import (
 	"github.com/faustbrian/go-measurement/v2"
 )
 
+// FuzzItemContainerValidation bounds physical values and keeps item validity
+// independent of container CoG policy.
 func FuzzItemContainerValidation(f *testing.F) {
 	f.Add(int64(1), int64(1), uint32(0), uint32(1_000_000))
 	f.Add(int64(0), int64(-1), uint32(1_000_001), uint32(0))
@@ -68,6 +70,8 @@ func TestFuzzRegressionContainerBoundsDoNotChangeItemValidity(t *testing.T) {
 	}
 }
 
+// FuzzLatticeNormalization uses positive bounded integers to test exact divisibility
+// rather than rounding.
 func FuzzLatticeNormalization(f *testing.F) {
 	f.Add(int64(6), int64(2))
 	f.Add(int64(5), int64(2))

@@ -8,6 +8,8 @@ import (
 	packingjson "github.com/faustbrian/go-knapsack/v2/encoding"
 )
 
+// FuzzPlanDecode bounds raw input to 1 MiB and checks deterministic schema-v1 replay,
+// not feasibility.
 func FuzzPlanDecode(f *testing.F) {
 	f.Add([]byte(`{"version":"v1","plan":{"status":"feasible","termination":"completed"}}`))
 	f.Add([]byte(`{"version":"v1","version":"v1"}`))
@@ -33,6 +35,8 @@ func FuzzPlanDecode(f *testing.F) {
 	})
 }
 
+// FuzzRequestDecode bounds raw input to 1 MiB and checks stable admitted-request
+// serialization.
 func FuzzRequestDecode(f *testing.F) {
 	f.Add([]byte(`{}`))
 	f.Add([]byte(`{"version":"v1","version":"v1"}`))

@@ -1,6 +1,9 @@
 // Package geometry provides exact integer-lattice operations for axis-aligned
 // cuboids. Coordinates start at the lower-left-front corner; X is width, Y is
-// depth, and Z is height. Occupied intervals are half-open.
+// depth, and Z is height. Occupied intervals are half-open, so touching is not
+// positive-volume intersection. Construct regions with NewCuboid; this package
+// performs no unit conversion, tolerance, collision broad-phase or physical
+// simulation.
 package geometry
 
 import (
@@ -115,7 +118,8 @@ func Orientations(d Dimensions) ([]Orientation, error) {
 	return result, nil
 }
 
-// Cuboid is a validated half-open occupied region.
+// Cuboid is a constructor-validated half-open region. Its zero value is not a
+// valid occupied region; geometric predicates assume NewCuboid inputs.
 type Cuboid struct {
 	origin Point
 	dims   Dimensions
@@ -174,7 +178,8 @@ func (c Cuboid) Adjacent(other Cuboid) bool {
 		yz && (c.max.X == other.origin.X || other.max.X == c.origin.X)
 }
 
-// SupportArea returns the XY contact area when c directly supports other.
+// SupportArea returns the positive XY contact area when c directly supports
+// other. False also reports unrepresentable area, not only absence of contact.
 func (c Cuboid) SupportArea(other Cuboid) (int64, bool) {
 	if c.max.Z != other.origin.Z {
 		return 0, false
@@ -199,6 +204,8 @@ func overlap(a0, a1, b0, b1 int64) int64 {
 	return hi - lo
 }
 
+// These helpers receive nonnegative coordinates and positive lengths/contact
+// areas from validated cuboids; they are not general signed arithmetic helpers.
 func checkedAdd(a, b int64) (int64, bool) {
 	if a > math.MaxInt64-b {
 		return 0, false

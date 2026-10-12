@@ -17,7 +17,10 @@ import (
 
 // Exact exhaustively enumerates compact orthogonal placements for bounded
 // small fixed-container instances. It is intended as an oracle, not a
-// large-order solver.
+// large-order solver. Compact face coordinates do not enumerate arbitrary
+// origins selected by custom callbacks; a predicate accepting only X=1 in an
+// otherwise empty bin may have a feasible placement outside this search.
+// Do not treat infeasibility under such a predicate as a general lattice proof.
 type Exact struct{}
 
 type exactSearch struct {
@@ -44,10 +47,13 @@ type exactSearch struct {
 	fullPoints       map[string][]geometry.Point
 }
 
-// PackAll exhaustively considers bounded container multisets in increasing
-// container-count order, then exhaustively searches every multiset at the
-// first feasible count. Its built-in proof objective is container count with a
-// canonical plan tie-break.
+// PackAll considers container multisets in increasing count from the relaxed
+// volume/mass lower bound through the number of items. It compares completed
+// candidates across all those counts under the selected objective, not only the
+// first feasible count. Optimal/infeasible statuses concern its bounded modeled
+// search space; this operation does not enumerate arbitrarily many empty bins.
+// Interrupted search returns retained complete state or an empty partial plan
+// with its error; callbacks and point generation remain synchronous.
 func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, options Options) (knapsack.Plan, error) {
 	if ctx == nil {
 		return knapsack.Plan{}, knapsack.ErrInvalidOptions
@@ -84,6 +90,8 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 	var globalBest *knapsack.Plan
 	var aggregateErr error
 	var interruptedBy knapsack.TerminationReason
+	// Later counts can win under an explicit non-count primary objective; retain
+	// their shared work budget rather than stopping at the first feasible count.
 	for count := exactContainerLowerBound(items, types); count <= len(items); count++ {
 		var best *knapsack.Plan
 		err := enumerateTypeMultisets(ctx, len(types), count, func(selected []int) error {
@@ -529,6 +537,7 @@ func (s *exactSearch) visit(remaining []knapsack.NormalizedItem) {
 					target.items = append(target.items, item)
 					target.weight += item.Weight
 					s.visit(next)
+					// Restore parallel bin slices/accounting before a sibling branch.
 					target.weight -= item.Weight
 					target.placements = target.placements[:len(target.placements)-1]
 					target.items = target.items[:len(target.items)-1]

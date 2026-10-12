@@ -50,4 +50,9 @@ Plans contain immutable container instances, placements, explicit unpacked
 IDs, exact statistics, lexicographic score components, solver work, seed,
 termination, and bounded diagnostics. `optimal` and `infeasible` are exhaustive
 proof states. `feasible`, `best_known`, and `budget_exhausted` make no such
-claim. A plan is not trusted until `verify.Plan` accepts it.
+claim. `NewPlan` only checks bounded representation and labels; it preserves
+caller collection order. Verification recomputes feasibility/accounting and checks
+proof-label consistency, but does not replay exhaustive search or authenticate
+`Work.Solver`. Use `verify.PlanContext`, require its returned error to be nil and
+inspect both `Result.Err` and findings before trusting supplied results. Global
+optimality/infeasibility requires trusted solver evidence, not a status string.

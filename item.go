@@ -20,7 +20,8 @@ type PhysicalDimensions struct {
 	Z measurement.Quantity
 }
 
-// ItemSpec is copied and validated by NewItem.
+// ItemSpec supplies physical input to NewItem. See NewItem for the retained
+// load-limit pointer and in-place incompatible-group sorting exceptions.
 type ItemSpec struct {
 	// ID is the required unique logical item identity.
 	ID string
@@ -37,12 +38,14 @@ type ItemSpec struct {
 	// FragileTop forbids any item from using this item as a supporter.
 	FragileTop bool
 	// MaxSupportedWeight is the optional non-negative total transitive load.
+	// NewItem retains this pointer; do not mutate its target while Item is used.
 	MaxSupportedWeight *measurement.Quantity
 	// MinimumSupportPPM is the required supported footprint in millionths.
 	MinimumSupportPPM uint32
 	// Group requires all same-group items to share one container.
 	Group string
-	// IncompatibleGroups may not share a container with this item.
+	// IncompatibleGroups may not share a container with this item. NewItem sorts
+	// this caller slice in place before retaining a deduplicated copy.
 	IncompatibleGroups []string
 	// MaxStackCount bounds the number of supported levels above this item; zero
 	// means no stack-depth constraint.
@@ -51,10 +54,18 @@ type ItemSpec struct {
 	Priority int64
 }
 
-// Item is immutable from the caller's perspective.
+// Item stores validated physical input. Accessors copy collections, but the
+// constructor retains MaxSupportedWeight, whose target must remain unchanged
+// while Item is reused/shared. NewRequest snapshots a normalized load value, so
+// the resulting request no longer depends on that physical pointer.
 type Item struct{ spec ItemSpec }
 
-// NewItem validates the domain model and defensively copies all collections.
+// NewItem validates physical quantities and orientation identities, then copies
+// orientations, attributes and incompatible groups. It sorts the supplied
+// incompatible-group slice in place and retains MaxSupportedWeight rather than
+// copying its target. Supply an independent slice/pointer for owned immutable
+// input. Request-wide ID/count/memory/lattice limits are enforced by NewRequest,
+// not by this physical constructor; input metadata allocation is caller-bounded.
 func NewItem(spec ItemSpec) (Item, error) {
 	if strings.TrimSpace(spec.ID) == "" {
 		return Item{}, &FieldError{Category: ErrInvalidItem, Field: "id", Reason: "must be non-empty"}
@@ -109,7 +120,7 @@ func (i Item) Orientations() []geometry.Orientation { return slices.Clone(i.spec
 // Attributes returns a defensive copy of caller metadata.
 func (i Item) Attributes() map[string]string { return cloneMap(i.spec.Attributes) }
 
-// FragileTop reports whether the item may bear any other item.
+// FragileTop reports whether this item forbids supporting another item.
 func (i Item) FragileTop() bool { return i.spec.FragileTop }
 
 // MinimumSupportPPM returns the required footprint support in millionths.
@@ -132,14 +143,16 @@ func (i Item) MaxSupportedWeight() *measurement.Quantity {
 	return cloneQuantity(i.spec.MaxSupportedWeight)
 }
 
-// ExpandQuantity creates stable instance IDs without retaining caller aliases.
+// ExpandQuantity creates stable instance IDs under the default item-count bound.
+// Each instance has NewItem's retained load-limit-pointer and input-sort semantics.
 func ExpandQuantity(spec ItemSpec, quantity uint32) ([]Item, error) {
 	return ExpandQuantityWithLimit(spec, quantity, DefaultLimits().MaxItems)
 }
 
 // ExpandQuantityWithLimit expands at most maximum instances and rejects the
 // request before allocating when the caller's quantity budget would be
-// exceeded.
+// exceeded. IDs append a one-based #000001-style suffix; malformed item input
+// can still fail after the bounded result slice is allocated.
 func ExpandQuantityWithLimit(spec ItemSpec, quantity, maximum uint32) ([]Item, error) {
 	if quantity == 0 {
 		return nil, &FieldError{Category: ErrInvalidItem, Field: "quantity", Reason: "must be positive"}

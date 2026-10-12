@@ -1,5 +1,8 @@
 // Package encoding provides strict, bounded, versioned canonical JSON for
-// normalized packing artifacts.
+// normalized packing artifacts. MarshalPlan/MarshalRequest emit schema v1;
+// Unmarshal functions bound bytes, token depth and per-collection count before
+// domain admission. They accept ordinary JSON layout, not only emitted byte form.
+// Plan decoding does not replace independent feasibility/proof assessment.
 package encoding
 
 import (
@@ -113,7 +116,8 @@ type requestEnvelope struct {
 	Containers []containerWire `json:"containers"`
 }
 
-// MarshalPlan returns deterministic versioned JSON for an immutable plan.
+// MarshalPlan serializes schema v1 without feasibility validation or an output
+// size quota. Stored slice order is preserved; the returned byte slice is owned.
 func MarshalPlan(plan knapsack.Plan) ([]byte, error) {
 	return json.Marshal(planEnvelope{Version: Version, Plan: plan.Spec()})
 }
@@ -138,7 +142,9 @@ func MarshalRequest(request knapsack.NormalizedRequest) ([]byte, error) {
 
 // UnmarshalRequest strictly decodes and validates a versioned normalized
 // request. It rejects unknown fields, duplicate keys, trailing data, invalid
-// UTF-8, unsupported versions, and resource-limit violations.
+// UTF-8, unsupported versions, and resource-limit violations. Duplicate keys
+// are compared case-sensitively; typed field matching follows encoding/json's
+// case-insensitive fallback, not a separate canonical-field-name validator.
 func UnmarshalRequest(input []byte, limits Limits) (knapsack.NormalizedRequest, error) {
 	if err := limits.validate(input); err != nil {
 		return knapsack.NormalizedRequest{}, err
@@ -204,7 +210,10 @@ func parseQuantity(wire quantityWire) (measurement.Quantity, error) {
 	return quantity, nil
 }
 
-// UnmarshalPlan strictly decodes and validates a versioned immutable plan.
+// UnmarshalPlan applies bounded schema-v1 decoding and NewPlan admission.
+// It does not prove feasibility, accounting or proof status against a request.
+// Unknown fields and exact duplicate keys are rejected; field-name matching and
+// escaped-string decoding otherwise follow encoding/json semantics.
 func UnmarshalPlan(input []byte, limits Limits) (knapsack.Plan, error) {
 	if err := limits.validate(input); err != nil {
 		return knapsack.Plan{}, err

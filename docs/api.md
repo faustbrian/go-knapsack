@@ -1,6 +1,7 @@
 # API and option reference
 
-The root package owns immutable items, container types, normalized requests,
+The root package owns physical items, immutable container types and normalized
+requests,
 plans, statuses, typed errors, and resource limits. `geometry` owns checked
 integer cuboids and physical-axis rotations. `solver` exposes heuristic and
 exact pack-all and fixed-container operations. `verify` validates supplied
@@ -13,7 +14,10 @@ The released `objective/gomoney` v1 path remains supported with legacy
 packing types. `encoding` owns strict versioned JSON.
 
 Zero-value items, containers, requests, plans, objectives, and limits are
-invalid. Constructors defensively copy slices and maps. Solvers take
+invalid. Most constructor collections are copied; `NewItem` sorts the input
+`IncompatibleGroups` slice before copying and retains its `MaxSupportedWeight`
+pointer. Keep that target unchanged or give the constructor an independent copy.
+Solvers take
 `context.Context`; cancellation and work exhaustion never become an
 infeasibility proof. Public solver, objective, and verifier context entry
 points reject a nil context with `knapsack.ErrInvalidOptions`.

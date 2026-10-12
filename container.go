@@ -9,6 +9,7 @@ import (
 )
 
 // Stock explicitly distinguishes finite stock from unlimited availability.
+// Its zero value is invalid when admitted by a container constructor.
 type Stock struct {
 	unlimited bool
 	count     uint32
@@ -99,7 +100,9 @@ type ContainerTypeSpec struct {
 type ContainerType struct{ spec ContainerTypeSpec }
 
 // NewContainerType validates dimensions, mass limits, stock, and reserved
-// regions, then defensively copies caller-owned state.
+// regions, then defensively copies caller-owned state. It admits physical
+// values but does not yet prove lattice divisibility, volume or reserved-space
+// containment; those request-level checks occur during NewRequest.
 func NewContainerType(spec ContainerTypeSpec) (ContainerType, error) {
 	if strings.TrimSpace(spec.ID) == "" {
 		return ContainerType{}, &FieldError{Category: ErrInvalidContainer, Field: "id", Reason: "must be non-empty"}

@@ -8,10 +8,15 @@ and must honor their context without spawning unmanaged work.
 
 Canonical JSON rejects unknown fields, duplicate keys, excess depth, excess
 collections, trailing values, unsupported versions, and oversized input.
-Visualization output must escape labels and may consume only verified plans.
+Typed field matching follows Go JSON's case-insensitive fallback; duplicate
+key rejection uses exact decoded names, not case-folded aliases. Visualization
+escapes labels but checks verifier findings rather than all extension errors.
+Verify custom-option inputs with PlanContext and inspect both errors and findings.
 
-Treat callbacks as trusted application code. Panics become typed errors, but
-callbacks must still bound latency, honor cancellation, avoid shared mutation,
+Treat callbacks as trusted application code. Check/ComparePlans/Components panics
+become typed errors, but custom objective Valid executes outside that recovery;
+callbacks must bound latency, avoid panicking in Valid, honor cancellation, avoid
+shared mutation,
 and never be loaded from serialized input.
 Recovered panic values and rejected JSON field/key/version details are omitted
 from default errors. Generated-plan and rendering rejections also omit verifier

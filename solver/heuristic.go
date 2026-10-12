@@ -1,4 +1,13 @@
-// Package solver provides bounded deterministic packing strategies.
+// Package solver provides deterministic sequential packing strategies over
+// constructor-validated normalized input. Heuristic uses extreme points; Exact
+// explores small bounded search spaces. Both own no background goroutines.
+// Returned partial plans and errors must be inspected together; search exhaustion
+// is distinct from infeasibility proof. Budget estimates do not measure heap/RSS.
+//
+// Cancellation is observed at search/iteration and callback/scoring checkpoints,
+// not by forcibly interrupting grid construction, rejected-candidate loops or
+// trusted synchronous callbacks. Supply nonblocking deterministic providers and
+// explicit work limits; deadlines alone cannot guarantee return latency.
 package solver
 
 import (
@@ -19,19 +28,21 @@ import (
 )
 
 // Options selects deterministic solver extensions and partial-result policy.
-// Collection fields are read through immutable callback views.
+// Constraint slice containers are copied at entry; callback and objective
+// implementations remain borrowed and must own any shared mutable state.
 type Options struct {
 	// Seed is recorded for reproducibility; built-in solvers use no ambient
 	// randomness.
 	Seed uint64
-	// AllowUnpacked permits verified best-known plans that omit items.
+	// AllowUnpacked selects partial verification. Heuristic no-placement paths
+	// can still return best-known plans with omitted items when this is false.
 	AllowUnpacked bool
 	// Constraints are synchronous bounded custom placement predicates.
 	Constraints []constraint.Placement
 	// Objective is the built-in exact lexicographic objective. It conflicts
 	// with PlanObjective when both are set.
 	Objective objective.Objective
-	// PlanObjective is a custom complete-plan comparison extension.
+	// PlanObjective compares whole candidates, including partial packings.
 	PlanObjective objective.PlanObjective
 }
 
@@ -48,7 +59,9 @@ type bin struct {
 
 // PackFixed packs into exactly the supplied finite instances and never creates
 // another container. Unpacked items are reported without a false infeasibility
-// proof.
+// proof. Cancellation/budget errors may include retained verified state, while
+// custom callback/objective paths may return a zero plan when safe publication
+// cannot be completed. Inspect both values.
 func (Heuristic) PackFixed(ctx context.Context, request knapsack.NormalizedRequest, instances []knapsack.ContainerInstance, options Options) (knapsack.Plan, error) {
 	if ctx == nil {
 		return knapsack.Plan{}, knapsack.ErrInvalidOptions
@@ -158,7 +171,9 @@ func (Heuristic) PackFixed(ctx context.Context, request knapsack.NormalizedReque
 }
 
 // PackAll uses deterministic extreme points and never reports heuristic
-// optimality or proven infeasibility.
+// optimality or proven infeasibility. A positive MaxImprovementRounds enables
+// at most one alternate width-first pass, sharing the candidate budget; values
+// greater than one do not create additional passes.
 func (Heuristic) PackAll(ctx context.Context, request knapsack.NormalizedRequest, options Options) (knapsack.Plan, error) {
 	if ctx == nil {
 		return knapsack.Plan{}, knapsack.ErrInvalidOptions
@@ -672,6 +687,8 @@ func physicalPlacementAllowed(item knapsack.NormalizedItem, target *bin, box geo
 	if len(target.info.AllowedClasses) > 0 && !slices.Contains(target.info.AllowedClasses, item.Attributes["class"]) {
 		return false
 	}
+	// Internal bins have no overlapping placements, so summed contact rectangles
+	// cannot double-count support; the untrusted-plan verifier uses a union instead.
 	var supportArea int64
 	for index, existing := range target.placements {
 		existingItem := target.items[index]
@@ -727,6 +744,9 @@ func stackAllowed(item knapsack.NormalizedItem, target *bin, box geometry.Cuboid
 			}
 		}
 	}
+	// Contact edges descend strictly in Z. Propagate top-down with rational shares
+	// so common supporters conserve load without integer rounding or duplicating
+	// full weight.
 	loads := make(map[string]*big.Rat)
 	slices.SortFunc(nodes, func(a, b stackNode) int { return -compareInt64(a.box.Origin().Z, b.box.Origin().Z) })
 	for _, current := range nodes {
@@ -873,6 +893,8 @@ func interruptedPlan(request knapsack.NormalizedRequest, bins []*bin, unpacked [
 }
 
 func interruptedHeuristicPlan(request knapsack.NormalizedRequest, bins []*bin, unpacked []string, candidates uint64, options Options, goal objective.PlanObjective, cause error) (knapsack.Plan, error) {
+	// Do not replay borrowed extensions under a detached context to certify
+	// partial state.
 	if options.PlanObjective != nil || len(options.Constraints) > 0 {
 		return knapsack.Plan{}, cause
 	}

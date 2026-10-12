@@ -4,7 +4,8 @@
 
 The production heuristic canonically sorts items and container types,
 generates extreme points, enumerates allowed orientations, rejects infeasible
-geometry and physical constraints, and compares complete trial plans with the
+geometry and physical constraints, and compares whole partial trial plans with
+the
 selected lexicographic objective. Canonical height, depth, width, origin,
 orientation, type ID, and instance ID ordering resolves ties.
 
@@ -65,3 +66,19 @@ diagnostics. Solvers also accept `context.Context`.
 Cancellation, deadlines, candidate, node, branch, and memory exhaustion return
 the best independently verified retained plan when safe, with an exact
 termination reason. Limits should be reduced before accepting untrusted work.
+
+## Observable bounds
+
+Pack-all exact enumeration continues through item-count containers under the
+selected objective; it does not stop at the first feasible count or enumerate
+arbitrarily many empty containers. Custom callbacks must work on the solver's
+candidate prefixes and on the verifier's stored placement replay order. Compact
+coordinate completeness for arbitrary origin-sensitive objectives/predicates is
+not established by the small built-in oracle cases; no broader proof is added here.
+
+A positive heuristic improvement-round limit enables one alternate pass, not an
+arbitrary number of rounds. Admission probes can increment recorded work beyond
+a configured counter before rejection. Memory is estimated, not measured heap/RSS.
+Cancellation checkpoints cannot preempt rejected-candidate loops, point-grid
+construction or blocking providers; partial publication may be refused when
+borrowed extensions cannot be safely rechecked.

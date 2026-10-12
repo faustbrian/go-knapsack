@@ -7,8 +7,8 @@ import (
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 )
 
-// Status distinguishes feasible evidence, exhaustive proof, heuristic partial
-// results, and interrupted search.
+// Status labels claimed feasible evidence, proof, partial results or interruption.
+// NewPlan accepts these labels without executing verification or proof search.
 type Status string
 
 const (
@@ -98,7 +98,7 @@ type ScoreComponent struct {
 	Direction string `json:"direction"`
 	// Unit identifies the exact count, lattice, priority, or currency domain.
 	Unit string `json:"unit"`
-	// Value is the canonical exact decimal representation.
+	// Value is the serialized metric value; custom providers own its grammar.
 	Value string `json:"value"`
 }
 
@@ -132,15 +132,17 @@ type Work struct {
 	Nodes uint64 `json:"nodes"`
 	// Branches is the number of exact-search edges or configurations considered.
 	Branches uint64 `json:"branches"`
-	// CandidatePlacements is the number of orientation-position attempts.
+	// CandidatePlacements counts orientation-position admission probes, including
+	// probes that cross the configured attempt bound.
 	CandidatePlacements uint64 `json:"candidate_placements"`
 	// ImprovementRounds is the number of complete heuristic repacking passes.
 	ImprovementRounds uint32 `json:"improvement_rounds"`
 }
 
-// PlanSpec is the owned serialization boundary validated by NewPlanWithLimits.
+// PlanSpec is a bounded serialization boundary, not trusted solver evidence.
+// Collection order, statistics and proof claims are supplied by the caller.
 type PlanSpec struct {
-	// Containers is the selected canonical container instance list.
+	// Containers is the supplied instance list; constructors preserve its order.
 	Containers []ContainerInstance `json:"containers"`
 	// Placements contains at most one entry for each packed item.
 	Placements []Placement `json:"placements"`
@@ -200,13 +202,15 @@ func (l PlanLimits) valid() bool {
 // Plan owns defensive copies and only exposes copies of collection state.
 type Plan struct{ spec PlanSpec }
 
-// NewPlan validates and defensively copies spec using DefaultPlanLimits.
+// NewPlan checks status/termination labels and representation bounds, then
+// copies spec using DefaultPlanLimits. It does not verify geometry, identities,
+// conservation, statistics or proof, and does not sort supplied collections.
 func NewPlan(spec PlanSpec) (Plan, error) {
 	return NewPlanWithLimits(spec, DefaultPlanLimits())
 }
 
 // NewPlanWithLimits validates resource bounds before taking defensive copies
-// of the supplied plan.
+// of the supplied plan. Semantic feasibility remains verify's responsibility.
 func NewPlanWithLimits(spec PlanSpec, limits PlanLimits) (Plan, error) {
 	if !limits.valid() {
 		return Plan{}, ErrInvalidOptions
@@ -289,13 +293,13 @@ func planDiagnosticWithinLimits(diagnostic Diagnostic, limits PlanLimits, addStr
 // Spec returns a deep defensive copy suitable for serialization or mutation.
 func (p Plan) Spec() PlanSpec { return clonePlanSpec(p.spec) }
 
-// Containers returns a defensive copy in canonical order.
+// Containers returns a defensive copy in stored order; NewPlan does not sort it.
 func (p Plan) Containers() []ContainerInstance { return slices.Clone(p.spec.Containers) }
 
-// Placements returns deep defensive copies in canonical order.
+// Placements returns deep defensive copies in stored order.
 func (p Plan) Placements() []Placement { return clonePlacements(p.spec.Placements) }
 
-// UnpackedItemIDs returns a defensive copy in canonical order.
+// UnpackedItemIDs returns a defensive copy in stored order.
 func (p Plan) UnpackedItemIDs() []string { return slices.Clone(p.spec.UnpackedItemIDs) }
 
 // Objective returns a defensive copy in lexicographic precedence order.
@@ -317,7 +321,9 @@ func (p Plan) Work() Work { return p.spec.Work }
 func (p Plan) Diagnostics() []Diagnostic { return slices.Clone(p.spec.Diagnostics) }
 
 // CanonicalString returns deterministic compact JSON for comparison and
-// tie-breaking; persistence should use the versioned encoding package.
+// tie-breaking. Stored slice order and all metadata participate; this does not
+// normalize equivalent geometries or authenticate proof. Persistence should use
+// the versioned encoding package.
 func (p Plan) CanonicalString() string { encoded, _ := json.Marshal(p.spec); return string(encoded) }
 
 func validStatus(status Status) bool {

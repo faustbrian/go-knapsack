@@ -12,8 +12,7 @@ import (
 )
 
 // Resolution defines exact positive length and mass lattice steps. Every input
-// quantity must be exactly divisible unless a future explicit rounding API is
-// selected.
+// quantity must divide exactly by these steps; this API never rounds.
 type Resolution struct {
 	// Length is the exact coordinate and dimension lattice step.
 	Length measurement.Quantity
@@ -21,7 +20,9 @@ type Resolution struct {
 	Mass measurement.Quantity
 }
 
-// Limits bounds normalization and solver work before allocations occur.
+// Limits supplies nonzero admission and search budgets. MaxMemoryBytes is a
+// conservative estimate, not measured heap/RSS; custom large limits do not
+// guarantee physical allocation availability. MaxImprovementRounds may be zero.
 type Limits struct {
 	// MaxItems bounds normalized item instances.
 	MaxItems uint32
@@ -63,8 +64,8 @@ func (l Limits) validate() error {
 	return nil
 }
 
-// validateForSolver is exposed within the module through a stable boolean
-// helper so subpackages can reject malformed copied limits.
+// Valid reports whether required fields are nonzero. It does not re-admit an
+// existing request against reduced count limits or guarantee allocations fit.
 func (l Limits) Valid() bool { return l.validate() == nil }
 
 // NormalizedItem is a validated integer-lattice item. NewNormalizedRequest
@@ -78,7 +79,8 @@ type NormalizedItem struct {
 	Dimensions geometry.Dimensions
 	// Weight is a positive mass-lattice count.
 	Weight int64
-	// Orientations is the canonical nonempty allowed permutation set.
+	// Orientations is the validated unique allowed permutation list; its supplied
+	// order is retained by NewNormalizedRequest.
 	Orientations []geometry.Orientation
 	// Attributes is copied metadata used by eligibility constraints.
 	Attributes map[string]string
@@ -251,7 +253,9 @@ func (r NormalizedRequest) ItemCount() int { return len(r.items) }
 // ContainerTypeCount returns the bounded distinct container type count.
 func (r NormalizedRequest) ContainerTypeCount() int { return len(r.containers) }
 
-// WithLimits returns a copy using caller-selected bounded work limits.
+// WithLimits replaces policy without validation or renormalization. It shares
+// private immutable input; solvers check required fields and memory reservation,
+// but this call does not re-admit existing counts against newly reduced limits.
 func (r NormalizedRequest) WithLimits(limits Limits) NormalizedRequest {
 	r.limits = limits
 
@@ -522,6 +526,8 @@ func latticeValue(value, resolution measurement.Quantity) (int64, error) {
 	if denominator.Sign() <= 0 {
 		return 0, ErrInvalidRequest
 	}
+	// Divide after exact unit conversion; an integral ratio admits the lattice
+	// without rounding.
 	ratio := new(big.Rat).Quo(converted.Amount().BigRat(), denominator)
 	if !ratio.IsInt() {
 		return 0, ErrInexactResolution

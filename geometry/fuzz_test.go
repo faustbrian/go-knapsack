@@ -6,6 +6,8 @@ import (
 	"github.com/faustbrian/go-knapsack/v2/geometry"
 )
 
+// FuzzGeometry bounds positive dimensions/coordinates and checks intersection
+// symmetry.
 func FuzzGeometry(f *testing.F) {
 	f.Add(int64(0), int64(1), int64(1), int64(1))
 	f.Fuzz(func(t *testing.T, x, width, depth, height int64) {
@@ -23,6 +25,8 @@ func FuzzGeometry(f *testing.F) {
 	})
 }
 
+// FuzzOrientationEnumeration compares bounded axes with an independent
+// six-permutation dimension set.
 func FuzzOrientationEnumeration(f *testing.F) {
 	f.Add(int64(1), int64(2), int64(3))
 	f.Add(int64(2), int64(2), int64(3))
@@ -55,6 +59,8 @@ func FuzzOrientationEnumeration(f *testing.F) {
 	})
 }
 
+// FuzzCuboidRelations uses bounded two-cuboid inputs to check symmetric relations and
+// positive support contact.
 func FuzzCuboidRelations(f *testing.F) {
 	f.Add(int64(0), int64(1), int64(1), int64(0), int64(1), int64(1))
 	f.Fuzz(func(t *testing.T, ax, aw, ah, bx, bw, bh int64) {

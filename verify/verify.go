@@ -1,4 +1,9 @@
-// Package verify independently checks supplied plans against normalized input.
+// Package verify independently recomputes supplied-plan feasibility and
+// accounting against constructor-validated normalized input. Use PlanContext
+// for cancellation and inspect its returned error as well as Result.Valid/Err.
+// Proof-status checks establish metadata consistency, not a fresh exhaustive
+// optimality/infeasibility search or an authenticated solver provenance record.
+// No background goroutines are started; custom providers remain synchronous.
 package verify
 
 import (
@@ -91,7 +96,8 @@ type Result struct {
 	err        error
 }
 
-// Valid reports whether no violation was found.
+// Valid reports whether no violation was stored. It does not inspect Err and
+// the zero Result is not evidence that verification completed successfully.
 func (r Result) Valid() bool { return len(r.violations) == 0 }
 
 // Violations returns a defensive copy in deterministic discovery order.
@@ -100,8 +106,9 @@ func (r Result) Violations() []Violation { return slices.Clone(r.violations) }
 // Truncated reports whether MaxDiagnostics suppressed additional findings.
 func (r Result) Truncated() bool { return r.truncated }
 
-// Err returns a cancellation or custom-extension error encountered during
-// verification; callers must inspect it independently from Valid.
+// Err returns a stored custom-extension error independently from Valid.
+// Cancellation or early admission errors returned by PlanContext are not always
+// stored here; inspect that function's returned error as well.
 func (r Result) Err() error { return r.err }
 
 // Has reports whether at least one finding has code.
@@ -148,7 +155,9 @@ type placed struct {
 	item      knapsack.NormalizedItem
 }
 
-// Plan recomputes feasibility and statistics without using solver predicates.
+// Plan recomputes feasibility/statistics with a background context and discards
+// PlanContext's separate returned error. Inspect Result.Err as well as Valid;
+// use PlanContext when cancellation/admission errors must be authoritative.
 func Plan(request knapsack.NormalizedRequest, plan knapsack.Plan, options Options) Result {
 	result, _ := PlanContext(context.Background(), request, plan, options)
 	return result
@@ -165,7 +174,10 @@ func PlanJSON(ctx context.Context, request knapsack.NormalizedRequest, input []b
 }
 
 // PlanContext performs the same independent verification as Plan while
-// allowing callers to stop adversarial or no-longer-needed verification work.
+// allowing cooperative cancellation. Error may accompany partial findings with
+// Valid still true; only nil error plus no findings establishes completion.
+// Invalid WithConstraints configuration returns an error without a violation.
+// Callback work and nested geometry/accounting checks are not preempted.
 func PlanContext(ctx context.Context, request knapsack.NormalizedRequest, plan knapsack.Plan, options Options) (Result, error) {
 	if ctx == nil {
 		return Result{}, knapsack.ErrInvalidOptions
@@ -428,6 +440,9 @@ func verifyConstraints(ctx context.Context, result *Result, placements []placed,
 	return nil
 }
 
+// This checks consistency of claimed evidence, not a certificate or new search.
+// An untrusted caller can write work.Solver="exact"; that is not authenticated
+// provenance.
 func verifyProofStatus(result *Result, itemCount int, plan knapsack.Plan) {
 	status, termination := plan.Status(), plan.Termination()
 	placements, unpacked, work := plan.Placements(), plan.UnpackedItemIDs(), plan.Work()
@@ -567,6 +582,9 @@ func supportIntersection(lower, upper geometry.Cuboid) supportRectangle {
 	}
 }
 
+// Supplied placements may overlap even after a violation was recorded. Use the
+// union, unlike the solver's disjoint-bin sum, so duplicate faces cannot inflate
+// support.
 func supportUnionArea(rectangles []supportRectangle) *big.Int {
 	xs := make([]int64, 0, len(rectangles)*2)
 	for _, rectangle := range rectangles {

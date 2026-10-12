@@ -1,5 +1,8 @@
 // Package gomoney preserves the legacy exact-money Knapsack objective API.
-// New consumers should use github.com/faustbrian/go-knapsack/objective/money/v2.
+// It delegates to the pinned canonical /v2 adapter and retains Money v1 types
+// and sentinel identity. It does not convert Money v1 to v2. New consumers with
+// Money v1 may use objective/money/v2; Money v2 requires objective/money/v3.
+// Deprecation guidance below refers to the imported legacy /v2 successor.
 package gomoney
 
 import (

@@ -1,5 +1,7 @@
 // Package knapsacktest provides solver-independent assertions for consumers,
-// fixtures, examples, differential adapters, and benchmarks.
+// fixtures, examples, differential adapters, and benchmarks. These helpers
+// borrow testing.TB and can print caller identifiers or full plan bytes; they
+// are not redaction or exhaustive-proof facilities.
 package knapsacktest
 
 import (
@@ -9,7 +11,8 @@ import (
 	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
-// RequireVerified fails the test when independent verification rejects plan.
+// RequireVerified fails on verifier findings. It checks Valid, not the stored
+// extension error; custom-option callers must check verify.PlanContext errors too.
 func RequireVerified(t testing.TB, request knapsack.NormalizedRequest, plan knapsack.Plan, options verify.Options) {
 	t.Helper()
 	result := verify.Plan(request, plan, options)

@@ -14,6 +14,8 @@ import (
 	"github.com/faustbrian/go-measurement/v2"
 )
 
+// FuzzHeuristic checks bounded one-item results with the independent feasibility
+// verifier.
 func FuzzHeuristic(f *testing.F) {
 	f.Add(int64(1), int64(2))
 	f.Fuzz(func(t *testing.T, itemX, boxX int64) {
@@ -39,6 +41,8 @@ func FuzzHeuristic(f *testing.F) {
 	})
 }
 
+// FuzzFixedContainerPacking limits candidates to 1 through 100 and checks retained
+// fixed-bin results.
 func FuzzFixedContainerPacking(f *testing.F) {
 	f.Add(int64(1), int64(2), uint64(100))
 	f.Fuzz(func(t *testing.T, itemX, boxX int64, candidateLimit uint64) {
@@ -62,6 +66,8 @@ func FuzzFixedContainerPacking(f *testing.F) {
 	})
 }
 
+// FuzzVariableContainerSelection checks deterministic replay and feasibility across
+// two bounded type widths.
 func FuzzVariableContainerSelection(f *testing.F) {
 	f.Add(int64(2), int64(1), int64(2))
 	f.Fuzz(func(t *testing.T, itemX, smallX, largeX int64) {
@@ -83,6 +89,8 @@ func FuzzVariableContainerSelection(f *testing.F) {
 	})
 }
 
+// FuzzExactTinyAgreement restricts 1 through 3 unit items/capacity and compares
+// against the ceiling-count oracle.
 func FuzzExactTinyAgreement(f *testing.F) {
 	f.Add(uint8(2), uint8(2))
 	f.Fuzz(func(t *testing.T, itemCount, capacity uint8) {
@@ -107,6 +115,8 @@ func FuzzExactTinyAgreement(f *testing.F) {
 	})
 }
 
+// FuzzCancellationAndBudgets bounds candidate admission and distinguishes
+// cancellation/budget errors from invalid output.
 func FuzzCancellationAndBudgets(f *testing.F) {
 	f.Add(uint64(1), false)
 	f.Add(uint64(10), true)

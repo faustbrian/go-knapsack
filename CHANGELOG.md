@@ -4,6 +4,12 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Clarify physical-item ownership exceptions, plan admission versus verification,
+  search/callback bounds and exact objective adapter contracts without changing
+  runtime behavior or persisted formats.
+
 ### Fixed
 
 - Correct installation and adapter guidance to reflect published root v2.0.1,

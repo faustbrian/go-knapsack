@@ -1,5 +1,9 @@
 // Package moneyobjective adds exact money packaging-cost comparison without
-// making monetary dependencies part of the root Knapsack module.
+// making monetary dependencies part of the root Knapsack module. This /v3
+// module consumes Money /v2 with one identical fixed Default/Custom context and
+// currency; New/NewFromEntries snapshot costs and never round or convert currency.
+// Costs is reusable without workers or I/O. Totals price selected instances,
+// including empty containers, rather than proving a plan feasible.
 package moneyobjective
 
 import (
@@ -163,7 +167,8 @@ func (c Costs) Valid() bool {
 	return c.zero.Valid()
 }
 
-// ComparePlans implements objective.PlanObjective with context cancellation.
+// ComparePlans checks context before pricing two candidate plans. Cancellation
+// is not polled inside Total; invalid/missing costs fail without plan verification.
 func (c Costs) ComparePlans(ctx context.Context, _ knapsack.NormalizedRequest, left, right knapsack.Plan) (int, error) {
 	if ctx == nil {
 		return 0, knapsack.ErrInvalidOptions
@@ -194,6 +199,8 @@ func (c Costs) Components(ctx context.Context, _ knapsack.NormalizedRequest, pla
 
 // Total sums configured exact costs for every selected container instance. It
 // applies the Money amount bound only to the final order-independent total.
+// Every selected instance is priced, including empty ones; an empty plan yields
+// configured-currency zero. Invalid geometry/status/accounting is not verified.
 func (c Costs) Total(plan knapsack.Plan) (money.Money, error) {
 	if !c.Valid() {
 		return money.Money{}, ErrInvalidCosts

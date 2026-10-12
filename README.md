@@ -50,7 +50,7 @@ pseudo-versions. Follow [migration](docs/migration.md) when adopting v2.
 
 ## Quick start
 
-Construct immutable `knapsack.Item` and `knapsack.ContainerType` values with
+Construct physical `knapsack.Item` and `knapsack.ContainerType` values with
 exact `measurement` quantities, then select an explicit length and mass
 lattice. Normalization rejects mixed dimensions, inexact conversion, duplicate
 IDs, overflow, and inputs outside the declared resource limits.

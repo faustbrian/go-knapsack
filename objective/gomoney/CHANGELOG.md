@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Clarify partial whole-plan scoring and the facade’s published canonical
+  Money v1 delegation without changing its compatibility identities.
+
 ## [2.0.2] - 2026-10-11
 
 ### Changed

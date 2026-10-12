@@ -57,7 +57,8 @@ type FieldError struct {
 	Reason string
 }
 
-// Error formats the stable category with optional ID, field, and reason.
+// Error formats Category with unredacted ID, field and reason. Receiver and
+// Category must be nonnil; caller-supplied diagnostic text may be sensitive.
 func (e *FieldError) Error() string {
 	message := e.Category.Error()
 	if e.ID != "" {

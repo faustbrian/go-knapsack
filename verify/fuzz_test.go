@@ -10,6 +10,8 @@ import (
 	"github.com/faustbrian/go-measurement/v2"
 )
 
+// FuzzSuppliedPlan mutates a supplied plan and checks that accepted results do not
+// overlap.
 func FuzzSuppliedPlan(f *testing.F) {
 	f.Add(int64(0), int64(2))
 	f.Fuzz(func(t *testing.T, x, weight int64) {
@@ -32,6 +34,8 @@ func FuzzSuppliedPlan(f *testing.F) {
 	})
 }
 
+// FuzzPhysicalConstraints bounds a two-item stack and independently rejects
+// unsupported/fragile/load/CoG violations.
 func FuzzPhysicalConstraints(f *testing.F) {
 	f.Add(int64(0), uint32(1_000_000), false, int64(1), uint32(0), uint32(1_000_000))
 	f.Add(int64(1), uint32(1), true, int64(0), uint32(500_000), uint32(500_000))

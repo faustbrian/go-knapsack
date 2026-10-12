@@ -1,4 +1,7 @@
-// Package objective defines exact lexicographic packing objectives.
+// Package objective defines exact lexicographic packing objectives. New builds
+// built-in criteria; SafeCompare and SafeComponents adapt trusted custom providers.
+// Scoring trusts supplied plan statistics and does not verify feasibility. No
+// floating-point conversion, currency conversion or background work is owned.
 package objective
 
 import (
@@ -27,12 +30,20 @@ const (
 	maxCriteria       = 7
 )
 
-// PlanObjective is the immutable extension boundary for complete-plan
-// comparison. Implementations receive value objects whose collection accessors
-// return copies. They must honor context cancellation and remain deterministic.
+// PlanObjective compares whole candidate plans, which may contain only the
+// current partial packing or unused containers. Implementations receive copied
+// collection accessors and must be deterministic, bounded and context-cooperative.
+// Providers shared between concurrent solver calls must own their synchronization.
 type PlanObjective interface {
+	// Valid reports usable provider configuration and must not block or panic;
+	// validation calls occur outside SafeCompare/SafeComponents panic recovery.
 	Valid() bool
+	// ComparePlans returns -1 when left is preferred, 0 for a tie and 1 when
+	// right is preferred; it must accept partial candidate plans.
 	ComparePlans(context.Context, knapsack.NormalizedRequest, knapsack.Plan, knapsack.Plan) (int, error)
+	// Components returns 1 through 32 stable score records, with nonempty name,
+	// unit and value and min/max direction. SafeComponents checks byte bounds
+	// only after return; the provider owns allocation and numerical semantics.
 	Components(context.Context, knapsack.NormalizedRequest, knapsack.Plan) ([]knapsack.ScoreComponent, error)
 }
 
@@ -91,7 +102,8 @@ type Score struct {
 // Objective is an immutable ordered lexicographic objective.
 type Objective struct{ criteria []Criterion }
 
-// New validates and defensively copies a nonempty criterion list.
+// New validates and copies 1 through 7 unique criteria. TotalPackagingCost is
+// reserved for adapters and cannot be scored by this built-in Objective.
 func New(criteria ...Criterion) (Objective, error) {
 	if len(criteria) == 0 || len(criteria) > maxCriteria {
 		return Objective{}, ErrInvalidObjective
@@ -215,8 +227,10 @@ func typedNil(value any) bool {
 	}
 }
 
-// ScorePlan computes exact values and serializable components without binary
-// floating-point conversion.
+// ScorePlan computes checked integer metrics without binary floating point.
+// Several values come directly from plan.Statistics; use a verified plan when
+// the score must represent actual feasibility/accounting. It has no context
+// argument.
 func (o Objective) ScorePlan(request knapsack.NormalizedRequest, plan knapsack.Plan) (Score, []knapsack.ScoreComponent, error) {
 	if !o.Valid() {
 		return Score{}, nil, ErrInvalidObjective

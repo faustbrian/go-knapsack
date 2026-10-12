@@ -1,5 +1,8 @@
-// Package visualize renders bounded deterministic diagnostics from plans that
-// first pass independent verification. Rendering is never feasibility proof.
+// Package visualize renders deterministic top-down SVG diagnostics and invokes
+// the verifier. Custom-option callers must separately check all verification
+// errors; SVG checks findings only. Rendering is never proof
+// of optimality, provenance or physical transport safety. SVG is the entry point;
+// it owns no output destination and starts no workers.
 package visualize
 
 import (
@@ -25,7 +28,11 @@ const (
 	maxRenderCoordinate int64 = 1_000_000
 )
 
-// SVG renders a deterministic top-down scene with escaped untrusted labels.
+// SVG renders top-down X/Y rectangles with escaped item labels, not 3D depth.
+// The coordinate/scene-width cap is 1,000,000; output bytes and verification time
+// have no separate quota. It checks Result.Valid but not Result.Err, so callers
+// supplying custom options must first require successful PlanContext verification
+// themselves, especially for an invalid WithConstraints callback list.
 func SVG(request knapsack.NormalizedRequest, plan knapsack.Plan, options verify.Options) (string, error) {
 	result := verify.Plan(request, plan, options)
 	if !result.Valid() {

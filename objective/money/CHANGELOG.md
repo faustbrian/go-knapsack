@@ -4,6 +4,11 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+### Changed
+
+- Clarify whole-plan candidate pricing, fixed-context currency requirements and
+  exact final-sum bounds without changing objective behavior.
+
 ## [3.0.1] - 2026-10-11
 
 ### Changed
