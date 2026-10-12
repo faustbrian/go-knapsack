@@ -7,5 +7,5 @@ require (
 	github.com/faustbrian/go-math v1.1.3
 	github.com/faustbrian/go-measurement/v2 v2.0.2
 	github.com/gedex/bp3d v0.0.0-20170208095317-0ba3dcda7ab3
-	github.com/jcoruiz/gopackx v0.2.2
+	github.com/jcoruiz/gopackx v0.3.0
 )
