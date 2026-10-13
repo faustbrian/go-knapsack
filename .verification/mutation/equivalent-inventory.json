@@ -9,6 +9,14 @@
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
+          "file_name": "exact.go",
+          "type": "CONDITIONALS_BOUNDARY",
+          "line": 96,
+          "column": 12,
+          "contract_domain": "Data-race-free public Exact.PackAll normalized request admission on supported 32-bit and 64-bit targets; no fabricated private state or unsafe mutation",
+          "reason": "Independently reviewed 2026-10-13 by /root/filesystem_repair at source 9ff50f06188e57903957406ea7aa5acc4009d7aa. Changing count<0 to <=0 differs only at count zero. NewNormalizedRequest admits nonempty items with positive checked volumes and weights and owns immutable copies; zero requests and zero requests modified by WithLimits fail before enumeration. exactContainerLowerBound uses positive BigInt totals and positive admitted capacities with upward rounding, so its result is at least one. Nonpositive effective gross capacity or an unrepresentable quotient returns positive native MaxInt. Count only increments after the body, whose MaxInt return guard prevents wrap on both 32-bit and 64-bit targets; the unchanged 10000-container representation admission guard ordinarily stops growth earlier. Opaque objectives, stock, callbacks, collaborator errors and lawful monotonic cancellation cannot manufacture count zero. The original and mutant retain the same public errors, outcomes, work and ownership boundaries. This is mathematical source proof, not a new native campaign pass. Expires 2026-11-13 or any earlier relevant admission, cloning/ownership, lower-bound arithmetic, loop, representation, source/dependency, integer-width, producer/verifier or checker/tool-policy change; source and verifier bindings remain mandatory."
+        },
+        {
           "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 81, "column": 27,
           "contract_domain": "Public Heuristic.PackFixed request-memory admission",
           "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus positive per-item/bin overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
