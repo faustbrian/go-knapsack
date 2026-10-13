@@ -1,5 +1,7 @@
 # Adoption guide
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 1. Inventory every length, mass, rotation rule, stock source, and packing
    objective. Do not infer units from bare numbers.
 2. Choose a lattice that exactly represents accepted business quantities.
@@ -19,3 +21,6 @@ Adoption is complete only when monitoring distinguishes invalid input, no
 heuristic placement, resource exhaustion, and proven infeasibility. Do not
 replace a production packer from runtime-only benchmarks; compare feasibility
 and objective quality on identical semantics.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

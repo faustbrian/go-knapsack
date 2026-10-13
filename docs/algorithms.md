@@ -1,5 +1,7 @@
 # Algorithms, determinism, and limits
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Deterministic heuristic
 
 The production heuristic canonically sorts items and container types,
@@ -82,3 +84,6 @@ a configured counter before rejection. Memory is estimated, not measured heap/RS
 Cancellation checkpoints cannot preempt rejected-candidate loops, point-grid
 construction or blocking providers; partial publication may be refused when
 borrowed extensions cannot be safely rechecked.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

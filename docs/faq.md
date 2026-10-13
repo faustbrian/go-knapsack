@@ -1,5 +1,7 @@
 # FAQ and troubleshooting
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Why was an exact-looking quantity rejected?
 
 It is not an integer multiple of the selected lattice after exact conversion,
@@ -42,3 +44,6 @@ after verification and is not proof.
 No general guarantee exists. Three-dimensional bin packing is NP-hard. Use the
 heuristic for ordinary orders and the exact solver only within measured small
 instance limits.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

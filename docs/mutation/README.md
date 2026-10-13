@@ -1,5 +1,7 @@
 # Mutation evidence
 
+[Documentation index](../README.md) · [Repository entry](../../README.md)
+
 `golib mutation --module .` and
 `golib mutation --module objective/gomoney` run the canonical content-addressed
 campaigns. Each production package receives its own
@@ -10,3 +12,6 @@ malformed, missing, or unclassified results fail closed.
 The tracked `raw/` reports and `verification/mutation-classifications.tsv`
 describe the superseded standalone campaign. They remain historical audit
 material and are not exclusions or release evidence under the current policy.
+
+Choose the next guide in the [documentation index](../README.md)
+or return to the [repository entry](../../README.md) for installation and ownership.

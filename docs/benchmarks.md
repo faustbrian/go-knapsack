@@ -1,5 +1,7 @@
 # Benchmark methodology
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 The dated results and `verification/evidence.json` are historical v1 records.
 Their original source identities, dependencies, hashes and raw samples are
 retained unchanged. They are not v2 performance or mutation proof. Current
@@ -75,3 +77,6 @@ inventory exactly matches `verification/benchmark-rss-thresholds.tsv`. The RSS
 measurement includes the Go runtime and benchmark process but excludes
 compilation. Darwin reports bytes directly; GNU time reports KiB, which the gate
 converts to bytes before comparison.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

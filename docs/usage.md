@@ -1,5 +1,7 @@
 # Usage
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Normalize once
 
 Public dimensions and mass use `measurement`. A request chooses positive
@@ -68,3 +70,6 @@ request has an explicit nonzero cost-map policy.
 Runnable pack-all, fixed-container, verification, and custom-constraint
 examples are maintained in `example_test.go` and checked by
 `golib docs check --module .`.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

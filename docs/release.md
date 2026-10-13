@@ -1,5 +1,7 @@
 # Release and compatibility policy
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 The module language minimum remains Go 1.27.0. Repository verification and CI
 use the patched Go 1.27.2 producer selected by `.go-version`, the top-level
 catalog and `go.work`; module minima and nested-module dependencies are unchanged.
@@ -62,3 +64,6 @@ the N-1 contract that the first schema transition must continue to decode.
 A heuristic improvement may change placements while preserving semantics;
 consumers requiring identical bytes must pin module version, normalized
 request, options, and seed.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

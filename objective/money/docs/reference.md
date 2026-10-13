@@ -1,5 +1,7 @@
 # Exact-money knapsack objective technical guide
 
+[Documentation index](../../../docs/README.md) · [Repository entry](../../../README.md)
+
 This guide contains the complete behavioral and operational reference. Start
 with the [package overview](../README.md).
 
@@ -178,3 +180,6 @@ module resolution.
 ## Documentation
 
 See the [root package documentation](https://github.com/faustbrian/go-knapsack/blob/v2.0.0/README.md) for objective semantics, verification, and related packages.
+
+Choose the next guide in the [documentation index](../../../docs/README.md)
+or return to the [repository entry](../../../README.md) for installation and ownership.

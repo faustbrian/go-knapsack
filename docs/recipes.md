@@ -1,5 +1,7 @@
 # E-commerce recipes
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Multiple box types and finite stock
 
 Supply every eligible `ContainerType` with a stable ID and either
@@ -40,3 +42,6 @@ Inspect typed errors with `errors.Is` and structured unpacked diagnostics.
 Distinguish impossible dimensions, overweight items, insufficient stock,
 heuristic no-placement, proven infeasibility, and budget exhaustion. Never map
 all of these conditions to `infeasible`.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

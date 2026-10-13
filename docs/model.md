@@ -1,5 +1,7 @@
 # Physical and result model
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Coordinates and cuboids
 
 The origin is the lower-left-front corner. X is width, Y is depth, and Z is
@@ -56,3 +58,6 @@ proof-label consistency, but does not replay exhaustive search or authenticate
 `Work.Solver`. Use `verify.PlanContext`, require its returned error to be nil and
 inspect both `Result.Err` and findings before trusting supplied results. Global
 optimality/infeasibility requires trusted solver evidence, not a status string.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

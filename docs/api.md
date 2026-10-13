@@ -1,5 +1,7 @@
 # API and option reference
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 The root package owns physical items, immutable container types and normalized
 requests,
 plans, statuses, typed errors, and resource limits. `geometry` owns checked
@@ -82,3 +84,6 @@ quantities use `github.com/faustbrian/go-measurement/v2`. Update these imports
 together. The root module remains at the repository root on main, and its
 serialized request and plan schema is still v1. Independently versioned nested
 adapters do not acquire a new dependency until their own migration is delivered.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

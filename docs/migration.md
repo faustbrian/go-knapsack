@@ -1,5 +1,7 @@
 # Migration
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 ## Root module v2
 
 Use `github.com/faustbrian/go-knapsack/v2` and
@@ -40,3 +42,6 @@ Treat old solver output as untrusted: translate it into a `knapsack.Plan` and
 run `verify.Plan`. A heuristic failure is `best_known` or a work-limit result,
 never proven infeasibility. Comparative tests must remove unsupported semantics
 from both sides and compare solution validity and quality before runtime.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

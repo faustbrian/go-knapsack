@@ -1,5 +1,7 @@
 # Resource and trust model
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Validate before expansion or allocation. Keep counts, IDs, diagnostics,
 candidates, nodes, branches, memory, and input
 bytes bounded. Exact solving is for small trusted or conservatively bounded
@@ -44,3 +46,6 @@ other supply-chain gates through `golib check --all` and
 `golib release dry-run`. NilAway analyzes production files under the module
 import prefix and remains visible but advisory until its signal policy is
 promoted separately.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

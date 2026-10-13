@@ -1,5 +1,7 @@
 # Capability matrix
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 | Capability | Status | Notes |
 | --- | --- | --- |
 | Pack all | Implemented | Variable container types and finite stock |
@@ -34,3 +36,6 @@
 Reference revisions, source hashes, license classifications, differential
 semantic subsets, and corpus provenance are in `verification/references.tsv`,
 `verification/corpora.tsv`, `integration/references`, and `NOTICE`.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.

@@ -1,5 +1,7 @@
 # Architecture
 
+[Documentation index](README.md) · [Repository entry](../README.md)
+
 Dependencies point inward toward the root immutable domain and exact geometry.
 Solvers generate candidates; the verifier does not call their placement
 predicates. Optional money and visualization functionality remain additive.
@@ -31,3 +33,6 @@ physical rules remain direct solver/verifier code rather than a slower generic
 callback path. Extension interfaces never expose mutable bins or search state.
 They are trusted in-process application extensions: the library bounds their
 inputs and outputs but cannot preempt arbitrary Go code that ignores context.
+
+Choose the next guide in the [documentation index](README.md)
+or return to the [repository entry](../README.md) for installation and ownership.
