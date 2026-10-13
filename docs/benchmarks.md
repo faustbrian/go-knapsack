@@ -95,8 +95,8 @@ serializing a discarded canonical tie, the complete-search measurements were:
 
 | Metric | Before scoring optimization | After scoring optimization | Current budget |
 | --- | ---: | ---: | ---: |
-| p50 ns | 558,784 | 392,290 | 600,000 |
-| p95 ns | 582,746 | 442,253 | 800,000 (unchanged) |
+| p50 ns | 558,784 | 392,290 | 1,000,000 |
+| p95 ns | 582,746 | 442,253 | 1,200,000 |
 | Maximum B/op | 1,096,392 | 880,467 | 1,048,576 |
 | Maximum allocs/op | 5,647 | 5,347 | 6,000 |
 | Candidates/op | 171 | 171 | exactly 171 |
@@ -108,14 +108,27 @@ The unchanged benchmark source SHA-256 is
 `c4a929f1f05bff4c0894d2da7394d76b1ee1aa23c1c50915706c8c6d59ed85fc`;
 module and dependency selections were identical. These are focused local
 measurements, not a complete benchmark qualification or a public latency SLA.
-Post-optimization Linux measurements were not available when selecting this
-calibration; the native benchmark operation must still enforce the budgets on
-its actual execution environment.
+The first Linux qualification of this scoring correction,
+[run 38469017853](https://github.com/faustbrian/go-knapsack/actions/runs/38469017853)
+at `da1230be89d868ca996ee2ac133e6982c9cb69c0`, used Go 1.27.2 on
+Linux/amd64, AMD EPYC 7763, benchmark parallelism suffix 4 and ten 100 ms
+samples. Tiny Exact measured p50 888,188 ns, p95 898,474 ns, maximum 880,713
+B/op and 5,347 allocs/op; it retained 171 placements, 82 nodes and 100%
+utilization. Its earlier 600,000/800,000 ns latency budgets failed, while
+allocation, byte, search-work and every RSS budget passed. This failed run
+is not passing qualification. The earlier complete pre-optimization Linux
+[run 38451595094](https://github.com/faustbrian/go-knapsack/actions/runs/38451595094)
+used a different AMD EPYC 9V45 and measured 641,643/651,042 ns; it is not a
+matched host comparison and does not prove a Linux speedup or regression.
 
-The revised p50, byte and allocation budgets provide approximately 53%, 19% and
-12% margins above the measured optimized values. The p95 budget, one-container
-and 100% utilization requirements, all other cases and every RSS budget remain
-unchanged. Historical v1 raw samples, hashes and `verification/evidence.json`
+The current 1,000,000/1,200,000 ns budgets provide approximately 12%/34%
+headroom over the measured supported-host median/tail. The byte and allocation
+budgets retain about 19%/12% headroom. This envelope is selected from actual
+local and hosted observations, not a public latency SLA or automatic host-based
+waiver. Native qualification must still pass it on its actual execution host.
+Only this case's two latency budgets change; the one-container, exact-placement,
+100% utilization, all other case and every RSS requirement remain unchanged.
+Historical v1 raw samples, hashes and `verification/evidence.json`
 retain their original identities; the historical integrity assertion checks the
 original threshold hash rather than attributing those results to today's budgets.
 

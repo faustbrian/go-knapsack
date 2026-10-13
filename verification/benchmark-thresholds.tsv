@@ -1,6 +1,6 @@
 benchmark	p50_ns	p95_ns	max_B_per_op	max_allocs_per_op	boxes_per_op	candidates_per_op	min_util_pct	unpacked_per_op
 BenchmarkHeuristicOrdinaryOrder	8000000	12000000	7000000	70000	1.000	1330.0	100.0	-
-BenchmarkExactTinyFixed	600000	800000	1048576	6000	1.000	171.0	100.0	-
+BenchmarkExactTinyFixed	1000000	1200000	1048576	6000	1.000	171.0	100.0	-
 BenchmarkVerifyOrdinaryOrder	200000	400000	90000	700	-	-	-	-
 BenchmarkHeuristicOrientationHeavy	3000000	6000000	2200000	21000	1.000	2184.0	100.0	-
 BenchmarkHeuristicWeightLimited	3000000	6000000	2400000	8000	4.000	200.0	50.0	-
