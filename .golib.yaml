@@ -19,6 +19,13 @@ mutation:
       archive: .verification/mutation/bootstrap/objective-gomoney.zip
       ledger: .verification/mutation/migration-ledger.json
 
+# Native coverage still collects the complete root profile; the mandatory
+# package-test operation owns the narrowly source-bound release exception.
+coverage:
+  modules:
+    - module: .
+      mode: evidence
+
 api:
   baselines:
     - module: .

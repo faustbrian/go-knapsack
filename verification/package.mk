@@ -4,6 +4,8 @@ BENCH_TIME ?= 100ms
 .PHONY: benchmark docs package-test
 
 package-test:
+	$(GO) test scripts/coverage-exception/check.go scripts/coverage-exception/check_test.go
+	./scripts/check-coverage.sh
 	$(GO) test -race . ./solver \
 		-run '^(TestProductionContainsNoGoroutineLaunches|TestSolversStopAfterRepeatedCancellation)$$' \
 		-count=5

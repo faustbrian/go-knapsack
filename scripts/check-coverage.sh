@@ -1,11 +1,9 @@
 #!/bin/sh
 set -eu
 
-profile="${TMPDIR:-/tmp}/knapsack-coverage.out"
-packages="$(go list ./... | grep -v '/knapsacktest$' | paste -sd, -)"
-go test ./... -coverpkg="$packages" -coverprofile="$profile" -count=1
-total="$(go tool cover -func="$profile" | awk '/^total:/ {gsub("%", "", $3); print $3}')"
-test "$total" = "100.0" || {
-	printf 'meaningful production statement coverage is %s%%, want 100.0%%\n' "$total" >&2
-	exit 1
-}
+# The same strict owner acceptance runs locally and from package-test.
+profile="$(mktemp "${TMPDIR:-/tmp}/knapsack-coverage.XXXXXX")"
+trap 'rm -f "$profile"' EXIT HUP INT TERM
+packages="$(go run scripts/coverage-exception/check.go --targets)"
+go test ./... -covermode=atomic -coverpkg="$packages" -coverprofile="$profile" -count=1
+go run scripts/coverage-exception/check.go --profile "$profile"
