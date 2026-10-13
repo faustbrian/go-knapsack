@@ -505,6 +505,42 @@ func TestExactObjectiveFailuresRemainFatalAtEveryPhase(t *testing.T) {
 		}
 	}
 }
+
+// Cancel the real caller context from objective verification, after valid
+// components were scored. Cancellation must retain a valid partial plan rather
+// than become an invariant failure returning a zero plan.
+func TestExactVerificationCancellationRetainsPartialItemConservation(t *testing.T) {
+	request := completenessRequest(t, 1, knapsack.FiniteStock(1))
+	ctx, cancel := context.WithCancel(t.Context())
+	defer cancel()
+	goal := &phaseObjective{cancel: cancel, cancelComponent: 2}
+	plan, err := phasePack(true, ctx, request, goal)
+	if goal.components != 2 || !errors.Is(err, context.Canceled) {
+		t.Fatalf("verification cancellation witness: components=%d error=%v", goal.components, err)
+	}
+	if plan.Status() != knapsack.StatusBudgetExhausted || plan.Termination() != knapsack.TerminationCancelled {
+		t.Errorf("verification cancellation lost partial result: status=%q termination=%q", plan.Status(), plan.Termination())
+	}
+	seen := make(map[string]int)
+	for _, placement := range plan.Placements() {
+		seen[placement.ItemID]++
+	}
+	for _, id := range plan.UnpackedItemIDs() {
+		seen[id]++
+	}
+	if len(seen) != request.ItemCount() {
+		t.Errorf("partial plan lost item conservation: got %d IDs, want %d", len(seen), request.ItemCount())
+	}
+	for _, item := range request.Items() {
+		if seen[item.ID] != 1 {
+			t.Errorf("item %q appears %d times across placements and unpacked IDs", item.ID, seen[item.ID])
+		}
+	}
+	if result := verify.Plan(request, plan, verify.AllowUnpacked()); !result.Valid() {
+		t.Errorf("retained cancellation partial plan is invalid: %+v", result)
+	}
+}
+
 func TestExactObjectiveCancellationStopsReplayAtEveryPhase(t *testing.T) {
 	request := completenessRequest(t, 2, knapsack.FiniteStock(2))
 	for _, fixed := range []bool{true, false} {

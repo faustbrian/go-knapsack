@@ -4,222 +4,214 @@
     {
       "module_directory": ".",
       "package_directory": "solver",
-      "source_digest": "2db9c07ae7bc0f7d0f0127c8c19502accd17002bc0185cdd6a1dea534ac15e4b",
+      "source_digest": "85eaeae36dc0e7d292abca393726a85b3af00b38692279482d6c7e2e64c98177",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 68, "column": 27,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 81, "column": 27,
           "contract_domain": "Public Heuristic.PackFixed request-memory admission",
           "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus positive per-item/bin overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 228, "column": 27,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 243, "column": 27,
           "contract_domain": "Public Heuristic.PackAll request-memory admission",
           "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus positive per-item/bin overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 67, "column": 27,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 71, "column": 27,
           "contract_domain": "Public Exact.PackAll request-memory admission",
           "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus per-item/bin and exact-search overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 339, "column": 27,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 470, "column": 27,
           "contract_domain": "Public Exact.PackFixed request-memory admission",
           "reason": "Replacing request memory > maximum with >= changes only equality. The unchanged immediately following workingMemoryAvailable check reserves twice the request memory plus per-item/bin and exact-search overhead. With valid positive limits it rejects equality with the same zero plan and ErrMemoryBudgetExhausted. All other request-memory paths are unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 75, "column": 21,
+          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 88, "column": 21,
           "contract_domain": "Public Heuristic.PackFixed normalized request collection admission",
           "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. The independent empty-instances predicate is unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 235, "column": 21,
+          "file_name": "heuristic.go", "type": "INVERT_LOGICAL", "line": 250, "column": 21,
           "contract_domain": "Public Heuristic.PackAll normalized request collection admission",
           "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. No supported producer can create exactly one empty collection."
         },
         {
-          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 74, "column": 21,
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 78, "column": 21,
           "contract_domain": "Public Exact.PackAll normalized request collection admission",
           "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. No supported producer can create exactly one empty collection."
         },
         {
-          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 347, "column": 21,
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 480, "column": 21,
           "contract_domain": "Public Exact.PackFixed normalized request collection admission",
           "reason": "Replacing the empty-items OR empty-container-types predicate with AND is equivalent for supported normalized requests: successful constructors retain both nonempty collections, immutable accessors copy them, and WithLimits cannot change them. A zero NormalizedRequest with valid WithLimits reaches this guard with both collections empty, making both predicates true. The independent empty-instances predicate is unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 184, "column": 46,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 199, "column": 46,
           "contract_domain": "Public Heuristic.PackAll improvement-pass admission after successful primary packing",
           "reason": "Replacing used >= maximum candidates with > changes only equality. The primary packAllPass returns ErrBudgetExhausted whenever it uses the inclusive candidate limit; PackAll returns that error and primary result before this guard. A successful primary result therefore uses strictly fewer candidates, and the changed equality arm cannot alter improvement admission or results."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 216, "column": 22,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 345, "column": 22,
           "contract_domain": "Public Exact.PackAll variable configuration branch-budget classification",
           "reason": "Replacing configurations > maximum branches with >= changes only equality. At equality the original remaining disjunct compares unsigned work.Branches >= maximum-configurations, which is >= zero and always true, yielding the identical BranchLimit. Above the limit both forms short-circuit before unsigned subtraction; below it both forms and every other classification are unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 154, "column": 44,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 167, "column": 44,
           "contract_domain": "Public Heuristic.PackFixed final item-conservation verification",
           "reason": "Replacing len(unpacked) > 0 with >= changes policy only when AllowUnpacked is false and the constructed plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. All other findings, truncation, callback execution, cancellation checks and errors are unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 214, "column": 62,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 229, "column": 62,
           "contract_domain": "Public Heuristic.PackAll selected improvement-plan item-conservation verification",
           "reason": "Replacing len(selected.UnpackedItemIDs()) > 0 with >= changes policy only when AllowUnpacked is false and the selected plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. The accessor executes identically, and all other findings, truncation, callback execution, cancellation checks and errors are unchanged."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 306, "column": 44,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 321, "column": 44,
           "contract_domain": "Public Heuristic.PackAll primary and alternate pass item-conservation verification",
           "reason": "Replacing len(unpacked) > 0 with >= changes policy only when AllowUnpacked is false and the constructed plan has no unpacked IDs. The verifier's sole requireAll predicate is !packed && (requireAll || !listed); with an empty unpacked collection listed is false for every request item, so both policies require every item identically. All other findings, truncation, callback execution, cancellation checks and errors are unchanged."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 269, "column": 13,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 398, "column": 13,
           "contract_domain": "Public Exact.PackAll maximum container-volume lower bound",
           "reason": "Replacing volume > maximumVolume with >= changes only equality, assigning the identical int64 scalar. It adds no callbacks, allocations or loop extensions, and preserves the lower bound, enumeration, search work and cancellation behavior."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 273, "column": 80,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 402, "column": 80,
           "contract_domain": "Public Exact.PackAll effective gross-capacity lower bound",
           "reason": "Replacing gross minus tare < weight with <= changes only equality, assigning the identical existing capacity. Public normalization validates nonnegative tare and gross at least tare, so the repeated subtraction cannot overflow. Lower bounds, enumeration, work and cancellation remain unchanged."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 276, "column": 13,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 405, "column": 13,
           "contract_domain": "Public Exact.PackAll maximum effective container-weight lower bound",
           "reason": "Replacing weight > maximumWeight with >= adds only assignment of the identical scalar at equality, including effective zero gross capacity. Lower bounds, enumeration, search work and cancellation behavior are unchanged."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 282, "column": 17,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 411, "column": 17,
           "contract_domain": "Public Exact.PackAll volume-versus-weight lower-bound selection",
           "reason": "Replacing volumeBound > weightBound with >= changes only equality, returning volumeBound instead of the identical weightBound. The same starting container count preserves enumeration, callbacks, search work and cancellation boundaries."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 297, "column": 45,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 426, "column": 45,
           "contract_domain": "Public Exact.PackAll platform-sized aggregate lower-bound admission",
           "reason": "Replacing quotient.Int64() > platform maximum int with >= changes only equality. The added branch returns platform maximum, while the original conversion returns that same representable int. The preceding non-int64 short circuit is unchanged on both 32-bit and 64-bit targets. Lower-bound and search behavior remain identical."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 944, "column": 9,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 978, "column": 9,
           "contract_domain": "Public heuristic and exact fixed-search descending item-volume ordering",
           "reason": "Replacing av > bv with >= changes only equality, but the comparison is evaluated solely inside the explicit av != bv guard. Equal volumes never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 950, "column": 15,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 984, "column": 15,
           "contract_domain": "Public heuristic and exact fixed-search descending item-weight ordering",
           "reason": "Replacing a.Weight > b.Weight with >= changes only equality, but the comparison is evaluated solely inside the explicit a.Weight != b.Weight guard. Equal weights never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 959, "column": 17,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 993, "column": 17,
           "contract_domain": "Public heuristic and exact variable-search ascending container-priority ordering",
           "reason": "Replacing a.Priority < b.Priority with <= changes only equality, but the comparison is evaluated solely inside the explicit a.Priority != b.Priority guard. Equal priorities never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 967, "column": 9,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 1001, "column": 9,
           "contract_domain": "Public heuristic and exact variable-search ascending container-volume ordering",
           "reason": "Replacing av < bv with <= changes only equality, but the comparison is evaluated solely inside the explicit av != bv guard. Equal volumes never reach it. Comparator results, sort work, search order, callbacks and cancellation boundaries remain identical."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 534, "column": 18,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 549, "column": 18,
           "contract_domain": "Heuristic gravity-origin generation for normalized positive dimensions, supported orientations and ordered PPM bounds",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, aliasing or verifier change. Changing lower.Sign()<0 to <=0 adds only the zero case, where lower.SetInt64(0) preserves its value. Lower is a fresh private big.Int and cannot alias caller state. Feasibility, returned origins, midpoint, sorting, charged work, callbacks and plans remain unchanged. Native37715219180 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 537, "column": 42,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 552, "column": 42,
           "contract_domain": "Heuristic gravity-origin generation for normalized positive dimensions, supported orientations and ordered PPM bounds",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, aliasing or verifier change. Changing upper.Cmp(maximumOrigin)>0 to >=0 adds only equality, where upper.SetInt64(maximumOrigin) preserves its value. Upper is a fresh private big.Int distinct from lower and caller state. Feasibility, returned origins, midpoint, sorting, charged work, callbacks and plans remain unchanged. Native37715219180 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 976, "column": 10,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 1010, "column": 10,
           "contract_domain": "Point ordering for all geometry.Point values, including signed extremes, through sorting, compaction, placement tie-breaks and rollback reconstruction",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed 2026-10-08; expires 2026-11-07 or any owning comparator, dominating guard, caller-domain or verifier change. Changing a.Z<b.Z to <= differs only on equality, excluded by the dominating a.Z!=b.Z guard. Value arguments and comparison results remain identical for every point pair, preserving sorting, candidate order, tie-breaks and reconstruction. Native37715219180 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 982, "column": 10,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 1016, "column": 10,
           "contract_domain": "Point ordering for all geometry.Point values, including signed extremes, through sorting, compaction, placement tie-breaks and rollback reconstruction",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed 2026-10-08; expires 2026-11-07 or any owning comparator, dominating guard, caller-domain or verifier change. Changing a.Y<b.Y to <= differs only on equality, excluded by the dominating a.Y!=b.Y guard. Value arguments and comparison results remain identical for every point pair, preserving sorting, candidate order, tie-breaks and reconstruction. Native37715219180 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 770, "column": 61,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 795, "column": 61,
           "contract_domain": "Shared heuristic and exact support-stack depth for every finite support graph admitted by normalized public packing requests",
           "reason": "Independent reviewer /root/knapsack_stack_equivalence_review; reviewed 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, scalar-type or verifier change. Changing depth>maximum to >= adds only equality, assigning the identical private uint32 maximum. Recursive calls, arithmetic, graph traversal and caller MaxStackCount comparison execute identically; no callback, context boundary, allocation or charged work changes. Public plan, support acceptance and errors are unchanged. Native37744677605 remains FAILED with this coordinate LIVED; no other survivor is accepted."
         },
+
+
         {
-          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 459, "column": 65,
-          "contract_domain": "Public Exact.PackFixed finite normalized requests with trusted ordinary collaborators and stable finite side-effect-free error classification",
-          "reason": "Independent reviewer /root/knapsack_stack_equivalence_review; reviewed 2026-10-08; expires 2026-11-07 or any relevant verifier, classification/error contract, terminal-field consumer, rollback/stopping or public-return change. Changing the first OR to AND only chooses the private terminal field receiving the identical verification error object. The leaf returns immediately; identical recursive rollback and stopped checks precede context or further callbacks. Both fields return the same zero public plan and error. Verification uses Background, not the owner's cancellation context. Admitted errors are sentinels, standard wrapping/join, or deterministic side-effect-free Is/Unwrap. Predicate invocation order/count differs; observable, panicking, blocking or stateful classification and identical work/allocation profiles are not claimed. Native37760395893 remains FAILED with this coordinate LIVED; no other survivor is accepted."
-        },
-        {
-          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 459, "column": 113,
-          "contract_domain": "Public Exact.PackFixed finite normalized requests with trusted ordinary collaborators and stable finite side-effect-free error classification",
-          "reason": "Independent reviewer /root/knapsack_stack_equivalence_review; reviewed 2026-10-08; expires 2026-11-07 or any relevant verifier, classification/error contract, terminal-field consumer, rollback/stopping or public-return change. Changing the second OR to AND only chooses the private terminal field receiving the identical verification error object. The leaf returns immediately; identical recursive rollback and stopped checks precede context or further callbacks. Both fields return the same zero public plan and error. Verification uses Background, not the owner's cancellation context. Admitted errors are sentinels, standard wrapping/join, or deterministic side-effect-free Is/Unwrap. Predicate invocation order/count differs; observable, panicking, blocking or stateful classification and identical work/allocation profiles are not claimed. Native37760395893 remains FAILED with this coordinate LIVED; no other survivor is accepted."
-        },
-        {
-          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 634, "column": 9,
+          "file_name": "exact.go", "type": "INVERT_LOGICAL", "line": 797, "column": 9,
           "contract_domain": "Exact lattice admission for constructor-valid positive dimensions with representable volume",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing the first OR to AND is masked: normalized volume makes product overflow unreachable, and coordinate-byte overflow necessarily also causes point-byte overflow rejected by the unchanged guard. Arbitrary invalid scalar dimensions are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 635, "column": 19,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 798, "column": 19,
           "contract_domain": "Exact lattice admission for constructor-valid positive dimensions",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing coordinateBytes>memoryLimit to >= adds equality only; equality leaves zero remaining storage and positive point bytes independently refuse it. Inclusive combined-storage admission is unchanged. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 707, "column": 43,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 870, "column": 43,
           "contract_domain": "Exact placement support for constructor-valid items and owned nonoverlapping bins",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing positive required support to nonnegative adds only the zero requirement, whose ratio check succeeds for nonnegative support area. Positive support is independently enforced by physicalPlacementAllowed. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_NEGATION", "line": 707, "column": 43,
+          "file_name": "exact.go", "type": "CONDITIONALS_NEGATION", "line": 870, "column": 43,
           "contract_domain": "Exact placement support for constructor-valid items and owned nonoverlapping bins",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Negating the positive required-support gate skips only a redundant ratio check: physicalPlacementAllowed independently enforces positive support, and the extra zero-requirement check always succeeds for nonnegative support area. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 774, "column": 20,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 940, "column": 20,
           "contract_domain": "Exact objective preference with trusted bounded collaborators through SafeCompare",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing comparison<0 to <= adds equality only. Successful SafeCompare equality means complete canonical plan-byte identity, so retaining either copy publishes the same plan. Error paths discard the preference boolean. Callback invocation counts and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 285, "column": 4,
+          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 300, "column": 4,
           "contract_domain": "Heuristic bounded diagnostic construction after the configured diagnostic cap",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Replacing break with continue only scans remaining bounded unpacked IDs after the diagnostic cap. Every iteration takes the same cap guard and appends nothing; output, work counters and callbacks are unchanged. Identical traversal cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 444, "column": 6,
+          "file_name": "heuristic.go", "type": "INVERT_LOOPCTRL", "line": 459, "column": 6,
           "contract_domain": "Heuristic overlap screening of owned bins and generated placement candidates",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Replacing break with continue scans later placements after sticky local blocked becomes true. It cannot clear blocked, and the rejected candidate and private supporter metadata are discarded before callback or publication. Identical scan cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 478, "column": 133,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 493, "column": 133,
           "contract_domain": "Heuristic placement selection through the actual deterministic placement comparators",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing comparator<0 to <= adds ties only. Actual comparators distinguish origin, dimensions and orientation; tied candidates for the same item and container therefore have identical placements and supporter sets. Arbitrary fabricated comparators and callback-count equivalence are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 690, "column": 50,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 707, "column": 50,
           "contract_domain": "Shared physical support checks for constructor-valid items and owned nonoverlapping bins",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing required support>0 to >= adds only zero requirement. The extra ratio check succeeds for nonnegative support area; positive support enforcement, placement acceptance and output are unchanged. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 738, "column": 16,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 763, "column": 16,
           "contract_domain": "Shared support-load propagation over valid nonoverlapping positive-height geometry",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing positive support total to nonnegative enters the zero case only. Every support edge has positive area and their sum is bounded by the footprint, so zero means no edges and the additional loop is empty. No load, callback or public result changes. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 837, "column": 25,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 862, "column": 25,
           "contract_domain": "Final supporter metadata for admitted placements with nonnegative origins and positive heights",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reconciled against db4ea36329d34a39a8a8e70499d44247c3e65298 on 2026-10-08; expires 2026-11-07 or any owning helper, caller-domain, source or verifier change. Changing origin.Z>0 to >= adds ground placements only. A supporter would need a top face at zero, impossible with positive height and nonnegative origin. Extra bounded scans retain the same empty supporter metadata. Identical scan cost and cancellation-race timing are excluded. Historical native37834382586 remains FAILED; current native qualification is not claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 634, "column": 49,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 797, "column": 49,
           "contract_domain": "Linux/amd64 Go 1.27 native mutation campaign only; excludes 386 and all changed runtime/platform campaigns",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any runtime, platform, owning helper, source or verifier change. Replacing count>MaxInt with >= adds equality only. On amd64 count==MaxInt64 necessarily overflows the unchanged checked point-byte product count*24, so !pointsOK already refuses the same zero lengths. On 386 MaxInt32 equality is representable and this mutant is viable, explicitly not equivalent. Campaign fingerprints bind GOARCH, and reviewed identities killed or absent from a report are rejected; the prose platform restriction is not mechanically interpreted and a changed-platform campaign requires renewed review. The separate successful finite386 test is not mutant-kill evidence. Native37862076264 remains FAILED; no native pass is claimed."
         },
         {
-          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 645, "column": 18,
+          "file_name": "exact.go", "type": "CONDITIONALS_BOUNDARY", "line": 808, "column": 18,
           "contract_domain": "Linux/amd64 Go 1.27 native mutation campaign only; excludes 386 and all changed runtime/platform campaigns",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any runtime, platform, owning helper, source or verifier change. Replacing count>MaxInt with >= adds equality only. On amd64 count==MaxInt64 exceeds even MaxUint64/24, so the unchanged count>memoryLimit/24 independently refuses the same zero capacity. On 386 MaxInt32 equality is representable and this mutant is viable, explicitly not equivalent. Campaign fingerprints bind GOARCH, and reviewed identities killed or absent from a report are rejected; the prose platform restriction is not mechanically interpreted and a changed-platform campaign requires renewed review. The separate successful finite386 test is not mutant-kill evidence. Native37862076264 remains FAILED; no native pass is claimed."
         },
         {
-          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 867, "column": 28,
+          "file_name": "heuristic.go", "type": "CONDITIONALS_BOUNDARY", "line": 892, "column": 28,
           "contract_domain": "Interrupted heuristic publication with constructor-valid requests, owned bins and a complete unpacked partition",
           "reason": "Independent reviewer /root/knapsack_placement_final_review; reviewed against 9fc88a12be18d672df04a2049ddb87f9c9749a4c on 2026-10-09; expires 2026-11-08 or any owning helper, request domain, verifier or cancellation contract change. Replacing placement count>0 with >= adds verification only for zero-placement partial plans. Supported producers retain all request items in the unpacked partition, valid selected instances and zero packed totals, so AllowUnpacked verification accepts those grounded empty results. Public interruptedHeuristicPlan additionally verifies afterward. Fabricated malformed private states, identical allocation/traversal costs and cancellation-race timing are excluded. Native37862076264 remains FAILED with this coordinate LIVED; no native pass is claimed."
         }
@@ -228,52 +220,52 @@
     {
       "module_directory": ".",
       "package_directory": "objective",
-      "source_digest": "5ebf13afce9ff4e9d242e856fdfcadc62784e509b59d2635b33b195f8fc22f14",
+      "source_digest": "1a51af6b1fc46aac46e74b2137a679ef68a4b879357ac45373c2b9805bfa0ca8",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 241, "column": 13,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 255, "column": 13,
           "contract_domain": "Public ScorePlan maximum-height accumulation",
           "reason": "Replacing height > maximumHeight with >= changes only equality, where the additional assignment stores the identical existing value without a side effect. Every resulting height score and component is unchanged."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 254, "column": 22,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 268, "column": 22,
           "contract_domain": "Public ScorePlan minimum container-weight accumulation",
           "reason": "Replacing weight < minimumWeight with <= adds only an equality assignment of the already stored value. The first-container branch and all other paths are unchanged, preserving imbalance scores."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 257, "column": 22,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 271, "column": 22,
           "contract_domain": "Public ScorePlan maximum container-weight accumulation",
           "reason": "Replacing weight > maximumWeight with >= adds only an equality assignment of the already stored value. The first-container branch and all other paths are unchanged, preserving imbalance scores."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 245, "column": 25,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 259, "column": 25,
           "contract_domain": "Public ScorePlan signed priority overflow admission",
           "reason": "Replacing priority > 0 with >= adds only priority zero. Its remaining overflow predicate then requires packedPriority > MaxInt64, impossible for an int64 accumulator. Every rejection and exact sum is unchanged."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 245, "column": 84,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 259, "column": 84,
           "contract_domain": "Public ScorePlan signed priority underflow admission",
           "reason": "Replacing priority < 0 with <= adds only priority zero. Its remaining underflow predicate then requires packedPriority < MinInt64, impossible for an int64 accumulator. Every rejection and exact sum is unchanged."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 299, "column": 11,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 313, "column": 11,
           "contract_domain": "Public ScorePlan checked per-container signed weight accumulation",
           "reason": "Replacing value > 0 with >= adds only zero weight. Its remaining predicate requires current > MaxInt64, impossible for the int64 map accumulator; adding zero preserves the stored weight."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 299, "column": 57,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 313, "column": 57,
           "contract_domain": "Public ScorePlan checked per-container signed weight accumulation",
           "reason": "Replacing value < 0 with <= adds only zero weight. Its remaining predicate requires current < MinInt64, impossible for the int64 map accumulator; adding zero preserves the stored weight."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 262, "column": 19,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 276, "column": 19,
           "contract_domain": "Public ScorePlan signed container-weight imbalance admission",
           "reason": "Replacing minimumWeight < 0 with <= adds only a zero minimum. The other predicate then requires maximumWeight > MaxInt64, impossible for int64. Every admitted difference and overflow rejection is unchanged."
         },
         {
-          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 317, "column": 25,
+          "file_name": "objective.go", "type": "CONDITIONALS_BOUNDARY", "line": 331, "column": 25,
           "contract_domain": "Public Objective.Compare lexicographic criterion ordering",
           "reason": "Replacing left > right with >= changes only equality, which already takes the unconditional continue at lines313-314 before this comparison. That additional arm is unreachable, and ordering remains unchanged."
         }
@@ -282,14 +274,14 @@
     {
       "module_directory": ".",
       "package_directory": "geometry",
-      "source_digest": "9b7ac07e395665032269cea9495816dc033c9afe922315e30c383289701a0084",
+      "source_digest": "aa8c34ad6a871d896612939569cc470a37c702c9eb9154d9830096cbb3e209de",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "geometry.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 196,
+          "line": 201,
           "column": 8,
           "contract_domain": "Exact half-open interval overlap for supported cuboid adjacency and support-area consumers",
           "reason": "Replacing hi <= lo with hi < lo changes only equality. The original equality branch returns zero, while the changed equality path returns hi-lo, also exactly zero without overflow. All other comparisons and subtraction paths are unchanged, preserving every caller-visible overlap, adjacency and support-area result."
@@ -299,14 +291,14 @@
     {
       "module_directory": ".",
       "package_directory": ".",
-      "source_digest": "2afdbcfaa0ff13caab52fb57d267739b87f400b7b394e32b93af131d8f96a39b",
+      "source_digest": "90abf8a1364ce99875bd85891098823badd89132117814a6cd46f7f5d4c3137b",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "request.go",
           "type": "INVERT_LOGICAL",
-          "line": 165,
+          "line": 167,
           "column": 22,
           "contract_domain": "NewNormalizedRequest validation with the pinned go-measurement/v2 v2.0.2 Quantity.Dimension contract",
           "reason": "Replacing the first error OR with AND cannot admit a request: Quantity.Dimension delegates to Unit.Dimension, which returns Dimensionless on every error in the pinned dependency. LengthDimension and MassDimension are distinct from Dimensionless, so either individual error still triggers its unchanged dimension-mismatch predicate and returns ErrInvalidRequest before subsequent processing. Successful dimensions are unchanged. Current applicability reviewed 2026-10-08 by /root/knapsack_placement_final_review: the adopted v2.0.2 supplier preserves the prior v2.0.1 Go implementation and Dimension contract. Expires 2026-11-07 or any producer implementation, caller admission or verifier change; historical proof text is retained, not relabeled as a new native pass."
@@ -314,7 +306,7 @@
         {
           "file_name": "request.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 333,
+          "line": 337,
           "column": 10,
           "contract_domain": "Request construction memory accounting through the supported raw and normalized memory-estimate callers",
           "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported callers of memoryEstimate.add: addString always supplies size 1, and both raw and normalized accounting supply only the positive constant sizes 16, 64 and 256. The two predicates therefore evaluate identically for every reachable call, preserving the overflow guard, retained-byte estimate and budget-exhaustion result. No zero-size helper contract is claimed."
@@ -324,14 +316,14 @@
     {
       "module_directory": ".",
       "package_directory": "constraint",
-      "source_digest": "fcb44529348bd869db74b00b8c77e11a2f684957de0510afebbb782b9ce14e15",
+      "source_digest": "0537e4f5f5ec3b6c51b0894f350142fe8c336e16234a850d300cbd2b45f622b0",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "constraint.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 149,
+          "line": 155,
           "column": 10,
           "contract_domain": "Placement-view memory accounting through supported collection and string estimators",
           "reason": "Replacing size > 0 with size >= 0 is equivalent for all supported viewEstimate.add callers: addString supplies size 1, while placement and collection accounting supplies only the positive constant sizes 16, 64 and 256. Both predicates therefore evaluate identically for every reachable call, preserving overflow rejection and retained-byte accounting. No zero-size helper contract is claimed."
@@ -341,24 +333,24 @@
     {
       "module_directory": ".",
       "package_directory": "encoding",
-      "source_digest": "08d37c53db0f5cc12e25b8244ca594c6d5e41756fdf4d35eccc65ac8aeb2183b",
+      "source_digest": "c35a3b05108d24ec2ab3035b664aaae84671eeed05b8b59dbc66988d3e63b8ba",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "encoding.go",
           "type": "INVERT_LOGICAL",
-          "line": 299,
+          "line": 308,
           "column": 17,
-          "contract_domain": "Object closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token",
+          "contract_domain": "Object closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token; current Go 1.27.2 applicability follows independently reviewed byte-identical encoding/json stream.go, scanner.go and decode.go source between the authenticated Go 1.27.1 and Go 1.27.2 tags, without relabeling historical execution",
           "reason": "Replacing error OR mismatched closing token with AND is equivalent under supported validateStrict and recursive validateValue calls. The decoder tracks the object delimiter: Token returns the matching closing brace with nil error, or a nil token with a nonnil error. Both predicates therefore agree in either reachable case. Fabricated internal tokens or mismatched decoder state are not supported inputs."
         },
         {
           "file_name": "encoding.go",
           "type": "INVERT_LOGICAL",
-          "line": 318,
+          "line": 327,
           "column": 17,
-          "contract_domain": "Array closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token",
+          "contract_domain": "Array closing tokens from the same Go 1.27.1 JSON decoder that supplied the opening token; current Go 1.27.2 applicability follows independently reviewed byte-identical encoding/json stream.go, scanner.go and decode.go source between the authenticated Go 1.27.1 and Go 1.27.2 tags, without relabeling historical execution",
           "reason": "Replacing error OR mismatched closing token with AND is equivalent under supported validateStrict and recursive validateValue calls. The decoder tracks the array delimiter: Token returns the matching closing bracket with nil error, or a nil token with a nonnil error. Both predicates therefore agree in either reachable case. Fabricated internal tokens or mismatched decoder state are not supported inputs."
         }
       ]
@@ -366,14 +358,14 @@
     {
       "module_directory": ".",
       "package_directory": "verify",
-      "source_digest": "eae67ee56d33deebd052ad565151c5988615e289e2ccece0d47328094ae359da",
+      "source_digest": "064d89120c73bba0343abb624801bc63029f17ecb0c78eae9e62a8fc202a253a",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 495,
+          "line": 510,
           "column": 38,
           "contract_domain": "Verifier support threshold under constructor-valid normalized requests and bounded public plans",
           "reason": "At zero required support, changing > to >= only adds a union calculation. Its nonnegative big.Int area cannot be less than the zero threshold. Findings and errors remain identical. Identical traversal/allocation cost and cancellation-race timing are excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -381,7 +373,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 532,
+          "line": 547,
           "column": 23,
           "contract_domain": "Verifier proportional load propagation through geometric support edges",
           "reason": "Every support edge has strictly positive geometric area. A zero big.Int total therefore means there are no edges; the newly entered propagation loop is empty. Positive totals, including overlapping malformed public plans with oversized sums, follow the identical branch. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -389,7 +381,7 @@
         {
           "file_name": "verify.go",
           "type": "ARITHMETIC_BASE",
-          "line": 571,
+          "line": 589,
           "column": 40,
           "contract_domain": "Support union area with default PlanLimits or support-rectangle count no greater than platform MaxInt/2",
           "reason": "Replacing initial endpoint-slice capacity len(rectangles)*2 with len(rectangles)/2 changes capacity only when the original multiplication is representable. Default PlanLimits cap placements at 10000; otherwise this disposition requires len(rectangles)<=platform MaxInt/2. Unchanged append operations produce the same complete endpoints and exact area. Larger caller-selected PlanLimits, arbitrary oversized private slices, allocation/peak-memory parity and timing are excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -397,7 +389,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 599,
+          "line": 617,
           "column": 19,
           "contract_domain": "Exact union area of geometric support rectangles",
           "reason": "At a touching Y endpoint, merging adjacent intervals or summing them separately yields identical exact big.Int covered length. Non-touching cases and X-sweep bounds are unchanged. Execution-cost parity is excluded. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -405,7 +397,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 606,
+          "line": 624,
           "column": 21,
           "contract_domain": "Support union area including empty sweep intervals",
           "reason": "Changing len(intervals)>0 to >=0 adds an operation only for no intervals. Initialized start and end are both zero, so the added contribution is exactly zero; returned big.Int area is unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -413,7 +405,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 689,
+          "line": 707,
           "column": 14,
           "contract_domain": "Verifier recursive stack depth including checked cycles",
           "reason": "Changing depth+1>maximum to >= changes only equality, assigning the identical uint32 maximum. Existing cycle/sentinel handling precedes the expression, and recursion, context checks and returned depth remain unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -421,7 +413,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 708,
+          "line": 726,
           "column": 11,
           "contract_domain": "Signed checked aggregation over all int64 totals and contributions",
           "reason": "Changing value>0 to >=0 changes only zero contribution. For zero, the unchanged total>MaxInt64-value predicate is impossible for an int64 total. Acceptance and resulting total remain identical. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -429,7 +421,7 @@
         {
           "file_name": "verify.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 708,
+          "line": 726,
           "column": 56,
           "contract_domain": "Signed checked aggregation over all int64 totals and contributions",
           "reason": "Changing value<0 to <=0 changes only zero contribution. For zero, the unchanged total<MinInt64-value predicate is impossible for an int64 total. Acceptance and resulting total remain identical. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. This disposition does not relabel the failed historical campaign."
@@ -439,14 +431,14 @@
     {
       "module_directory": ".",
       "package_directory": "visualize",
-      "source_digest": "fec65f8c3e84bd3c612207a2df19a6e40bc6109f68f56852b32c7731f4fbaabc",
+      "source_digest": "20986bb096b8aac9b4d40b0b8abf8bafea0556d90bf16aa9e8642b4f1c94f90c",
       "gremlins_version": "v0.6.0",
       "gremlins_verifier_sha256": "390cf4085a0063fe5dcaa29ce942ea4cb8c7876347da90376b65dc8c5c811104",
       "mutations": [
         {
           "file_name": "svg.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 42,
+          "line": 49,
           "column": 19,
           "contract_domain": "SVG output for constructor-valid normalized requests and independently verified immutable plans",
           "reason": "Changing X>1000000 to >= differs only at equality. Width starts at 10 and increases by admitted positive X plus 10. At X=1000000 the unchanged cumulative guard requires width>-10 and necessarily refuses the same empty output and ErrRenderLimit before rendering. Other inputs and all subsequent predicates are unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. Historical run37871606162 remains failed; no native pass is inferred."
@@ -454,7 +446,7 @@
         {
           "file_name": "svg.go",
           "type": "CONDITIONALS_BOUNDARY",
-          "line": 46,
+          "line": 53,
           "column": 19,
           "contract_domain": "SVG maximum scene height for independently verified admitted containers",
           "reason": "Changing Y>height to >= changes only equality, assigning the existing height its identical value. There are no callbacks, charged work or cancellation checks in this assignment. Subsequent predicates, SVG bytes and errors are unchanged. Independently classified 2026-10-09 by /root/knapsack_placement_final_review; expires 2026-11-08 or any owning source, producer, verifier or relevant environment change. Historical run37871606162 remains failed; no native pass is inferred."
