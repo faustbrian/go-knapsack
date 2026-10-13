@@ -22,5 +22,22 @@ heuristic placement, resource exhaustion, and proven infeasibility. Do not
 replace a production packer from runtime-only benchmarks; compare feasibility
 and objective quality on identical semantics.
 
+## Corrected Exact search
+
+The corrected Exact solver searches every admitted integer-lattice origin rather
+than only compact face coordinates. This restores feasible-placement and proof
+contracts, but can require more work and allocation on the same input. The tiny
+fixed fixture now visits 82 nodes and attempts 171 placements instead of 16 and
+123. Component-only scoring avoids unused canonical serialization; public full
+scores and canonical comparison ties are unchanged.
+
+Re-evaluate representative orders and choose the existing node, branch,
+candidate and memory limits for the application's resource envelope. Resource
+exhaustion is not proven infeasibility; retain verified partial output and its
+termination classification where the API provides it. No caller repin, new
+option or API migration is required by the scoring optimization itself.
+[Benchmark calibration](benchmarks.md#complete-search-calibration-2026-10-13)
+is fixture- and environment-specific, not a universal performance guarantee.
+
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.

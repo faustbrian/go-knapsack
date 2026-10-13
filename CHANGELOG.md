@@ -18,6 +18,10 @@ money adapters retain their independently published versions.
 
 ### Fixed
 
+- Avoid unused canonical serialization during native component-only scoring
+  while retaining checked metric values, public full scores and canonical ties.
+  The tiny Exact regression budget reflects complete admitted lattice work;
+  historical benchmark evidence retains its original identities.
 - Preserve objective/constraint error origin through all Exact scoring and
   verification phases. Budget/proof-shaped callback errors remain fatal errors;
   actual operation cancellation stops verification replay and retains safe state.
@@ -41,9 +45,9 @@ money adapters retain their independently published versions.
 ### Source accountability
 
 Frozen source range: `v2.0.1` (`2ac044ebf0fc7a04b0ff7dd9eafbf72d5187a576`)
-through `6144e02002110967aa117c3356e27ae9e555e2a5`. The release-metadata
-change is outside this range; each of its 12 non-merge source commits is
-accounted for exactly once below. Already-published adapter metadata is included
+through `4166acb5415fe3760fd50c34552bef8ab4038f72`. The current scoring and
+release-alignment change is outside this range; each of its 16 non-merge source
+commits is accounted for exactly once below. Already-published adapter metadata is included
 as source history, not as another adapter publication.
 
 - Exact proof domains, representable alternatives and callback ownership:
@@ -58,6 +62,12 @@ as source history, not as another adapter publication.
   [551402806d](https://github.com/faustbrian/go-knapsack/commit/551402806de1e5c419d8690d2b296fd9c7e8d16a).
 - npm and Composer dependency-update coverage:
   [2a9f55940f](https://github.com/faustbrian/go-knapsack/commit/2a9f55940f8a39f3534aaef4c24d2831233a82db).
+
+- Source-bound defensive coverage, retained cancellation results and exact
+  interruption assertions:
+  [0fad0df326](https://github.com/faustbrian/go-knapsack/commit/0fad0df326351ec6929dca2a969fecdb2657e5d0), [9ff50f0618](https://github.com/faustbrian/go-knapsack/commit/9ff50f06188e57903957406ea7aa5acc4009d7aa), [4166acb541](https://github.com/faustbrian/go-knapsack/commit/4166acb5415fe3760fd50c34552bef8ab4038f72).
+- Root patch release metadata (not another adapter release):
+  [68ce072943](https://github.com/faustbrian/go-knapsack/commit/68ce072943edb33748727e9f2a6f314a26656926).
 
 ## [2.0.1] - 2026-10-09
 

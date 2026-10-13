@@ -154,7 +154,7 @@ func (o Objective) Components(ctx context.Context, request knapsack.NormalizedRe
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
-	_, components, err := o.ScorePlan(request, plan)
+	_, components, err := o.scorePlan(request, plan, false)
 	return components, err
 }
 
@@ -232,6 +232,12 @@ func typedNil(value any) bool {
 // the score must represent actual feasibility/accounting. It has no context
 // argument.
 func (o Objective) ScorePlan(request knapsack.NormalizedRequest, plan knapsack.Plan) (Score, []knapsack.ScoreComponent, error) {
+	return o.scorePlan(request, plan, true)
+}
+
+// Component evidence does not consume the canonical tie. Keep its checked
+// metric path identical without serializing metadata that will be discarded.
+func (o Objective) scorePlan(request knapsack.NormalizedRequest, plan knapsack.Plan, canonicalTie bool) (Score, []knapsack.ScoreComponent, error) {
 	if !o.Valid() {
 		return Score{}, nil, ErrInvalidObjective
 	}
@@ -277,7 +283,10 @@ func (o Objective) ScorePlan(request knapsack.NormalizedRequest, plan knapsack.P
 		return Score{}, nil, ErrInvalidObjective
 	}
 	imbalance := maximumWeight - minimumWeight
-	score := Score{Values: make([]int64, len(o.criteria)), TieBreak: plan.CanonicalString()}
+	score := Score{Values: make([]int64, len(o.criteria))}
+	if canonicalTie {
+		score.TieBreak = plan.CanonicalString()
+	}
 	components := make([]knapsack.ScoreComponent, len(o.criteria))
 	for index, criterion := range o.criteria {
 		var value int64

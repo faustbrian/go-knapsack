@@ -13,6 +13,9 @@ const benchmarkEvidenceDate = "2026-09-13"
 const benchmarkEvidenceEnvironment = "darwin/arm64"
 const benchmarkEvidenceDocument = "docs/benchmarks/2026-09-13-darwin-arm64.md"
 const nativeBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64.txt"
+
+// Historical evidence binds its original threshold set, not current calibration.
+const historicalNativeThresholdSHA256 = "6c55cc0ebf4a2bc170c9099f26203d6d1dd43b5a8886fd51a3536e3db04b2584"
 const rssBenchmarkRaw = "docs/benchmarks/raw/2026-09-13-darwin-arm64-rss.tsv"
 
 func TestHistoricalNativeBenchmarkEvidenceRetainsIntegrity(t *testing.T) {
@@ -29,7 +32,7 @@ func TestHistoricalNativeBenchmarkEvidenceRetainsIntegrity(t *testing.T) {
 		"gate_status":        "pass",
 		"raw_format":         "go_test_benchmark",
 		"generator_sha256":   fileSHA256(t, "scripts/benchmark-compare.sh"),
-		"threshold_sha256":   fileSHA256(t, "verification/benchmark-thresholds.tsv"),
+		"threshold_sha256":   historicalNativeThresholdSHA256,
 	}
 	for field, value := range want {
 		if metadata[field] != value {

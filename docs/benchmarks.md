@@ -78,5 +78,46 @@ measurement includes the Go runtime and benchmark process but excludes
 compilation. Darwin reports bytes directly; GNU time reports KiB, which the gate
 converts to bytes before comparison.
 
+## Complete-search calibration: 2026-10-13
+
+Only `BenchmarkExactTinyFixed` is recalibrated for the corrected complete
+integer-lattice search. Its unchanged fixture packs three labelled unit cubes
+with XYZ orientation into one 3-by-1-by-1 container, using default options.
+Complete search attempts 171 placements and visits 82 nodes; the earlier compact
+search attempted 123 placements and visited 16 nodes. Restoring that incomplete
+search would not be a valid performance improvement.
+
+A matched Go 1.27.2 Darwin/arm64 Apple M4 Max run used `GOMAXPROCS=2`, seed zero,
+solver parallelism one and ten 100 ms samples of this exact fixture. Setup and
+the benchmark helper's final verification were excluded from timing; solver-owned
+verification remained included. Before and after component-only scoring stopped
+serializing a discarded canonical tie, the complete-search measurements were:
+
+| Metric | Before scoring optimization | After scoring optimization | Current budget |
+| --- | ---: | ---: | ---: |
+| p50 ns | 558,784 | 392,290 | 600,000 |
+| p95 ns | 582,746 | 442,253 | 800,000 (unchanged) |
+| Maximum B/op | 1,096,392 | 880,467 | 1,048,576 |
+| Maximum allocs/op | 5,647 | 5,347 | 6,000 |
+| Candidates/op | 171 | 171 | exactly 171 |
+
+The comparison used source `4166acb5415fe3760fd50c34552bef8ab4038f72` and its
+scoring correction, whose `objective/objective.go` SHA-256 is
+`b01acb00a80759c4f1f893f9246daad57467451f017fd0c0c446c64490197177`.
+The unchanged benchmark source SHA-256 is
+`c4a929f1f05bff4c0894d2da7394d76b1ee1aa23c1c50915706c8c6d59ed85fc`;
+module and dependency selections were identical. These are focused local
+measurements, not a complete benchmark qualification or a public latency SLA.
+Post-optimization Linux measurements were not available when selecting this
+calibration; the native benchmark operation must still enforce the budgets on
+its actual execution environment.
+
+The revised p50, byte and allocation budgets provide approximately 53%, 19% and
+12% margins above the measured optimized values. The p95 budget, one-container
+and 100% utilization requirements, all other cases and every RSS budget remain
+unchanged. Historical v1 raw samples, hashes and `verification/evidence.json`
+retain their original identities; the historical integrity assertion checks the
+original threshold hash rather than attributing those results to today's budgets.
+
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.
