@@ -17,8 +17,8 @@ Published facade v1 remains supported throughout its v1 line and delegates
 exact-money behavior to published `objective/money` v1. Within that legacy type cohort,
 migrate by changing the module and import path to `objective/money` and using
 its `moneyobjective` package identifier. For root v2 packing types, published
-`objective/money/v3` v3.0.0 accepts Money v2, while `objective/money/v2`
-v2.0.0 accepts Money v1. Published `objective/gomoney/v2` v2.0.1 retains
+`objective/money/v3` v3.0.1 accepts Money v2, while `objective/money/v2`
+v2.0.0 accepts Money v1. Published `objective/gomoney/v2` v2.0.2 retains
 canonical v2 and Money v1. Its defined types remain
 facade-owned and its sentinel errors directly share canonical identity. The
 facade will remain available for the longer of 180 days and two published

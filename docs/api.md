@@ -9,9 +9,9 @@ integer cuboids and physical-axis rotations. `solver` exposes heuristic and
 exact pack-all and fixed-container operations. `verify` validates supplied
 plans independently. `constraint` owns immutable callback views. `objective`
 defines exact lexicographic comparisons; the published nested
-`objective/money/v3` v3.0.0 adapter accepts Money v2 costs without burdening
+`objective/money/v3` v3.0.1 adapter accepts Money v2 costs without burdening
 root consumers. Published canonical v2.0.0 and the deprecated
-`objective/gomoney/v2` v2.0.1 facade retain Money v1 with v2 packing types.
+`objective/gomoney/v2` v2.0.2 facade retain Money v1 with v2 packing types.
 The released `objective/gomoney` v1 path remains supported with legacy
 packing types. `encoding` owns strict versioned JSON.
 

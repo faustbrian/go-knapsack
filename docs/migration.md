@@ -17,7 +17,7 @@ an independently released public adapter. The comparison schema and shared
 packing subset are unchanged.
 
 The published canonical adapter
-`github.com/faustbrian/go-knapsack/objective/money/v3` v3.0.0 accepts Money
+`github.com/faustbrian/go-knapsack/objective/money/v3` v3.0.1 accepts Money
 `github.com/faustbrian/go-money/v2` v2.0.0, retaining root and Measurement v2
 packing types. Change constructor and
 `Entry.Cost` inputs and `Costs.Total` outputs to Money v2 together; their Go
@@ -25,10 +25,26 @@ identities differ from Money v1 without changing exact totals or formats.
 
 The canonical adapter's public `objective/money/v2.0.0` module remains available
 with Money v1. The published deprecated facade `objective/gomoney/v2`
-v2.0.1 retains that selection, not canonical v3. Update root and Measurement
+v2.0.2 retains that selection, not canonical v3. Update root and Measurement
 imports to `/v2` together. Retain supported v1 adapter releases
 and the facade's existing removal interval; root publication alone neither
 migrates nor removes them. No storage or canonical schema migration is implied.
+
+## Exact proof corrections in root v2.0.2
+
+After its public tag and module artifacts are available, explicitly select
+`github.com/faustbrian/go-knapsack/v2@v2.0.2` alongside the existing money
+adapter. Canonical money v3.0.1 and facade v2.0.2 still declare a root v2.0.0
+minimum; installing either adapter alone does not select the corrected solver.
+Their Money v2 and Money v1 identities and prices remain unchanged.
+
+Provide finite stock for conclusive optimization of opaque whole-plan
+objectives. Unlimited domains return resource interruption, retaining feasible
+state when available; grid admission does not establish infeasibility. An unrepresentable
+configuration can leave a verified `feasible` alternative plus `ErrOverflow`,
+not an optimum. Inspect the plan and error together. No canonical storage or
+quantity conversion is required, but corrected Exact placements/proof statuses
+can differ from earlier results.
 
 ## Other packing libraries
 

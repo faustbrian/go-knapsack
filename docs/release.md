@@ -8,12 +8,16 @@ catalog and `go.work`; module minima and nested-module dependencies are unchange
 Public types, typed errors, canonical encoding, objective semantics, coordinates,
 and proof statuses are contracts.
 
-The root v2.0.0 release uses a `v2.0.0` tag from main and the `/v2` module
-path, without a version-specific source directory. Eligibility and a dated
-changelog are not publication proof. Publish and verify the root artifacts and
-a clean public consumer before migrating the independently versioned adapters
-as described in [migration](migration.md). The existing v1 adapters keep their
-own manifests and release histories until that separate migration.
+The root v2.0.2 patch is prepared on main with the `/v2` module path,
+without a version-specific source directory. Eligibility and a dated changelog
+are not publication proof. Publish and verify the root tag, module artifacts
+and an actual clean public consumer before claiming adoption.
+
+Canonical money v3.0.1 and deprecated facade v2.0.2 remain independently
+published adapters with their existing Money v2/Money v1 type cohorts. Both
+still declare root v2.0.0 as their minimum. Explicitly select root v2.0.2 after
+publication to adopt the corrected Exact contracts; this root patch neither
+republishes the adapters nor changes their dependencies or prices.
 
 Verification follows the repository's proportional assurance policy. The v2
 root migration requires current packing and hostile-boundary tests, API review,

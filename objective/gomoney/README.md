@@ -6,7 +6,7 @@ to the canonical
 [`objective/money/v2`](https://pkg.go.dev/github.com/faustbrian/go-knapsack/objective/money/v2)
 module.
 
-The deprecated `/v2` facade is published as v2.0.1 for Knapsack v2 and
+The deprecated `/v2` facade is published as v2.0.2 for Knapsack v2 and
 Measurement v2 with Money v1 and requires Go 1.27.0. Published v1 releases
 remain supported with their legacy packing types. New code should use
 `objective/money/v2` for Money v1 or `objective/money/v3` for Money v2.
@@ -14,7 +14,7 @@ remain supported with their legacy packing types. New code should use
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-knapsack/objective/gomoney/v2@v2.0.1
+go get github.com/faustbrian/go-knapsack/objective/gomoney/v2@v2.0.2
 ```
 
 ## Quick start
@@ -38,10 +38,14 @@ plan, err := (solver.Exact{}).PackAll(ctx, request, solver.Options{
 })
 ```
 
-These corrected Exact contracts require selecting the root Knapsack patch
-associated with its Unreleased entry, not merely installing this adapter.
-The adapter's existing root dependency minimum remains v2.0.0; after the root
-patch is published, upgrade `github.com/faustbrian/go-knapsack/v2` explicitly.
+The corrected Exact contracts require root Knapsack v2.0.2, not merely this
+adapter installation. The adapter's existing root dependency minimum remains
+v2.0.0. After the root v2.0.2 tag and module artifacts are published, select it
+explicitly alongside this adapter:
+
+```sh
+go get github.com/faustbrian/go-knapsack/v2@v2.0.2
+```
 
 For conclusive `Exact.PackAll` optimization, give the request finite container
 stock. Costs price every selected instance, including unused ones; negative

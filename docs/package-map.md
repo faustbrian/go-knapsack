@@ -29,7 +29,7 @@ Internal packages and non-releasable fixtures are intentionally excluded.
 
 | Import path | Responsibility |
 | --- | --- |
-| [`github.com/faustbrian/go-knapsack/objective/gomoney/v2`](../objective/gomoney/gomoney.go) | Deprecated facade retaining canonical objective/money/v2 and Money v1; new Money v2 code uses published objective/money/v3 v3.0.0. |
+| [`github.com/faustbrian/go-knapsack/objective/gomoney/v2`](../objective/gomoney/gomoney.go) | Deprecated facade retaining canonical objective/money/v2 and Money v1; new Money v2 code uses published objective/money/v3 v3.0.1. |
 
 ## github.com/faustbrian/go-knapsack/objective/money/v3
 
@@ -37,7 +37,7 @@ Internal packages and non-releasable fixtures are intentionally excluded.
 
 | Import path | Responsibility |
 | --- | --- |
-| [`github.com/faustbrian/go-knapsack/objective/money/v3`](../objective/money/moneyobjective.go) | Use published v3.0.0 when Knapsack container costs already exist as exact go-money/v2 values in one fixed currency context. |
+| [`github.com/faustbrian/go-knapsack/objective/money/v3`](../objective/money/moneyobjective.go) | Use published v3.0.1 when Knapsack container costs already exist as exact go-money/v2 values in one fixed currency context. |
 
 Choose the next guide in the [documentation index](README.md)
 or return to the [repository entry](../README.md) for installation and ownership.

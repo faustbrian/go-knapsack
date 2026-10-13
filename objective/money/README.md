@@ -4,7 +4,7 @@
 container costs with the Knapsack solvers. Its target-oriented import path
 keeps the Money dependency outside the Knapsack core.
 
-The published v3.0.0 adapter accepts Money v2.0.0 values, retains Knapsack
+The published v3.0.1 adapter accepts Money v2.0.0 values, retains Knapsack
 and measurement v2 types, and requires Go 1.27.0. Consumers using Money v1
 can retain the published canonical v2 adapter; supported legacy v1 adapters
 retain their original packing types.
@@ -12,7 +12,7 @@ retain their original packing types.
 ## Install
 
 ```sh
-go get github.com/faustbrian/go-knapsack/objective/money/v3@v3.0.0
+go get github.com/faustbrian/go-knapsack/objective/money/v3@v3.0.1
 ```
 
 ## Quick start
@@ -36,10 +36,14 @@ plan, err := (solver.Exact{}).PackAll(ctx, request, solver.Options{
 })
 ```
 
-These corrected Exact contracts require selecting the root Knapsack patch
-associated with its Unreleased entry, not merely installing this adapter.
-The adapter's existing root dependency minimum remains v2.0.0; after the root
-patch is published, upgrade `github.com/faustbrian/go-knapsack/v2` explicitly.
+The corrected Exact contracts require root Knapsack v2.0.2, not merely this
+adapter installation. The adapter's existing root dependency minimum remains
+v2.0.0. After the root v2.0.2 tag and module artifacts are published, select it
+explicitly alongside this adapter:
+
+```sh
+go get github.com/faustbrian/go-knapsack/v2@v2.0.2
+```
 
 For conclusive `Exact.PackAll` optimization, give the request finite container
 stock. Costs price every selected instance, including unused ones; negative

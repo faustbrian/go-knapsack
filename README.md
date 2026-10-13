@@ -30,18 +30,19 @@ adapters accept root v2, as does the published deprecated v2 facade;
 legacy v1 releases retain their original types.
 
 Exact container-cost optimization lives in the independently versioned
-[`objective/money/v3`](objective/money/) adapter, published as v3.0.0 for
+[`objective/money/v3`](objective/money/) adapter, published as v3.0.1 for
 Money v2. Published canonical v2.0.0 remains available for Money v1. The
 deprecated [`objective/gomoney/v2`](objective/gomoney/) facade is published
-as v2.0.1 and retains canonical v2 and Money v1. Existing facade v1 consumers
+as v2.0.2 and retains canonical v2 and Money v1. Existing facade v1 consumers
 remain supported with legacy packing types and the canonical v1 dependency.
 
 ## Install
 
-Install the published root v2.0.1:
+Install the root v2.0.2 patch after its public tag and module artifacts are
+available; a dated changelog alone is not publication:
 
 ```sh
-go get github.com/faustbrian/go-knapsack/v2@v2.0.1
+go get github.com/faustbrian/go-knapsack/v2@v2.0.2
 ```
 
 Existing consumers can retain their supported v1 root and objective module

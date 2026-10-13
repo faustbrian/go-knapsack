@@ -4,6 +4,12 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ## [Unreleased]
 
+## [2.0.2] - 2026-10-13
+
+This entry records the prepared root patch, not tag publication. Adopt v2.0.2
+only after its public tag and module artifacts are available. The existing
+money adapters retain their independently published versions.
+
 ### Changed
 
 - Clarify physical-item ownership exceptions, plan admission versus verification,
@@ -17,8 +23,7 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   actual operation cancellation stops verification replay and retains safe state.
 - Make Exact's proof search complete for origin-sensitive predicates/objectives
   and non-contact physical placements, including native canonical-origin ties,
-  without treating grid or work admission
-  failure as infeasibility. Check newly introduced fragile-support edges across
+  without treating grid or work admission failure as infeasibility. Check newly introduced fragile-support edges across
   the complete placement graph. Preserve representable alternatives but withhold
   optimality when another legal configuration has refused aggregate totals.
 - Enumerate finite-stock container counts beyond the number of items when
@@ -28,9 +33,31 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
   interruption with retained feasible state instead of a false completed proof;
   supply finite stock when a conclusive custom-objective optimum is required.
 
-- Correct installation and adapter guidance to reflect published root v2.0.1,
-  canonical money v3.0.0 and facade v2.0.1 while distinguishing Money v1 and
-  v2 inputs and preserving supported legacy packing types.
+- Correct installation and adapter guidance while distinguishing Money v1 and
+  v2 inputs and preserving supported legacy packing types. Published canonical
+  money v3.0.1 and facade v2.0.2 still require an explicit root v2.0.2 selection
+  after root publication to adopt the corrected Exact behavior.
+
+### Source accountability
+
+Frozen source range: `v2.0.1` (`2ac044ebf0fc7a04b0ff7dd9eafbf72d5187a576`)
+through `6144e02002110967aa117c3356e27ae9e555e2a5`. The release-metadata
+change is outside this range; each of its 12 non-merge source commits is
+accounted for exactly once below. Already-published adapter metadata is included
+as source history, not as another adapter publication.
+
+- Exact proof domains, representable alternatives and callback ownership:
+  [6144e02002](https://github.com/faustbrian/go-knapsack/commit/6144e02002110967aa117c3356e27ae9e555e2a5).
+- Published adapter adoption and independent adapter patch metadata:
+  [5876e17f37](https://github.com/faustbrian/go-knapsack/commit/5876e17f372d81ee8a4758e531d3b222bc089903), [7e89ac8007](https://github.com/faustbrian/go-knapsack/commit/7e89ac8007bbb84e4c82603979a334a06779ce2a).
+- Packing ownership/contracts and standalone adoption documentation:
+  [b540033935](https://github.com/faustbrian/go-knapsack/commit/b54003393563352a24179a87d58c20ec74066ea6), [9a85ddff3e](https://github.com/faustbrian/go-knapsack/commit/9a85ddff3e62072a87abed7c69b4aa669934e25e).
+- Bounded verification, historical workflow evidence, selected assurance and pinned source-documentation tooling:
+  [6f352e2bae](https://github.com/faustbrian/go-knapsack/commit/6f352e2bae591af5bb3100aef185a42197a0f603), [cdc0e3ba7b](https://github.com/faustbrian/go-knapsack/commit/cdc0e3ba7b131752d879d7ab8632944a45af119d), [a1d00bf534](https://github.com/faustbrian/go-knapsack/commit/a1d00bf534f5cfd48e2210c1118619c33925fa86), [cca3bd0b37](https://github.com/faustbrian/go-knapsack/commit/cca3bd0b375b2d1d5769b460c77c141515d85781), [ea073df08b](https://github.com/faustbrian/go-knapsack/commit/ea073df08b316f1ce1810af8e6dbfa021eea3afd).
+- Repository development policy:
+  [551402806d](https://github.com/faustbrian/go-knapsack/commit/551402806de1e5c419d8690d2b296fd9c7e8d16a).
+- npm and Composer dependency-update coverage:
+  [2a9f55940f](https://github.com/faustbrian/go-knapsack/commit/2a9f55940f8a39f3534aaef4c24d2831233a82db).
 
 ## [2.0.1] - 2026-10-09
 
