@@ -15,12 +15,10 @@ import (
 	"github.com/faustbrian/go-knapsack/v2/verify"
 )
 
-// Exact exhaustively enumerates compact orthogonal placements for bounded
-// small fixed-container instances. It is intended as an oracle, not a
-// large-order solver. Compact face coordinates do not enumerate arbitrary
-// origins selected by custom callbacks; a predicate accepting only X=1 in an
-// otherwise empty bin may have a feasible placement outside this search.
-// Do not treat infeasibility under such a predicate as a general lattice proof.
+// Exact exhaustively enumerates admitted orthogonal placements for small
+// instances. The full integer lattice preserves arbitrary predicates, physical
+// constraints, objective metrics and native canonical-origin tie-breaking.
+// A refused search domain returns a resource error, never a proof.
 type Exact struct{}
 
 type exactSearch struct {
@@ -48,10 +46,10 @@ type exactSearch struct {
 }
 
 // PackAll considers container multisets in increasing count from the relaxed
-// volume/mass lower bound through the number of items. It compares completed
-// candidates across all those counts under the selected objective, not only the
-// first feasible count. Optimal/infeasible statuses concern its bounded modeled
-// search space; this operation does not enumerate arbitrarily many empty bins.
+// volume/mass lower bound through all finite stock. A built-in primary objective
+// strictly worsened by empty bins permits an item-count bound only without custom
+// predicates. Otherwise unlimited stock is an unbounded domain: search continues
+// until actual resource exhaustion, without certifying optimality/infeasibility.
 // Interrupted search returns retained complete state or an empty partial plan
 // with its error; callbacks and point generation remain synchronous.
 func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, options Options) (knapsack.Plan, error) {
@@ -89,11 +87,26 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 	var totalWork knapsack.Work
 	var globalBest *knapsack.Plan
 	var aggregateErr error
+	var admissionErr error
 	var interruptedBy knapsack.TerminationReason
+	maximumCount := exactContainerDomain(items, types, goal, options.Constraints)
 	// Later counts can win under an explicit non-count primary objective; retain
 	// their shared work budget rather than stopping at the first feasible count.
-	for count := exactContainerLowerBound(items, types); count <= len(items); count++ {
+	for count := exactContainerLowerBound(items, types); ; count++ {
+		if count < 0 {
+			return knapsack.Plan{}, knapsack.ErrInvalidRequest
+		}
+		unsignedCount := uint64(count)
+		if unsignedCount > maximumCount {
+			break
+		}
+		// Admit instance/configuration storage before recursively growing a multiset.
+		// Plan representation limits are resource boundaries, not proof cutoffs.
+		if _, ok := workingMemoryAvailable(request, count, true); !ok || unsignedCount > uint64(knapsack.DefaultPlanLimits().MaxContainers) {
+			return interruptedExactVariable(items, globalBest, totalWork, configurations, options.Seed, knapsack.TerminationMemoryLimit, knapsack.ErrMemoryBudgetExhausted)
+		}
 		var best *knapsack.Plan
+		var collaboratorFailure bool
 		err := enumerateTypeMultisets(ctx, len(types), count, func(selected []int) error {
 			configurations++
 			if interruptedBy = variableBudgetTermination(configurations, totalWork, limits); interruptedBy != "" {
@@ -119,6 +132,10 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 			totalWork.Nodes += candidateWork.Nodes
 			totalWork.Branches += candidateWork.Branches
 			totalWork.CandidatePlacements += candidateWork.CandidatePlacements
+			if execution.admissionRefusal {
+				admissionErr = err
+				return nil
+			}
 			if execution.aggregateRefusal {
 				if execution.interruption == nil {
 					aggregateErr = err
@@ -130,12 +147,29 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 				interruptedBy = execution.termination
 			}
 			if err != nil {
+				if execution.provenInfeasible {
+					return nil
+				}
+				// Only the fixed solver can establish interruption/proof origin.
+				// A collaborator may return the same sentinel from any phase.
+				if execution.interruption == nil && (ctx.Err() == nil || !errors.Is(err, ctx.Err())) {
+					collaboratorFailure = true
+					return err
+				}
 				if len(plan.UnpackedItemIDs()) == 0 && len(plan.Placements()) == len(items) {
 					copy := plan
-					best = &copy
-				}
-				if errors.Is(err, knapsack.ErrProvenInfeasible) {
-					return nil
+					if best == nil {
+						best = &copy
+					} else if ctx.Err() == nil {
+						preferred, comparisonErr := objectivePrefers(ctx, goal, request, copy, best)
+						if comparisonErr != nil {
+							collaboratorFailure = ctx.Err() == nil || !errors.Is(comparisonErr, ctx.Err())
+							return comparisonErr
+						}
+						if preferred {
+							best = &copy
+						}
+					}
 				}
 				if !isSearchInterruption(err) {
 					return err
@@ -150,6 +184,7 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 			}
 			preferred, err := objectivePrefers(ctx, goal, request, plan, best)
 			if err != nil {
+				collaboratorFailure = (ctx.Err() == nil || !errors.Is(err, ctx.Err()))
 				return err
 			}
 			if preferred {
@@ -159,29 +194,30 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 			return nil
 		})
 		if err != nil {
-			if !isSearchInterruption(err) {
+			if collaboratorFailure || !isSearchInterruption(err) {
 				return knapsack.Plan{}, err
 			}
 			if interruptedBy == "" {
 				interruptedBy = terminationForError(err)
 			}
-			partial := best
-			if partial == nil {
-				partial = globalBest
+			partial := globalBest
+			if best != nil {
+				if partial == nil {
+					partial = best
+				} else if ctx.Err() == nil {
+					preferred, comparisonErr := objectivePrefers(ctx, goal, request, *best, partial)
+					if comparisonErr != nil {
+						if ctx.Err() != nil && errors.Is(comparisonErr, ctx.Err()) {
+							return interruptedExactVariable(items, partial, totalWork, configurations, options.Seed, terminationForError(ctx.Err()), comparisonErr)
+						}
+						return knapsack.Plan{}, comparisonErr
+					}
+					if preferred {
+						partial = best
+					}
+				}
 			}
-			if partial != nil {
-				spec := partial.Spec()
-				spec.Status = knapsack.StatusBudgetExhausted
-				spec.Termination = interruptedBy
-				spec.Work = totalWork
-				spec.Work.Solver = "exact"
-				spec.Work.Strategy = "exhaustive_variable_container"
-				spec.Work.Seed = options.Seed
-				spec.Work.Branches += configurations
-				plan, _ := knapsack.NewPlan(spec)
-				return plan, err
-			}
-			return emptyExactPlan(items, knapsack.StatusBudgetExhausted, interruptedBy), err
+			return interruptedExactVariable(items, partial, totalWork, configurations, options.Seed, interruptedBy, err)
 		}
 		if best != nil {
 			spec := best.Spec()
@@ -192,12 +228,27 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 			spec.Work.Seed = options.Seed
 			spec.Work.Branches += configurations
 			plan, _ := knapsack.NewPlan(spec)
-			plan, err = withObjective(ctx, request, plan, goal)
+			scored, err := withObjective(ctx, request, plan, goal)
 			if err != nil {
+				if ctx.Err() != nil && errors.Is(err, ctx.Err()) {
+					retained := globalBest
+					if retained == nil {
+						retained = &plan
+					}
+					return interruptedExactVariable(items, retained, totalWork, configurations, options.Seed, terminationForError(ctx.Err()), err)
+				}
 				return knapsack.Plan{}, err
 			}
+			plan = scored
 			preferred, err := objectivePrefers(ctx, goal, request, plan, globalBest)
 			if err != nil {
+				if ctx.Err() != nil && errors.Is(err, ctx.Err()) {
+					retained := globalBest
+					if retained == nil {
+						retained = &plan
+					}
+					return interruptedExactVariable(items, retained, totalWork, configurations, options.Seed, terminationForError(ctx.Err()), err)
+				}
 				return knapsack.Plan{}, err
 			}
 			if preferred {
@@ -205,14 +256,84 @@ func (Exact) PackAll(ctx context.Context, request knapsack.NormalizedRequest, op
 				globalBest = &copy
 			}
 		}
+		if count == int(^uint(0)>>1) {
+			return interruptedExactVariable(items, globalBest, totalWork, configurations, options.Seed, knapsack.TerminationMemoryLimit, knapsack.ErrMemoryBudgetExhausted)
+		}
+	}
+	if admissionErr != nil {
+		return interruptedExactVariable(items, globalBest, totalWork, configurations, options.Seed, knapsack.TerminationMemoryLimit, errors.Join(admissionErr, aggregateErr))
 	}
 	if globalBest != nil {
+		if aggregateErr != nil {
+			// Enumeration finished, but refused representations are not infeasible
+			// configurations. Retain a candidate without certifying its optimum.
+			spec := globalBest.Spec()
+			spec.Status = knapsack.StatusFeasible
+			spec.Work = totalWork
+			spec.Work.Solver, spec.Work.Strategy, spec.Work.Seed = "exact", "exhaustive_variable_container", options.Seed
+			spec.Work.Branches += configurations
+			plan, err := knapsack.NewPlan(spec)
+			if err != nil {
+				return knapsack.Plan{}, err
+			}
+			if err := verifySolverPlanContext(ctx, request, plan, verify.RequireAll().WithObjective(goal).WithConstraints(options.Constraints...)); err != nil {
+				if ctx.Err() != nil && errors.Is(err, ctx.Err()) {
+					return interruptedExactVariable(items, globalBest, totalWork, configurations, options.Seed, terminationForError(ctx.Err()), err)
+				}
+				return knapsack.Plan{}, err
+			}
+			return plan, aggregateErr
+		}
 		return *globalBest, nil
 	}
 	if aggregateErr != nil {
 		return knapsack.Plan{}, aggregateErr
 	}
 	return emptyExactPlan(items, knapsack.StatusInfeasible, knapsack.TerminationCompleted), knapsack.ErrProvenInfeasible
+}
+
+// Removing an empty bin is sound only when the native primary metric strictly
+// improves and no predicate can distinguish the surviving instance ordinals.
+// Opaque objectives (including monetary providers) require the actual stock
+// domain; sampled scores cannot establish a global monotonicity promise.
+func exactContainerDomain(items []knapsack.NormalizedItem, types []knapsack.NormalizedContainer, goal objective.PlanObjective, callbacks []constraint.Placement) uint64 {
+	if native, ok := goal.(objective.Objective); ok && len(callbacks) == 0 {
+		criteria := native.Criteria()
+		if len(criteria) > 0 && criteria[0].Direction == objective.Min {
+			switch criteria[0].Metric {
+			case objective.ContainerCount, objective.UnusedVolume, objective.UnusedWeight:
+				return uint64(len(items))
+			case objective.TotalPackagingCost, objective.WeightImbalance, objective.MaximumUsedHeight, objective.PackedPriority:
+				// These metrics do not establish strict empty-bin improvement.
+			}
+		}
+	}
+	var count uint64
+	for _, container := range types {
+		if container.Stock.Unlimited() {
+			return ^uint64(0)
+		}
+		count += uint64(container.Stock.Count())
+	}
+	return count
+}
+
+func interruptedExactVariable(items []knapsack.NormalizedItem, retained *knapsack.Plan, work knapsack.Work, configurations, seed uint64, termination knapsack.TerminationReason, cause error) (knapsack.Plan, error) {
+	base := emptyExactPlan(items, knapsack.StatusBudgetExhausted, termination)
+	if retained != nil {
+		base = *retained
+	}
+	spec := base.Spec()
+	spec.Status = knapsack.StatusBudgetExhausted
+	spec.Termination = termination
+	work.Solver, work.Strategy, work.Seed = "exact", "exhaustive_variable_container", seed
+	work.Branches += configurations
+	spec.Work = work
+	plan, err := knapsack.NewPlan(spec)
+	if err != nil {
+		return knapsack.Plan{}, err
+	}
+	return plan, cause
 }
 
 func isSearchInterruption(err error) bool {
@@ -313,7 +434,7 @@ func emptyExactPlan(items []knapsack.NormalizedItem, status knapsack.Status, ter
 	return plan
 }
 
-// PackFixed exhaustively enumerates compact placements in exactly the supplied
+// PackFixed exhaustively enumerates admitted placements in exactly the supplied
 // finite instances. It reports optimal only after completing bounded search.
 func (Exact) PackFixed(ctx context.Context, request knapsack.NormalizedRequest, instances []knapsack.ContainerInstance, options Options) (knapsack.Plan, error) {
 	return packExactFixed(ctx, request, instances, options, &exactFixedExecution{})
@@ -322,6 +443,8 @@ func (Exact) PackFixed(ctx context.Context, request knapsack.NormalizedRequest, 
 // Keep refusal ownership and spent work private: zero public plans must not
 // erase accounting or make collaborator errors look like skippable alternatives.
 type exactFixedExecution struct {
+	provenInfeasible bool
+	admissionRefusal bool
 	work             knapsack.Work
 	aggregateRefusal bool
 	interruption     error
@@ -345,10 +468,12 @@ func packExactFixed(ctx context.Context, request knapsack.NormalizedRequest, ins
 		return knapsack.Plan{}, knapsack.ErrInvalidRequest
 	}
 	if request.MemoryBytes() > limits.MaxMemoryBytes {
+		execution.admissionRefusal = true
 		return knapsack.Plan{}, knapsack.ErrMemoryBudgetExhausted
 	}
 	pointMemory, ok := workingMemoryAvailable(request, len(instances), true)
 	if !ok {
+		execution.admissionRefusal = true
 		return knapsack.Plan{}, knapsack.ErrMemoryBudgetExhausted
 	}
 	items, types := request.Items(), request.Containers()
@@ -377,14 +502,25 @@ func packExactFixed(ctx context.Context, request knapsack.NormalizedRequest, ins
 		seen[instance.ID] = struct{}{}
 		bins = append(bins, &bin{instance: instance, info: info, points: []geometry.Point{{}}})
 	}
+	// Container volume is independent of placement. Refuse an impossible plan
+	// representation before growing its coordinate domain.
+	var containerVolume int64
+	for _, target := range bins {
+		volume, _ := target.info.Dimensions.Volume()
+		if err := addPlanTotal(&containerVolume, volume); err != nil {
+			execution.aggregateRefusal = true
+			return knapsack.Plan{}, err
+		}
+	}
 	slices.SortFunc(bins, func(a, b *bin) int { return strings.Compare(a.instance.ID, b.instance.ID) })
 	slices.SortFunc(items, compareItems)
 	goal, err := resolvedObjective(options)
 	if err != nil {
 		return knapsack.Plan{}, err
 	}
-	fullPoints, remainingPointMemory, ok := exactCenterGrids(bins, pointMemory)
+	fullPoints, remainingPointMemory, ok := exactCenterGrids(bins, pointMemory, true)
 	if !ok {
+		execution.admissionRefusal = true
 		return knapsack.Plan{}, knapsack.ErrMemoryBudgetExhausted
 	}
 	search := &exactSearch{ctx: ctx, request: request, limits: limits, bins: bins, seed: options.Seed, callbacks: slices.Clone(options.Constraints), goal: goal, pointMemory: remainingPointMemory, fullPoints: fullPoints}
@@ -400,6 +536,11 @@ func packExactFixed(ctx context.Context, request knapsack.NormalizedRequest, ins
 		}
 	}()
 	search.visit(items)
+	if ctx.Err() != nil && (search.objectiveErr == nil || errors.Is(search.objectiveErr, ctx.Err())) &&
+		(search.callbackErr == nil || errors.Is(search.callbackErr, ctx.Err())) && search.invariantErr == nil {
+		search.cancelled = ctx.Err()
+		return search.partial(items, terminationForError(search.cancelled), search.cancelled)
+	}
 	if search.objectiveErr != nil {
 		return knapsack.Plan{}, search.objectiveErr
 	}
@@ -424,6 +565,7 @@ func packExactFixed(ctx context.Context, request knapsack.NormalizedRequest, ins
 		if err != nil {
 			return knapsack.Plan{}, err
 		}
+		execution.provenInfeasible = true
 		return plan, knapsack.ErrProvenInfeasible
 	}
 	best := search.best.Spec()
@@ -432,10 +574,17 @@ func packExactFixed(ctx context.Context, request knapsack.NormalizedRequest, ins
 	best.Work = knapsack.Work{Solver: "exact", Strategy: "exhaustive_compact_fixed", Seed: options.Seed, Nodes: search.nodes, Branches: search.branches, CandidatePlacements: search.candidates}
 	plan, _ := knapsack.NewPlan(best)
 	plan, err = withObjective(ctx, request, plan, goal)
+	if err == nil {
+		err = verifySolverPlanContext(ctx, request, plan, verify.RequireAll().WithObjective(goal).WithConstraints(options.Constraints...))
+	}
 	if err != nil {
+		if ctx.Err() != nil && errors.Is(err, ctx.Err()) {
+			search.cancelled = ctx.Err()
+			return search.partial(items, terminationForError(search.cancelled), search.cancelled)
+		}
 		return knapsack.Plan{}, err
 	}
-	return plan, verifySolverPlan(request, plan, verify.RequireAll().WithObjective(goal).WithConstraints(options.Constraints...))
+	return plan, nil
 }
 
 func (s *exactSearch) visit(remaining []knapsack.NormalizedItem) {
@@ -462,7 +611,7 @@ func (s *exactSearch) visit(remaining []knapsack.NormalizedItem) {
 			s.objectiveErr = err
 			return
 		}
-		verificationErr := verifySolverPlan(s.request, candidate, verify.RequireAll().WithObjective(s.goal).WithConstraints(s.callbacks...))
+		verificationErr := verifySolverPlanContext(s.ctx, s.request, candidate, verify.RequireAll().WithObjective(s.goal).WithConstraints(s.callbacks...))
 		if verificationErr != nil {
 			if errors.Is(verificationErr, objective.ErrInvalidObjective) || errors.Is(verificationErr, context.Canceled) || errors.Is(verificationErr, context.DeadlineExceeded) {
 				s.objectiveErr = verificationErr
@@ -550,14 +699,15 @@ func (s *exactSearch) visit(remaining []knapsack.NormalizedItem) {
 	}
 }
 
-func exactCenterGrids(bins []*bin, memoryLimit uint64) (map[string][]geometry.Point, uint64, bool) {
+func exactCenterGrids(bins []*bin, memoryLimit uint64, completeOrigins ...bool) (map[string][]geometry.Point, uint64, bool) {
 	grids := make(map[string][]geometry.Point)
 	remaining := memoryLimit
+	fullLattice := len(completeOrigins) > 0 && completeOrigins[0]
 	for _, target := range bins {
-		if target.info.CenterOfGravity == nil || grids[target.info.ID] != nil {
+		if !fullLattice && target.info.CenterOfGravity == nil || grids[target.info.ID] != nil {
 			continue
 		}
-		points, ok := exactPoints(target, remaining)
+		points, ok := exactPointsFor(target, remaining, true)
 		if !ok {
 			return nil, 0, false
 		}
@@ -587,8 +737,12 @@ func (s *exactSearch) stopped() bool {
 }
 
 func exactPoints(target *bin, memoryLimit uint64) ([]geometry.Point, bool) {
+	return exactPointsFor(target, memoryLimit, target.info.CenterOfGravity != nil)
+}
+
+func exactPointsFor(target *bin, memoryLimit uint64, fullLattice bool) ([]geometry.Point, bool) {
 	xs, ys, zs := []int64{0}, []int64{0}, []int64{0}
-	if target.info.CenterOfGravity != nil {
+	if fullLattice {
 		lengths, ok := exactLatticeLengths(target.info.Dimensions, memoryLimit)
 		if !ok {
 			return nil, false
@@ -777,14 +931,20 @@ func objectivePrefers(ctx context.Context, goal objective.PlanObjective, request
 		if _, err := objective.SafeComponents(ctx, goal, request, left); err != nil {
 			return false, err
 		}
-		return true, nil
+		return true, ctx.Err()
 	}
 	comparison, err := objective.SafeCompare(ctx, goal, request, left, *right)
+	if err == nil {
+		err = ctx.Err()
+	}
 	return comparison < 0, err
 }
 
 func withObjective(ctx context.Context, request knapsack.NormalizedRequest, plan knapsack.Plan, goal objective.PlanObjective) (knapsack.Plan, error) {
 	components, err := objective.SafeComponents(ctx, goal, request, plan)
+	if err == nil {
+		err = ctx.Err()
+	}
 	if err != nil {
 		return knapsack.Plan{}, err
 	}

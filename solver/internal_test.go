@@ -469,7 +469,7 @@ func TestExactSolverReportsPointMemoryExhaustion(t *testing.T) {
 	limits.MaxMemoryBytes = reserved + 23
 	request = request.WithLimits(limits)
 	plan, err := (Exact{}).PackFixed(context.Background(), request, []knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}}, Options{})
-	if !errors.Is(err, knapsack.ErrMemoryBudgetExhausted) || plan.Status() != knapsack.StatusBudgetExhausted || plan.Termination() != knapsack.TerminationMemoryLimit {
+	if !errors.Is(err, knapsack.ErrMemoryBudgetExhausted) || plan.Status() != "" {
 		t.Fatalf("plan=%s error=%v", plan.CanonicalString(), err)
 	}
 }
@@ -1017,35 +1017,54 @@ func TestFixedHeuristicKeepsAFailedGroupOutOfOtherContainers(t *testing.T) {
 
 func TestExactPackAllPropagatesLateObjectiveErrorsAndCancellation(t *testing.T) {
 	t.Parallel()
-	request := internalRequest(t)
-	componentCounter := &countedObjective{}
-	_, _ = (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: componentCounter})
-	for failAt := 1; failAt <= componentCounter.calls; failAt++ {
-		_, err := (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: &countedObjective{failAt: failAt}})
-		if err == nil || err.Error() != "counted objective failure" {
-			t.Fatalf("failAt %d error = %v", failAt, err)
-		}
-	}
-	comparisonCounter := &countedCompareObjective{}
-	_, _ = (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: comparisonCounter})
-	for failAt := 1; failAt <= comparisonCounter.calls; failAt++ {
-		_, err := (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: &countedCompareObjective{failAt: failAt}})
-		if err == nil || err.Error() != "counted comparison failure" {
-			t.Fatalf("comparison failAt %d error = %v", failAt, err)
-		}
-	}
-	types := request.Containers()
-	second := types[0]
-	second.ID = "box2"
-	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: request.Items(), Containers: append(types, second), Resolution: request.Resolution(), Limits: request.Limits()})
+	base := internalRequest(t)
+	containers := base.Containers()
+	containers[0].Stock = knapsack.FiniteStock(1)
+	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: base.Items(), Containers: containers, Resolution: base.Resolution(), Limits: base.Limits()})
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, cancelAt := range []int{2, 3} {
-		ctx, cancel := context.WithCancel(context.Background())
-		_, err := (Exact{}).PackAll(ctx, request, Options{PlanObjective: &countedObjective{cancelAt: cancelAt, cancel: cancel}})
-		if !errors.Is(err, context.Canceled) {
-			t.Fatalf("cancelAt %d error = %v", cancelAt, err)
+	bounded := base.Limits()
+	bounded.MaxSearchNodes, bounded.MaxBranches, bounded.MaxCandidatePlacements = 32, 64, 64
+	for index, request := range []knapsack.NormalizedRequest{request, base.WithLimits(bounded)} {
+		componentCounter := &countedObjective{}
+		retained, controlErr := (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: componentCounter})
+		if index == 0 && controlErr != nil {
+			t.Fatalf("finite exact objective control: %v", controlErr)
+		}
+		if index == 1 && (!errors.Is(controlErr, knapsack.ErrBudgetExhausted) || retained.Status() != knapsack.StatusBudgetExhausted || len(retained.Placements()) != 1) {
+			t.Fatalf("unlimited objective lost retained feasible state: error=%v plan=%s", controlErr, retained.CanonicalString())
+		}
+		if result := verify.Plan(request, retained, verify.RequireAll().WithObjective(&countedObjective{})); !result.Valid() {
+			t.Fatalf("objective control returned an invalid retained plan: %v", result.Violations())
+		}
+		for failAt := 1; failAt <= componentCounter.calls; failAt++ {
+			_, err := (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: &countedObjective{failAt: failAt}})
+			if err == nil || err.Error() != "counted objective failure" {
+				t.Fatalf("failAt %d error = %v", failAt, err)
+			}
+		}
+		comparisonCounter := &countedCompareObjective{}
+		_, _ = (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: comparisonCounter})
+		for failAt := 1; failAt <= comparisonCounter.calls; failAt++ {
+			_, err := (Exact{}).PackAll(context.Background(), request, Options{PlanObjective: &countedCompareObjective{failAt: failAt}})
+			if err == nil || err.Error() != "counted comparison failure" {
+				t.Fatalf("comparison failAt %d error = %v", failAt, err)
+			}
+		}
+		types := request.Containers()
+		second := types[0]
+		second.ID = "box2"
+		request, err = knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: request.Items(), Containers: append(types, second), Resolution: request.Resolution(), Limits: request.Limits()})
+		if err != nil {
+			t.Fatal(err)
+		}
+		for _, cancelAt := range []int{2, 3} {
+			ctx, cancel := context.WithCancel(context.Background())
+			_, err := (Exact{}).PackAll(ctx, request, Options{PlanObjective: &countedObjective{cancelAt: cancelAt, cancel: cancel}})
+			if !errors.Is(err, context.Canceled) {
+				t.Fatalf("cancelAt %d error = %v", cancelAt, err)
+			}
 		}
 	}
 }

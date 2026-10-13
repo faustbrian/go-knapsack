@@ -6,6 +6,10 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Clarify finite-stock adoption for conclusive Exact custom-cost optimization;
+  unlimited objectives may return resource interruption with retained feasible
+  state. Keep credits, unused-instance pricing and Money v2 semantics unchanged.
+
 - Clarify whole-plan candidate pricing, fixed-context currency requirements and
   exact final-sum bounds without changing objective behavior.
 

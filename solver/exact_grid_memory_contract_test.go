@@ -12,7 +12,7 @@ import (
 
 func TestExactFixedPointGridMemoryAdmission(t *testing.T) {
 	for _, centered := range []bool{true, false} {
-		name, pointBudget := "reserved endpoint grid", uint64(192)
+		name, pointBudget := "reserved complete lattice", uint64(240)
 		if centered {
 			name, pointBudget = "center lattice", 240
 		}
@@ -52,13 +52,8 @@ func TestExactFixedPointGridMemoryAdmission(t *testing.T) {
 					if !errors.Is(err, knapsack.ErrMemoryBudgetExhausted) {
 						t.Fatalf("one-byte point shortage: error=%v", err)
 					}
-					if centered {
-						if plan.Status() != "" || len(plan.Placements()) != 0 || len(plan.Containers()) != 0 {
-							t.Fatalf("center presearch refusal returned a plan: %s", plan.CanonicalString())
-						}
-					} else if plan.Status() != knapsack.StatusBudgetExhausted || plan.Termination() != knapsack.TerminationMemoryLimit ||
-						len(plan.Placements()) != 0 || len(plan.UnpackedItemIDs()) != 1 || plan.UnpackedItemIDs()[0] != "item" {
-						t.Fatalf("endpoint-grid refusal lost its partial result: %s", plan.CanonicalString())
+					if plan.Status() != "" || len(plan.Placements()) != 0 || len(plan.Containers()) != 0 {
+						t.Fatalf("complete lattice presearch refusal returned a plan: %s", plan.CanonicalString())
 					}
 					continue
 				}

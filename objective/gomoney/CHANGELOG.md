@@ -6,6 +6,10 @@ All notable changes to this module are documented here.
 
 ### Changed
 
+- Clarify finite-stock adoption for conclusive Exact custom-cost optimization;
+  unlimited objectives may return resource interruption with retained feasible
+  state. Preserve the published canonical Money v1 delegation and pricing policy.
+
 - Clarify partial whole-plan scoring and the facade’s published canonical
   Money v1 delegation without changing its compatibility identities.
 

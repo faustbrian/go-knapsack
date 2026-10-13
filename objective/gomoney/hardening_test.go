@@ -277,7 +277,7 @@ func exactMoneyRequestWithContainerPriorities(t testing.TB, smallPriority, large
 	small, err := knapsack.NewContainerType(knapsack.ContainerTypeSpec{
 		ID: "small", InternalDimensions: smallDimensions,
 		MaxContentWeight: quantity(2, measurement.Kilogram),
-		Stock:            knapsack.UnlimitedStock(),
+		Stock:            knapsack.FiniteStock(2),
 		Priority:         smallPriority,
 	})
 	if err != nil {
@@ -291,7 +291,7 @@ func exactMoneyRequestWithContainerPriorities(t testing.TB, smallPriority, large
 			Z: quantity(1, measurement.Metre),
 		},
 		MaxContentWeight: quantity(2, measurement.Kilogram),
-		Stock:            knapsack.UnlimitedStock(),
+		Stock:            knapsack.FiniteStock(2),
 		Priority:         largePriority,
 	})
 	if err != nil {

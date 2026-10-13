@@ -22,8 +22,14 @@ selects from the supplied container types, respects finite stock, and returns
 proven `infeasible`.
 
 Use `solver.Exact.PackAll` only for bounded small inputs. It exhaustively checks
-the relevant compact placement and container-multiset search. An `optimal` or
+the admitted integer-lattice placement and container-multiset search. An `optimal` or
 `infeasible` result is truthful only when termination is `completed`.
+Custom objectives or placement predicates can require additional unused bins.
+Use finite stock for a conclusive exact custom-objective result; an unlimited
+opaque objective is searched until resource interruption, with retained feasible
+state when available. An aggregate representation refusal can return a complete
+`feasible` plan with `ErrOverflow`, without certifying optimality. Inspect both
+the returned plan and error.
 
 Set `ContainerTypeSpec.CenterOfGravity` when packed content must remain inside
 inclusive X/Y/Z parts-per-million bounds. The solver and independent verifier

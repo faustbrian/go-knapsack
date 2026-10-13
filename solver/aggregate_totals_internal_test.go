@@ -89,23 +89,43 @@ func TestHeuristicTrialPropagatesPlanAdmissionFailure(t *testing.T) {
 }
 
 func TestExactFixedExecutionRetainsCancellationWhenPartialTotalsOverflow(t *testing.T) {
-	base := internalRequest(t)
-	container := base.Containers()[0]
-	container.Dimensions = geometry.Dimensions{X: math.MaxInt64, Y: 1, Z: 1}
-	request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
-		Items: base.Items(), Containers: []knapsack.NormalizedContainer{container}, Resolution: base.Resolution(), Limits: base.Limits(),
+	t.Run("hostile aggregate refuses before callback", func(t *testing.T) {
+		base := internalRequest(t)
+		container := base.Containers()[0]
+		container.Dimensions = geometry.Dimensions{X: math.MaxInt64, Y: 1, Z: 1}
+		request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{Items: base.Items(), Containers: []knapsack.NormalizedContainer{container}, Resolution: base.Resolution(), Limits: base.Limits()})
+		if err != nil {
+			t.Fatal(err)
+		}
+		ctx, cancel := context.WithCancel(t.Context())
+		defer cancel()
+		execution := exactFixedExecution{}
+		plan, err := packExactFixed(ctx, request, []knapsack.ContainerInstance{{ID: "box#1", TypeID: container.ID}, {ID: "box#2", TypeID: container.ID}}, Options{Constraints: []constraint.Placement{internalCancel{cancel: cancel}}}, &execution)
+		if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || ctx.Err() != nil || execution.interruption != nil || !execution.aggregateRefusal {
+			t.Fatalf("hostile grid crossed admission boundary: plan=%+v execution=%+v error=%v", plan.Spec(), execution, err)
+		}
 	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	execution := exactFixedExecution{}
-	ctx, cancel := context.WithCancel(t.Context())
-	defer cancel()
-	plan, err := packExactFixed(ctx, request,
-		[]knapsack.ContainerInstance{{ID: "box#1", TypeID: container.ID}, {ID: "box#2", TypeID: container.ID}},
-		Options{Constraints: []constraint.Placement{internalCancel{cancel: cancel}}}, &execution)
-	if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || !execution.aggregateRefusal ||
-		!errors.Is(execution.interruption, context.Canceled) || execution.termination != knapsack.TerminationCancelled {
-		t.Fatalf("partial refusal erased cancellation: plan=%+v execution=%+v error=%v", plan.Spec(), execution, err)
-	}
+	t.Run("admitted grid retains cancellation behind mass overflow", func(t *testing.T) {
+		base := internalRequest(t)
+		container := base.Containers()[0]
+		// Keep the complete origin grid admissible; two empty weight capacities
+		// still overflow partial totals after the callback cancels.
+		container.MaxContentWeight = math.MaxInt64
+		request, err := knapsack.NewNormalizedRequest(knapsack.NormalizedSpec{
+			Items: base.Items(), Containers: []knapsack.NormalizedContainer{container}, Resolution: base.Resolution(), Limits: base.Limits(),
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		execution := exactFixedExecution{}
+		ctx, cancel := context.WithCancel(t.Context())
+		defer cancel()
+		plan, err := packExactFixed(ctx, request,
+			[]knapsack.ContainerInstance{{ID: "box#1", TypeID: container.ID}, {ID: "box#2", TypeID: container.ID}},
+			Options{Constraints: []constraint.Placement{internalCancel{cancel: cancel}}}, &execution)
+		if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != "" || !execution.aggregateRefusal ||
+			!errors.Is(execution.interruption, context.Canceled) || execution.termination != knapsack.TerminationCancelled {
+			t.Fatalf("partial refusal erased cancellation: plan=%+v execution=%+v error=%v", plan.Spec(), execution, err)
+		}
+	})
 }

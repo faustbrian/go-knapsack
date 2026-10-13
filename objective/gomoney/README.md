@@ -38,6 +38,17 @@ plan, err := (solver.Exact{}).PackAll(ctx, request, solver.Options{
 })
 ```
 
+These corrected Exact contracts require selecting the root Knapsack patch
+associated with its Unreleased entry, not merely installing this adapter.
+The adapter's existing root dependency minimum remains v2.0.0; after the root
+patch is published, upgrade `github.com/faustbrian/go-knapsack/v2` explicitly.
+
+For conclusive `Exact.PackAll` optimization, give the request finite container
+stock. Costs price every selected instance, including unused ones; negative
+costs can reward unlimited extra bins, and opaque custom objectives do not
+provide a solver-visible monotonicity proof. Unlimited-stock searches may return
+a resource error with a retained feasible plan, which must be inspected together.
+
 The compiling examples in this module contain complete imports and setup.
 
 ## Guarantees and limitations

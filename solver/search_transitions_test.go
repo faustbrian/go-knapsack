@@ -147,7 +147,7 @@ func TestExactPackAllAggregatesWorkAcrossFailedAndFeasibleConfigurations(t *test
 	plan, err := (solver.Exact{}).PackAll(context.Background(), request, solver.Options{})
 	if err != nil || plan.Status() != knapsack.StatusOptimal || plan.Termination() != knapsack.TerminationCompleted ||
 		len(plan.Containers()) != 1 || plan.Containers()[0].TypeID != "large" ||
-		plan.Work().Nodes != 3 || plan.Work().Branches != 4 || plan.Work().CandidatePlacements != 2 {
+		plan.Work().Nodes != 3 || plan.Work().Branches != 5 || plan.Work().CandidatePlacements != 3 {
 		t.Fatalf("incorrect aggregate search: error=%v plan=%s work=%+v", err, plan.CanonicalString(), plan.Work())
 	}
 	if result := verify.Plan(request, plan, verify.RequireAll()); !result.Valid() {

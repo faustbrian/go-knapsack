@@ -739,6 +739,11 @@ func stackAllowed(item knapsack.NormalizedItem, target *bin, box geometry.Cuboid
 	for _, current := range nodes {
 		for _, supporter := range nodes {
 			if area, ok := supporter.box.SupportArea(current.box); ok {
+				// A new lower placement can become a supporter of an earlier upper
+				// placement. Check the whole graph, not only the new item's supports.
+				if supporter.item.FragileTop {
+					return false
+				}
 				edges[current.item.ID] = append(edges[current.item.ID], supportEdge{supporter.item.ID, area})
 				above[supporter.item.ID] = append(above[supporter.item.ID], current.item.ID)
 			}
@@ -931,8 +936,15 @@ func interruptedBestPlan(best knapsack.Plan, candidates uint64, rounds uint32, c
 }
 
 func verifySolverPlan(request knapsack.NormalizedRequest, plan knapsack.Plan, options verify.Options) error {
-	result := verify.Plan(request, plan, options)
-	if err := result.Err(); err != nil {
+	return verifySolverPlanContext(context.Background(), request, plan, options)
+}
+
+func verifySolverPlanContext(ctx context.Context, request knapsack.NormalizedRequest, plan knapsack.Plan, options verify.Options) error {
+	result, err := verify.PlanContext(ctx, request, plan, options)
+	if err != nil {
+		return err
+	}
+	if err := ctx.Err(); err != nil {
 		return err
 	}
 	if !result.Valid() {

@@ -109,8 +109,8 @@ func TestExactVariableSearchRetainsCompletePlanWithinSharedBudgets(t *testing.T)
 		candidates      uint64
 	}{
 		{"first configuration branch limit", 1, func(l *knapsack.Limits) { l.MaxBranches = 2 }, knapsack.TerminationBranchLimit, 2, 3, 2},
-		{"later configuration branch limit", 2, func(l *knapsack.Limits) { l.MaxBranches = 5 }, knapsack.TerminationBranchLimit, 5, 6, 4},
-		{"later configuration candidate limit", 2, func(l *knapsack.Limits) { l.MaxCandidatePlacements = 3 }, knapsack.TerminationCandidateLimit, 5, 6, 4},
+		{"later configuration branch limit", 2, func(l *knapsack.Limits) { l.MaxBranches = 5 }, knapsack.TerminationBranchLimit, 4, 6, 5},
+		{"later configuration candidate limit", 2, func(l *knapsack.Limits) { l.MaxCandidatePlacements = 3 }, knapsack.TerminationCandidateLimit, 3, 5, 4},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			request := orientationBudgetRequest(t, test.boxes)

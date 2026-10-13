@@ -242,8 +242,8 @@ func TestExactSolverUsesExactPackagingCost(t *testing.T) {
 	for index, id := range []string{"a", "b"} {
 		items[index], _ = knapsack.NewItem(knapsack.ItemSpec{ID: id, Dimensions: dimensions, Weight: quantity(1, measurement.Kilogram), Orientations: []geometry.Orientation{geometry.OrientationXYZ}})
 	}
-	small, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "small", InternalDimensions: dimensions, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.UnlimitedStock()})
-	large, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "large", InternalDimensions: knapsack.PhysicalDimensions{X: quantity(4, measurement.Metre), Y: quantity(1, measurement.Metre), Z: quantity(1, measurement.Metre)}, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.UnlimitedStock()})
+	small, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "small", InternalDimensions: dimensions, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.FiniteStock(2)})
+	large, _ := knapsack.NewContainerType(knapsack.ContainerTypeSpec{ID: "large", InternalDimensions: knapsack.PhysicalDimensions{X: quantity(4, measurement.Metre), Y: quantity(1, measurement.Metre), Z: quantity(1, measurement.Metre)}, MaxContentWeight: quantity(2, measurement.Kilogram), Stock: knapsack.FiniteStock(2)})
 	request, err := knapsack.NewRequest(items, []knapsack.ContainerType{small, large}, knapsack.Resolution{Length: quantity(1, measurement.Metre), Mass: quantity(1, measurement.Kilogram)}, knapsack.DefaultLimits())
 	if err != nil {
 		t.Fatal(err)

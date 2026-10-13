@@ -8,7 +8,7 @@ predicates. Optional money and visualization functionality remain additive.
 
 The heuristic sorts by volume, weight, and stable ID, evaluates canonical
 extreme points, and chooses containers by explicit priority, size, and ID. The
-exact oracle enumerates compact coordinates and item/container permutations
+exact oracle enumerates the admitted integer lattice and item/container permutations
 under node, branch, candidate, context, and stock bounds. Its worst-case work
 is exponential because orthogonal bin packing is NP-hard.
 

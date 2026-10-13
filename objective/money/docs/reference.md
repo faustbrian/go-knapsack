@@ -30,6 +30,12 @@ plan, err := (solver.Exact{}).PackAll(ctx, request, solver.Options{
 })
 ```
 
+For conclusive `Exact.PackAll` optimization, give the request finite container
+stock. Costs price every selected instance, including unused ones; negative
+costs can reward unlimited extra bins, and opaque custom objectives do not
+provide a solver-visible monotonicity proof. Unlimited-stock searches may return
+a resource error with a retained feasible plan, which must be inspected together.
+
 The compiled examples contain complete cost construction and comparison code.
 
 ## API

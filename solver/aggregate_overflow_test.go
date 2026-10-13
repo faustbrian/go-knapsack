@@ -46,8 +46,8 @@ func TestSolversRefuseUnrepresentablePlanAggregates(t *testing.T) {
 						if err != nil {
 							t.Fatal(err)
 						}
-						// No center lattice is requested: only two tiny origin candidates
-						// are visited, regardless of the dimensions' scalar magnitudes.
+						// Placement-independent aggregate volume is admitted before
+						// the complete origin lattice is allocated.
 						instances := []knapsack.ContainerInstance{{ID: "box#1", TypeID: "box"}, {ID: "box#2", TypeID: "box"}}
 						var plan knapsack.Plan
 						if strategy == "exact" {
@@ -85,7 +85,7 @@ func TestExactPackAllPreservesRepresentableAlternatives(t *testing.T) {
 				t.Fatal(err)
 			}
 			plan, err := (solver.Exact{}).PackAll(t.Context(), request, solver.Options{})
-			if err != nil || len(plan.Placements()) != 2 || plan.Statistics().ContainerVolume != 2 {
+			if !errors.Is(err, knapsack.ErrOverflow) || plan.Status() != knapsack.StatusFeasible || len(plan.Placements()) != 2 || plan.Statistics().ContainerVolume != 2 {
 				t.Fatalf("representable alternative discarded: plan=%+v error=%v", plan.Spec(), err)
 			}
 			if result := verify.Plan(request, plan, verify.RequireAll()); !result.Valid() {
@@ -257,9 +257,12 @@ func TestSolversRetainInclusiveAggregateLimits(t *testing.T) {
 			var err error
 			if strategy == "exact" {
 				plan, err = (solver.Exact{}).PackFixed(t.Context(), request, instances, solver.Options{})
-				if !errors.Is(err, knapsack.ErrProvenInfeasible) {
-					t.Fatalf("expected ordinary infeasibility, got %v", err)
+				// Retain the hostile inclusive aggregate input: scalar totals fit,
+				// but its complete canonical-tie lattice cannot be admitted.
+				if !errors.Is(err, knapsack.ErrMemoryBudgetExhausted) || plan.Status() != "" {
+					t.Fatalf("inclusive hostile lattice admission: plan=%s error=%v", plan.CanonicalString(), err)
 				}
+				return
 			} else {
 				plan, err = (solver.Heuristic{}).PackFixed(t.Context(), request, instances, solver.Options{})
 				if err != nil {

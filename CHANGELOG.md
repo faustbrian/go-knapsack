@@ -12,6 +12,22 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 
 ### Fixed
 
+- Preserve objective/constraint error origin through all Exact scoring and
+  verification phases. Budget/proof-shaped callback errors remain fatal errors;
+  actual operation cancellation stops verification replay and retains safe state.
+- Make Exact's proof search complete for origin-sensitive predicates/objectives
+  and non-contact physical placements, including native canonical-origin ties,
+  without treating grid or work admission
+  failure as infeasibility. Check newly introduced fragile-support edges across
+  the complete placement graph. Preserve representable alternatives but withhold
+  optimality when another legal configuration has refused aggregate totals.
+- Enumerate finite-stock container counts beyond the number of items when
+  predicates or objectives can require unused instances. Apply empty-bin removal
+  bounds only for strictly improving native primary metrics without callbacks.
+  Unlimited opaque or empty-bin-rewarding objectives now return honest resource
+  interruption with retained feasible state instead of a false completed proof;
+  supply finite stock when a conclusive custom-objective optimum is required.
+
 - Correct installation and adapter guidance to reflect published root v2.0.1,
   canonical money v3.0.0 and facade v2.0.1 while distinguishing Money v1 and
   v2 inputs and preserving supported legacy packing types.

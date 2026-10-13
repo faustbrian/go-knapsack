@@ -25,22 +25,23 @@ not bounded by that expression and no heuristic optimality claim is made.
 
 ## Exact small-instance oracle
 
-The exact solver enumerates bounded container multisets and compact Cartesian
-products of placement coordinates derived from placed and reserved cuboid
-faces. It explores item order, container, point, and orientation choices. It
-uses finite-stock elimination, compact-coordinate completeness for orthogonal
-cuboids, and canonical duplicate reduction. Worst-case work is exponential;
-the solver is deliberately limited to small instances.
+The exact solver enumerates bounded container multisets and the full admitted
+integer lattice. It explores item order, container, point and orientation choices,
+with finite-stock elimination and canonical duplicate reduction. Worst-case work
+is exponential; the solver is deliberately limited to small instances.
 
-When a container has center-of-gravity bounds, compact face coordinates alone
-are not complete: a balanced solution may require a non-contact coordinate.
-Exact search therefore enumerates the full integer lattice for that container,
-subject to the same pre-allocation memory and candidate budgets. Exhaustion is
-reported as a resource limit, never as infeasibility.
+Full origins preserve arbitrary predicates, physical support/load/fragility and
+center-of-gravity constraints, and objective metrics. Even coordinate-invariant
+native metrics use the canonical plan JSON as a lexical tie-break: origin `10`
+can precede origin `2`, so contact compression cannot establish the exact winner.
+Full grids are admitted against scalar/Cartesian memory budgets before allocation;
+refused grids produce resource errors rather than false proof statuses.
 
 The exact solver reports `optimal` only after the complete bounded relevant
 space is exhausted. It reports `infeasible` only after the same proof search
-finds no plan. Tests compare exhaustively enumerable cases and independently
+finds no plan. Refused aggregate representations are not infeasible configurations:
+a retained complete candidate is returned as `feasible` with `ErrOverflow`, not
+as an optimum. Tests compare exhaustively enumerable cases and independently
 verify every candidate result.
 
 Pack-all starts from the maximum of admissible aggregate-volume and
@@ -71,12 +72,23 @@ termination reason. Limits should be reduced before accepting untrusted work.
 
 ## Observable bounds
 
-Pack-all exact enumeration continues through item-count containers under the
-selected objective; it does not stop at the first feasible count or enumerate
-arbitrarily many empty containers. Custom callbacks must work on the solver's
-candidate prefixes and on the verifier's stored placement replay order. Compact
-coordinate completeness for arbitrary origin-sensitive objectives/predicates is
-not established by the small built-in oracle cases; no broader proof is added here.
+Pack-all enumerates all finite-stock counts needed by the selected objective and
+predicates, including unused instances. An item-count bound is justified only
+without custom predicates when the native primary metric strictly improves on
+removing an empty bin: minimizing container count, unused volume or unused
+content-weight capacity. Predicates can distinguish generated instance ordinals,
+so their removal is not safe merely because the default objective minimizes bins.
+
+Other objectives with unlimited stock have an unbounded candidate domain. Exact
+continues within actual work, memory and plan-representation limits and returns
+an interrupted result, never `optimal`/`infeasible` merely because a chosen count
+was reached. Custom cost/objective callers requiring a conclusive optimum must
+provide finite stock. Negative costs can reward every unused instance, and even
+zero-cost ties are governed by canonical ordering rather than a sampled
+monotonicity assumption. Callback prefixes and verifier replay obligations remain. Callback errors keep
+  their original cause rather than establishing a solver budget or proof status;
+  Exact verification uses the operation context and does not replay callbacks
+  after that context is canceled.
 
 A positive heuristic improvement-round limit enables one alternate pass, not an
 arbitrary number of rounds. Admission probes can increment recorded work beyond
