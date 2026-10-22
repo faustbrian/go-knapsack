@@ -7,7 +7,7 @@ require (
 	github.com/faustbrian/go-knapsack/v2 v2.0.0
 	github.com/faustbrian/go-math v1.1.3
 	github.com/faustbrian/go-measurement/v2 v2.0.2
-	github.com/faustbrian/go-money/v2 v2.0.0
+	github.com/faustbrian/go-money/v2 v2.0.2
 )
 
-require golang.org/x/text v0.40.0 // indirect
+require golang.org/x/text v0.42.0 // indirect
