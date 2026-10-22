@@ -11,4 +11,4 @@ require (
 	github.com/faustbrian/go-money v1.0.0
 )
 
-require golang.org/x/text v0.40.0 // indirect
+require golang.org/x/text v0.42.0 // indirect
