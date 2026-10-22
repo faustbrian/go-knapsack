@@ -10,8 +10,8 @@ github.com/faustbrian/go-wire v1.0.1 h1:ohJu+Hp+i5HIhoDxqBmd0L3uL71XuvE90/oRzP+z
 github.com/faustbrian/go-wire v1.0.1/go.mod h1:2XRDGdmRO4lYwnzGTuF5rxwUqyui0ml9ZuBB6cqLde0=
 github.com/gedex/bp3d v0.0.0-20170208095317-0ba3dcda7ab3 h1:iSUfjJPrXZAxE5QG+q3D6Q5rJalT0o7knhJhl6+hwoQ=
 github.com/gedex/bp3d v0.0.0-20170208095317-0ba3dcda7ab3/go.mod h1:A7bfE87oI+f9t3T+4UkW5j012rvVfAbHhbOvDwQ514E=
-github.com/jcoruiz/gopackx v0.2.2 h1:8QTKZf4gSu4sKUMVYWQs48md/z5v24KGn2xLobKk2TU=
-github.com/jcoruiz/gopackx v0.2.2/go.mod h1:PoitFD+uK/TAUakBXwI6b576c/L6OwNnCuCRPuVWPdQ=
+github.com/jcoruiz/gopackx v0.3.0 h1:6Iyt+54xraKAEBGEl8KRjb2gmL9nSOMyGQweQef6sSY=
+github.com/jcoruiz/gopackx v0.3.0/go.mod h1:PoitFD+uK/TAUakBXwI6b576c/L6OwNnCuCRPuVWPdQ=
 github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
 github.com/shopspring/decimal v1.4.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+DMd9qYNcwME=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=
