@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "364f59b297c9b5dd936a812a1b21c6b9",
+    "content-hash": "eb24a54bb1c050059cdc460c2c25bd30",
     "packages": [
         {
             "name": "dvdoug/boxpacker",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dvdoug/BoxPacker.git",
-                "reference": "4fa822e71109095212a499572822c07bdb7228eb"
+                "reference": "c1a85fa53af748ee4de1dca22d82741ace59535e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/4fa822e71109095212a499572822c07bdb7228eb",
-                "reference": "4fa822e71109095212a499572822c07bdb7228eb",
+                "url": "https://api.github.com/repos/dvdoug/BoxPacker/zipball/c1a85fa53af748ee4de1dca22d82741ace59535e",
+                "reference": "c1a85fa53af748ee4de1dca22d82741ace59535e",
                 "shasum": ""
             },
             "require": {
@@ -74,7 +74,7 @@
             ],
             "support": {
                 "issues": "https://github.com/dvdoug/BoxPacker/issues",
-                "source": "https://github.com/dvdoug/BoxPacker/tree/4.2.0"
+                "source": "https://github.com/dvdoug/BoxPacker/tree/4.3.0"
             },
             "funding": [
                 {
@@ -82,7 +82,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-07-05T18:42:21+00:00"
+            "time": "2026-08-09T14:22:50+00:00"
         },
         {
             "name": "psr/log",
