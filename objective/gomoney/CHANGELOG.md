@@ -2,6 +2,14 @@
 
 All notable changes to this module are documented here.
 
+## [2.1.1] - 2026-11-26
+
+### Changed
+
+- Require `github.com/faustbrian/go-knapsack/v2` v2.0.3 (from v2.0.0) and
+  `github.com/faustbrian/go-math` v1.2.0 (from v1.1.3). The module's own
+  source and public API are unchanged.
+
 ## Unreleased
 
 ### Changed
