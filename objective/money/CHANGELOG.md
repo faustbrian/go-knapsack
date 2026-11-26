@@ -4,6 +4,17 @@ All notable changes to this module are documented here.
 
 ## Unreleased
 
+## [3.1.1] - 2026-11-26
+
+### Changed
+
+- Require `github.com/faustbrian/go-knapsack/v2` v2.0.3 (from v2.0.0),
+  `github.com/faustbrian/go-math` v1.2.0 (from v1.1.3) and
+  `github.com/faustbrian/go-money/v2` v2.1.0 (from v2.0.0). The module's own
+  source and public API are unchanged.
+
+## Unreleased
+
 ### Changed
 
 - Clarify finite-stock adoption for conclusive Exact custom-cost optimization;
@@ -54,7 +65,6 @@ All notable changes to this module are documented here.
   adapter only after its public major tag and module artifacts are available.
 
 This entry dates source preparation, not publication.
-
 
 ## 1.0.0 - 2026-09-09
 
