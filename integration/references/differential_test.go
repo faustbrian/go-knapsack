@@ -103,7 +103,7 @@ func gopackxPlacements(t *testing.T, bin *model.Bin) []referenceItem {
 	t.Helper()
 	result := make([]referenceItem, len(bin.Items))
 	for index, item := range bin.Items {
-		result[index] = referenceItem{item.ID, item.Position, item.PlacedDim, item.Weight, int(item.RotationType)}
+		result[index] = referenceItem{item.ID, item.Position, item.Dimension(), item.Weight, int(item.RotationType)}
 	}
 	return result
 }
