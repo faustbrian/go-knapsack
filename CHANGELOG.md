@@ -2,8 +2,6 @@
 
 All notable changes follow Keep a Changelog and Semantic Versioning.
 
-## [Unreleased]
-
 ## 2.0.4 - 2026-11-26
 
 ### Changed
@@ -21,6 +19,8 @@ All notable changes follow Keep a Changelog and Semantic Versioning.
 - Publish independently versioned modules from the same source snapshot:
   - `objective/gomoney/v2.1.0`.
   - `objective/money/v3.1.0`.
+
+## [Unreleased]
 
 ## [2.0.2] - 2026-10-13
 

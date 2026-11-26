@@ -2,8 +2,6 @@
 
 All notable changes to this module are documented here.
 
-## Unreleased
-
 ## [3.1.1] - 2026-11-26
 
 ### Changed
@@ -65,6 +63,7 @@ All notable changes to this module are documented here.
   adapter only after its public major tag and module artifacts are available.
 
 This entry dates source preparation, not publication.
+
 
 ## 1.0.0 - 2026-09-09
 
